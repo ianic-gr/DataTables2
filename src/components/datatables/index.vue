@@ -36,6 +36,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  locale: {
+    type: String,
+    default: "en",
+  },
 });
 
 const datatablesStore = useDatatablesStore();
@@ -116,22 +120,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Table
-    v-if="init"
-    ref="table"
-    :id="id"
-    :api="api"
-    :data="data"
-    :options="options"
-    :query="query"
-    :params="params"
-    :hardFilters="hardFilters"
-    :headers="headers"
-    :loadingData="loadingData"
-    :key="`${id}-${key}`"
-    @forceRefresh="forceRefresh"
-    @getData="$emit('getData')"
-    @rowData="(data) => $emit('rowData', data)"
-    @advancedFiltersChange="advancedFiltersChange"
-  />
+  <v-locale-provider :locale="props.locale">
+    <Table
+      v-if="init"
+      ref="table"
+      :id="id"
+      :api="api"
+      :data="data"
+      :options="options"
+      :query="query"
+      :params="params"
+      :hardFilters="hardFilters"
+      :headers="headers"
+      :loadingData="loadingData"
+      :key="`${id}-${key}`"
+      @forceRefresh="forceRefresh"
+      @getData="$emit('getData')"
+      @rowData="(data) => $emit('rowData', data)"
+      @advancedFiltersChange="advancedFiltersChange"
+    />
+  </v-locale-provider>
 </template>

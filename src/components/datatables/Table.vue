@@ -95,7 +95,7 @@ provide("table_props", {
 </script>
 
 <template>
-  <v-card elevation="5">
+  <v-card>
     <v-card-title>
       <Header />
     </v-card-title>

@@ -98,9 +98,15 @@ let data2 = ref([
 ]);
 </script>
 <template>
-  <DataTable id="test" :headers="headers" :data="data" class="mb-4" />
+  <DataTable
+    id="test"
+    :headers="headers"
+    :data="data"
+    class="mb-4"
+    locale="el"
+  />
 
   <DataTable id="test2" :headers="headers" :data="data2" class="mb-4" />
 
-  <DataTable id="skat" :headers="headers" :data="data" />
+  <DataTable id="skat" :headers="headers" :data="data" locale="el" />
 </template>
