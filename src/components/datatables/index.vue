@@ -40,6 +40,10 @@ const props = defineProps({
     type: String,
     default: "en",
   },
+  title: {
+    type: String,
+    default: "",
+  },
 });
 
 const datatablesStore = useDatatablesStore();
@@ -133,6 +137,8 @@ onMounted(async () => {
       :hardFilters="hardFilters"
       :headers="headers"
       :loadingData="loadingData"
+      :locale="locale"
+      :title="title"
       :key="`${id}-${key}`"
       @forceRefresh="forceRefresh"
       @getData="$emit('getData')"

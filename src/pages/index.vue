@@ -24,6 +24,30 @@ const headers = [
     key: "actions",
     sortable: false,
     cellRendererFramework: "ActionButtons",
+    cellRendererFrameworkOptions: ({ item }) => {
+      return {
+        buttons: [
+          {
+            title: "View",
+            onClick: () => {
+              alert("View " + item.name);
+            },
+          },
+          {
+            title: "Edit",
+            onClick: () => {
+              alert("Edit " + item.name);
+            },
+          },
+          {
+            title: "Delete",
+            onClick: () => {
+              alert("Delete " + item.name);
+            },
+          },
+        ],
+      };
+    },
   },
 ];
 
@@ -106,7 +130,13 @@ let data2 = ref([
     locale="el"
   />
 
-  <DataTable id="test2" :headers="headers" :data="data2" class="mb-4" />
+  <DataTable
+    id="test2"
+    title="Test Datatable"
+    :headers="headers"
+    :data="data2"
+    class="mb-4"
+  />
 
   <DataTable id="skat" :headers="headers" :data="data" locale="el" />
 </template>

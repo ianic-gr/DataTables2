@@ -1,9 +1,19 @@
 <script setup>
+import { useExportExcel } from "@/composables/useExportExcel";
+
+const { exportExcel } = useExportExcel();
+
 const items = [
-  { title: "Click Me" },
-  { title: "Click Me" },
-  { title: "Click Me" },
-  { title: "Click Me 2" },
+  {
+    title: "Export Excel",
+    onClick: exportExcel,
+    prependIcon: "mdi-file-excel",
+  },
+  {
+    title: "Columns",
+    onClick: exportExcel,
+    prependIcon: "mdi-view-column",
+  },
 ];
 </script>
 
@@ -18,10 +28,17 @@ const items = [
       ></v-btn>
     </template>
 
-    <v-list>
-      <v-list-item v-for="(item, i) in items" :key="i">
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
+    <v-list class="options-list">
+      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i">
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
+
+<style lang="scss">
+.options-list {
+  .v-list-item__spacer {
+    width: 10px !important;
+  }
+}
+</style>

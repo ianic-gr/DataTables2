@@ -53,6 +53,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  locale: {
+    type: String,
+    default: "en",
+  },
+  title: {
+    type: String,
+    default: "",
+  },
 });
 
 const loading = ref(false);

@@ -1,10 +1,22 @@
 <script setup>
-const items = [
-  { title: "Click Me", to: "ook", class: "text-red", disabled: true },
-  { title: "Click Me" },
-  { title: "Click Me" },
-  { title: "Click Me 2" },
-];
+const items = ref([{ title: "No Items" }]);
+
+const props = defineProps({
+  params: {
+    type: Object,
+    default: () => {
+      return {};
+    },
+  },
+});
+
+onMounted(() => {
+  const options = props.params.column.cellRendererFrameworkOptions(
+    props.params
+  );
+
+  items.value = options?.buttons ?? [];
+});
 </script>
 
 <template>
