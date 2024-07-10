@@ -121,24 +121,16 @@ onMounted(async () => {
 
   init.value = true;
 });
+
+provide("table_props", props);
 </script>
 
 <template>
   <v-locale-provider :locale="props.locale">
-    <Table
+    <Blueprint
       v-if="init"
       ref="table"
       :id="id"
-      :api="api"
-      :data="data"
-      :options="options"
-      :query="query"
-      :params="params"
-      :hardFilters="hardFilters"
-      :headers="headers"
-      :loadingData="loadingData"
-      :locale="locale"
-      :title="title"
       :key="`${id}-${key}`"
       @forceRefresh="forceRefresh"
       @getData="$emit('getData')"

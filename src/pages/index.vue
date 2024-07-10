@@ -1,6 +1,12 @@
 <script setup>
 const headers = [
   {
+    title: "ID",
+    key: "id",
+    advancedFilter: false,
+    hidden: true,
+  },
+  {
     title: "First Name",
     key: "name",
     cellClass: "font-weight-medium",
@@ -8,6 +14,7 @@ const headers = [
   {
     title: "Full Name",
     key: "fullName",
+    hidden: true,
     value: (item) => `${item.name} <b>${item.year}</b>`,
   },
   {
@@ -22,6 +29,7 @@ const headers = [
   {
     title: "Actions",
     key: "actions",
+    printable: false,
     sortable: false,
     cellRendererFramework: "ActionButtons",
     cellRendererFrameworkOptions: ({ item }) => {
@@ -29,18 +37,22 @@ const headers = [
         buttons: [
           {
             title: "View",
+            prependIcon: "mdi-eye",
             onClick: () => {
               alert("View " + item.name);
             },
           },
           {
             title: "Edit",
+            prependIcon: "mdi-pencil",
             onClick: () => {
               alert("Edit " + item.name);
             },
           },
           {
             title: "Delete",
+            prependIcon: "mdi-delete",
+            class: "text-error",
             onClick: () => {
               alert("Delete " + item.name);
             },
@@ -122,13 +134,7 @@ let data2 = ref([
 ]);
 </script>
 <template>
-  <DataTable
-    id="test"
-    :headers="headers"
-    :data="data"
-    class="mb-4"
-    locale="el"
-  />
+  <DataTable id="test" :headers="headers" :data="data" class="mb-4" />
 
   <DataTable
     id="test2"
@@ -136,7 +142,6 @@ let data2 = ref([
     :headers="headers"
     :data="data2"
     class="mb-4"
+    locale="el"
   />
-
-  <DataTable id="skat" :headers="headers" :data="data" locale="el" />
 </template>

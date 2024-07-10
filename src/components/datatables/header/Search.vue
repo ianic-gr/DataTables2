@@ -1,8 +1,11 @@
 <script setup>
 import { useDatatablesStore } from "@/stores/DatatablesStore";
+import { useTableState } from "@/composables/useTableState";
 import { watchDebounced } from "@vueuse/core";
 
 const datatablesStore = useDatatablesStore();
+const { searchState } = useTableState();
+
 const { setData } = datatablesStore;
 
 const table_props = inject("table_props");
@@ -13,7 +16,7 @@ watchDebounced(
   search,
   (v) => {
     setData({
-      table_id: table_props.props.id,
+      table_id: table_props.id,
       name: "search",
       value: { query: v },
     });
@@ -22,7 +25,7 @@ watchDebounced(
 );
 
 onMounted(() => {
-  search.value = table_props.searchState.value;
+  search.value = searchState.value;
 });
 </script>
 

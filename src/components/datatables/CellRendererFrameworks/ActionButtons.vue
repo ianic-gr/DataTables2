@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-menu>
+  <v-menu class="action-buttons">
     <template v-slot:activator="{ props }">
       <v-btn
         icon="mdi-dots-vertical"
@@ -36,3 +36,11 @@ onMounted(() => {
     </v-list>
   </v-menu>
 </template>
+
+<style lang="scss">
+.action-buttons {
+  .v-list-item__spacer {
+    width: 10px !important;
+  }
+}
+</style>

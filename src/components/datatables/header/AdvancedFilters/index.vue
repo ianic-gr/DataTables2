@@ -1,7 +1,9 @@
 <script setup>
 import { useDatatablesStore } from "@/stores/DatatablesStore";
+import { useTableState } from "@/composables/useTableState";
 
 const datatablesStore = useDatatablesStore();
+const { advancedFiltersState } = useTableState();
 const { setData } = datatablesStore;
 
 const dialog = ref(false);
@@ -10,27 +12,34 @@ const advancedFiltersData = ref({});
 const table_props = inject("table_props");
 
 const save = () => {
+  advancedFiltersData.value = Object.entries(advancedFiltersData.value)
+    .filter(([key, value]) => value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+
   setData({
-    table_id: table_props.props.id,
+    table_id: table_props.id,
     name: "advancedFilters",
     value: { query: advancedFiltersData.value },
   });
 
   dialog.value = false;
 };
+
+const advancedFilterHeaders = computed(() => {
+  return table_props.headers.filter((header) => {
+    return header.advancedFilter !== false && !header.hidden;
+  });
+});
+
+onMounted(() => {
+  advancedFiltersData.value = advancedFiltersState.value;
+});
 </script>
 
 <template>
-  <v-sheet class="py-4 px-1">
-    <v-chip-group selected-class="text-primary" multiple>
-      <v-chip
-        v-for="(tag, key) in advancedFiltersData"
-        :key="key"
-        :text="`${table_props.props.headers[key]}: ${tag}`"
-      ></v-chip>
-    </v-chip-group>
-  </v-sheet>
-
   <v-dialog v-model="dialog" max-width="500">
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
@@ -38,8 +47,9 @@ const save = () => {
         variant="text"
         icon="mdi-filter-outline"
         density="comfortable"
-      >
-      </v-btn>
+      />
+
+      <Selected v-model="advancedFiltersData" @save="save" />
     </template>
 
     <template v-slot:default="{ isActive }">
@@ -59,7 +69,7 @@ const save = () => {
         <v-card-text>
           <v-text-field
             v-model="advancedFiltersData[header.key]"
-            v-for="(header, i) in table_props.props.headers"
+            v-for="(header, i) in advancedFilterHeaders"
             :key="i"
             :label="header.title"
             variant="underlined"
@@ -79,7 +89,7 @@ const save = () => {
           <v-btn
             class="text-none"
             color="primary"
-            text="Send"
+            text="Submit"
             variant="flat"
             @click="save"
           ></v-btn>

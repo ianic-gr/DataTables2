@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ActionButtons: typeof import('./components/datatables/CellRendererFrameworks/ActionButtons.vue')['default']
     AdvancedFilters: typeof import('./components/datatables/header/AdvancedFilters/index.vue')['default']
+    Blueprint: typeof import('./components/datatables/Blueprint.vue')['default']
     Datatables: typeof import('./components/datatables/index.vue')['default']
     Header: typeof import('./components/datatables/header/index.vue')['default']
     Options: typeof import('./components/datatables/header/Options.vue')['default']
