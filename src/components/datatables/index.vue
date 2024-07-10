@@ -126,16 +126,14 @@ provide("table_props", props);
 </script>
 
 <template>
-  <v-locale-provider :locale="props.locale">
-    <Blueprint
-      v-if="init"
-      ref="table"
-      :id="id"
-      :key="`${id}-${key}`"
-      @forceRefresh="forceRefresh"
-      @getData="$emit('getData')"
-      @rowData="(data) => $emit('rowData', data)"
-      @advancedFiltersChange="advancedFiltersChange"
-    />
-  </v-locale-provider>
+  <Blueprint
+    v-if="init"
+    ref="table"
+    :id="id"
+    :key="`${id}-${key}`"
+    @forceRefresh="forceRefresh"
+    @getData="$emit('getData')"
+    @rowData="(data) => $emit('rowData', data)"
+    @advancedFiltersChange="advancedFiltersChange"
+  />
 </template>

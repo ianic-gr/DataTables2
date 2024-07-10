@@ -9,11 +9,11 @@ const items = [
     onClick: exportExcel,
     prependIcon: "mdi-file-excel",
   },
-  {
-    title: "Columns",
-    onClick: exportExcel,
-    prependIcon: "mdi-view-column",
-  },
+  // {
+  //   title: "Columns",
+  //   onClick: exportExcel,
+  //   prependIcon: "mdi-view-column",
+  // },
 ];
 </script>
 

@@ -1,6 +1,18 @@
 {
-  "name": "datatables2",
-  "version": "0.0.0",
+  "name": "@ianicdev/datatables2",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": "./dist/datatables.js",
+    "./styles.css": "./dist/style.css"
+  },
+  "browser": {
+    "./styles.css": "./dist/style.css"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && vue-tsc --noEmit && vite build",
