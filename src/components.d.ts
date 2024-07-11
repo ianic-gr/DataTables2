@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ActionButtons: typeof import('./components/datatables/CellRendererFrameworks/ActionButtons.vue')['default']
+    ActionButtons: typeof import('./components/datatables/cellRendererFrameworks/ActionButtons.vue')['default']
     AdvancedFilters: typeof import('./components/datatables/header/AdvancedFilters/index.vue')['default']
     Blueprint: typeof import('./components/datatables/Blueprint.vue')['default']
     Datatables: typeof import('./components/datatables/index.vue')['default']

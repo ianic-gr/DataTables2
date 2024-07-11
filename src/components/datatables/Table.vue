@@ -1,12 +1,13 @@
 <script setup>
 import { useTableState } from "@/composables/useTableState";
-import ActionButtons from "./CellRendererFrameworks/ActionButtons.vue";
+import ActionButtons from "./cellRendererFrameworks/ActionButtons.vue";
 
 const { searchState, advancedFiltersState } = useTableState();
 
 const cellRendererFrameworks = { ActionButtons };
 
 const loading = ref(false);
+const table = ref(null);
 
 const getSlotItem = (header) => (!header.lock ? `item.${header.key}` : null);
 
@@ -39,10 +40,17 @@ const tableHeaders = computed(() => {
     return !header?.hidden;
   });
 });
+
+onMounted(() => {
+  setTimeout(() => {
+    console.log(table.value);
+  }, 3000);
+});
 </script>
 
 <template>
   <v-data-table
+    ref="table"
     color="primary"
     show-select
     :items="filteredData"

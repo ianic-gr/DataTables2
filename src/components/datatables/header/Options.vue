@@ -1,13 +1,20 @@
 <script setup>
 import { useExportExcel } from "@/composables/useExportExcel";
+import { useExportCsv } from "@/composables/useExportCsv";
 
 const { exportExcel } = useExportExcel();
+const { exportCsv } = useExportCsv();
 
 const items = [
   {
     title: "Export Excel",
     onClick: exportExcel,
     prependIcon: "mdi-file-excel",
+  },
+  {
+    title: "Export CSV",
+    onClick: exportCsv,
+    prependIcon: "mdi-file-delimited",
   },
   // {
   //   title: "Columns",

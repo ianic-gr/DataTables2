@@ -1,4 +1,6 @@
 <script setup>
+const loading = ref(false);
+
 const onClick = () => {
   loading.value = true;
   setTimeout(() => {
