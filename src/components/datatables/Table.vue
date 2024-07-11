@@ -71,7 +71,11 @@ onMounted(() => {
       <div :class="column.cellClass">
         <component
           v-if="column.cellRendererFramework"
-          :is="cellRendererFrameworks[column.cellRendererFramework]"
+          :is="
+            typeof column.cellRendererFramework === 'string'
+              ? cellRendererFrameworks[column.cellRendererFramework]
+              : column.cellRendererFramework
+          "
           :params="{ item, internalItem, value, column }"
           :cellRendererFrameworkParams="
             column.cellRendererFrameworkParams
