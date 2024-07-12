@@ -132,9 +132,19 @@ let data2 = ref([
     torque: 312,
   },
 ]);
+
+const api = {
+  get: "Hello",
+};
 </script>
 <template>
-  <DataTable id="test" :headers="headers" :data="data" class="mb-4" />
+  <DataTable
+    id="test"
+    :headers="headers"
+    :data="data"
+    class="mb-4"
+    :api="api"
+  />
 
   <DataTable
     id="test2"

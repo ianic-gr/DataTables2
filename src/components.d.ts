@@ -19,5 +19,6 @@ declare module 'vue' {
     Search: typeof import('./components/datatables/header/Search.vue')['default']
     Selected: typeof import('./components/datatables/header/AdvancedFilters/Selected.vue')['default']
     Table: typeof import('./components/datatables/Table.vue')['default']
+    TableServer: typeof import('./components/datatables/TableServer.vue')['default']
   }
 }

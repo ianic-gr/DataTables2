@@ -32,7 +32,6 @@ export const useDatatablesStore = defineStore("datatables", () => {
     tables.value = tables.value.map((table) => {
       if (table.id === table_id && table.hasOwnProperty(name)) {
         const targetObj = table[name];
-        console.log(table, targetObj);
 
         if (targetObj && typeof value === "object") {
           for (const prop in value) {
