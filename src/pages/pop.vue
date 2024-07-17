@@ -15,11 +15,11 @@ const headers = [
     title: "Full Name",
     key: "fullName",
     hidden: true,
-    value: (item) => `${item.name} <b>${item.year}</b>`,
+    value: (item) => `${item.name} <b>${item.yearx}</b>`,
   },
   {
-    title: "Year",
-    key: "year",
+    title: "yearx",
+    key: "yearx",
     cellRendererFramework: "Link",
     cellRendererFrameworkOptions: () => {
       return {
@@ -31,8 +31,8 @@ const headers = [
     },
   },
   {
-    title: "Engine",
-    key: "engine",
+    title: "plat",
+    key: "plat",
     cellRenderer: ({ value }) => `<b>${value}</b>`,
   },
   {
@@ -72,50 +72,48 @@ const headers = [
   },
 ];
 
-let data = ref([
+let data2 = ref([
   {
     id: 1,
-    name: "Chevrolet Camaro",
-    year: 1967,
-    engine: "V8",
+    name: "Plop",
+    yearx: 1967,
+    plat: "V8",
     horsepower: 375,
     torque: 415,
   },
   {
     id: 2,
-    name: "Ford Mustang",
-    year: 1965,
-    engine: "",
+    name: "Plop2",
+    yearx: 1965,
+    plat: "",
     horsepower: 271,
     torque: 312,
   },
   {
     id: 3,
-    name: "Chevrolet Camaro",
-    year: 1967,
-    engine: "V8",
+    name: "Plop3",
+    yearx: 1967,
+    plat: "V8",
     horsepower: 375,
     torque: 415,
   },
   {
     id: 4,
-    name: "Ford Mustang",
-    year: 1965,
-    engine: "*",
+    name: "Plop4",
+    yearx: 1965,
+    plat: "*",
     horsepower: 271,
     torque: 312,
   },
 ]);
 </script>
 <template>
-  <router-link to="pop">Tes 2</router-link>
   <DataTable
-    id="test"
+    id="test2"
+    title="Test Datatable"
     :headers="headers"
-    :data="data"
-    :options="{
-      showExpand: true,
-    }"
+    :data="data2"
     class="mb-4"
+    locale="el"
   />
 </template>

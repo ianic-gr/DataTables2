@@ -72,11 +72,11 @@ onMounted(async () => {
 
   const tableData = dataState.value?.find((table) => table.id === props.id);
 
+  await nextTick();
+
   if (tableData) {
     restoreData({ table_id: props.id, data: tableData });
-  }
-
-  if (!tableDataState.value.options?.columns?.selected) {
+  } else {
     tableDataState.value.options.columns.selected = props.headers
       .filter((header) => !header.hidden)
       .map((header) => header.key);
@@ -92,6 +92,7 @@ provide("table_props", props);
 </script>
 
 <template>
+  {{ tableDataState }}
   <Blueprint
     v-if="init"
     ref="table"
