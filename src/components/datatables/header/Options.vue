@@ -5,7 +5,17 @@ import { useExportCsv } from "@/composables/useExportCsv";
 const { exportExcel } = useExportExcel();
 const { exportCsv } = useExportCsv();
 
-const items = [
+const table_props = inject("table_props");
+const props = defineProps({
+  componentRefs: {
+    type: Object,
+    default: () => {
+      return {};
+    },
+  },
+});
+
+const items = computed(() => [
   {
     title: "Export Excel",
     onClick: exportExcel,
@@ -16,12 +26,13 @@ const items = [
     onClick: exportCsv,
     prependIcon: "mdi-file-delimited",
   },
-  // {
-  //   title: "Columns",
-  //   onClick: exportExcel,
-  //   prependIcon: "mdi-view-column",
-  // },
-];
+  {
+    title: "Columns",
+    onClick: props.componentRefs.columns?.openDialog,
+    prependIcon: "mdi-view-column",
+  },
+  ...(table_props.options?.globalButtons ?? []),
+]);
 </script>
 
 <template>

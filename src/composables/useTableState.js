@@ -10,9 +10,21 @@ export function useTableState() {
 
   const tableState = computed(() => getCurrentTable(table_props.id));
   const searchState = computed(() => tableState.value.search?.query);
-  const advancedFiltersState = computed(
-    () => tableState.value.advancedFilters?.query
-  );
 
-  return { tableState, searchState, advancedFiltersState };
+  const headersState = computed(() => {
+    const selected = tableState.value.options?.columns.selected ?? [];
+    const sorted = tableState.value.options?.columns.sorted ?? [];
+
+    const keys = sorted.filter((item) => selected.includes(item));
+
+    return keys.map((key) =>
+      table_props.headers.find((header) => header.key === key)
+    );
+  });
+
+  const advancedFiltersState = computed(() => {
+    return tableState.value.advancedFilters?.query;
+  });
+
+  return { tableState, searchState, advancedFiltersState, headersState };
 }

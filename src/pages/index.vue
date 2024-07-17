@@ -20,6 +20,15 @@ const headers = [
   {
     title: "Year",
     key: "year",
+    cellRendererFramework: "Link",
+    cellRendererFrameworkOptions: () => {
+      return {
+        variant: "link",
+        text: "Hello",
+        class: "primary-text font-weight-bold text-decoration-none",
+        href: "#",
+      };
+    },
   },
   {
     title: "Engine",
@@ -132,18 +141,16 @@ let data2 = ref([
     torque: 312,
   },
 ]);
-
-const api = {
-  get: "Hello",
-};
 </script>
 <template>
   <DataTable
     id="test"
     :headers="headers"
     :data="data"
+    :options="{
+      showExpand: true,
+    }"
     class="mb-4"
-    :api="api"
   />
 
   <DataTable

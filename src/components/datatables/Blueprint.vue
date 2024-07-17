@@ -2,6 +2,8 @@
 import Table from "@/components/datatables/Table.vue";
 import TableServer from "@/components/datatables/TableServer.vue";
 
+const model = defineModel();
+
 const table_props = inject("table_props");
 </script>
 
@@ -11,7 +13,7 @@ const table_props = inject("table_props");
       <Header />
     </v-card-title>
     <v-card-text class="pa-0">
-      <component :is="table_props.api ? TableServer : Table" />
+      <component v-model="model" :is="table_props.api ? TableServer : Table" />
     </v-card-text>
   </v-card>
 </template>

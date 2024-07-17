@@ -4,7 +4,7 @@ import { useTableState } from "@/composables/useTableState";
 
 export function useTableData() {
   const { getCurrentTable } = useDatatablesStore();
-  const { advancedFiltersState } = useTableState();
+  const { advancedFiltersState, headersState } = useTableState();
 
   const table_props = inject("table_props");
 
@@ -32,7 +32,7 @@ export function useTableData() {
   });
 
   const tableHeaders = computed(() => {
-    return table_props.headers.filter((header) => {
+    return headersState.value.filter((header) => {
       return !header?.hidden;
     });
   });
@@ -40,7 +40,6 @@ export function useTableData() {
   watch(
     table_props,
     (v) => {
-      console.log(v);
       tableData.value = v.data;
     },
     { deep: true, immediate: true }

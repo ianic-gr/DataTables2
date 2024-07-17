@@ -3,10 +3,12 @@ import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
-const { searchState } = useTableState();
-const { filteredData, tableHeaders } = useTableData();
+const { searchState, headersState } = useTableState();
+const { filteredData } = useTableData();
 
 const table_props = inject("table_props");
+
+const model = defineModel();
 
 const loading = ref(false);
 
@@ -17,10 +19,11 @@ const getSlotItem = (header) => {
 
 <template>
   <v-data-table
+    v-model="model"
     color="primary"
     show-select
     :items="filteredData"
-    :headers="tableHeaders"
+    :headers="headersState"
     :loading="loading"
     :search="searchState"
     v-bind="table_props.options"
@@ -30,7 +33,7 @@ const getSlotItem = (header) => {
     </template>
 
     <template
-      v-for="(header, i) in table_props.headers"
+      v-for="(header, i) in headersState"
       #[getSlotItem(header)]="{ item, internalItem, value, column }"
       :key="i"
     >
@@ -55,6 +58,11 @@ const getSlotItem = (header) => {
           "
         />
         <span
+          v-bind="
+            column?.cellRendererParams
+              ? column.cellRendererParams({ item, internalItem, value, column })
+              : {}
+          "
           v-else-if="column.cellRenderer"
           v-html="column.cellRenderer({ item, internalItem, value, column })"
         />
@@ -65,6 +73,18 @@ const getSlotItem = (header) => {
           {{ String(value).length || String(value) === "0" ? value : "-" }}
         </span>
       </div>
+    </template>
+
+    <template v-slot:expanded-row="{ columns, item }">
+      <tr>
+        <td :colspan="columns.length">
+          <component
+            v-if="table_props.options.expandedRowRenderer"
+            :is="table_props.options.expandedRowRenderer"
+            :params="{ columns, item }"
+          />
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>

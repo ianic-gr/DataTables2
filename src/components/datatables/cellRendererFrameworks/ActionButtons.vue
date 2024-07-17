@@ -1,6 +1,4 @@
 <script setup>
-const items = ref([{ title: "No Items" }]);
-
 const props = defineProps({
   params: {
     type: Object,
@@ -10,12 +8,14 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  const options = props.params.column.cellRendererFrameworkOptions(
-    props.params
-  );
+const options = computed(() => {
+  const frameworkOptionsFn = props.params.column?.cellRendererFrameworkOptions;
 
-  items.value = options?.buttons ?? [];
+  return frameworkOptionsFn ? frameworkOptionsFn(props.params) : {};
+});
+
+const items = computed(() => {
+  return options.value?.buttons ?? [{ title: "No Items" }];
 });
 </script>
 

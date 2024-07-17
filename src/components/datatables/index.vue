@@ -54,13 +54,6 @@ const emit = defineEmits(["advancedFiltersChange"]);
 
 const init = ref(false);
 const key = ref(0);
-const query = ref({
-  search: "",
-  advancedFilters: {},
-  hardFilters: [],
-  options: {},
-  columns: {},
-});
 
 const forceRefresh = async (cb = () => {}) => {
   if (typeof cb === "function") {
@@ -83,40 +76,13 @@ onMounted(async () => {
     restoreData({ table_id: props.id, data: tableData });
   }
 
-  const searchRecord = tableDataState.value.search?.query;
-
-  if (searchRecord?.length) {
-    query.value.search = searchRecord;
-  }
-
-  const advancedFiltersRecord = tableDataState.value.advancedFilters?.query;
-
-  if (Object.keys(advancedFiltersRecord)?.length) {
-    query.value.advancedFilters = advancedFiltersRecord;
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-
-  if (urlParams.has("s")) {
-    query.value.search = urlParams.get("s");
-  }
-
-  const hardFiltersRecord = tableDataState.value.hardFilters?.query;
-
-  if (Object.keys(hardFiltersRecord)?.length) {
-    query.value.hardFilters = hardFiltersRecord;
-  }
-
-  const optionsRecord = tableDataState.value.options?.query;
-
-  if (Object.keys(optionsRecord)?.length) {
-    query.value.options = optionsRecord;
-  }
-
-  const columnsRecord = tableDataState.value.options?.columns;
-
-  if (Object.keys(columnsRecord)?.length) {
-    query.value.columns = columnsRecord;
+  if (!tableDataState.value.options?.columns?.selected) {
+    tableDataState.value.options.columns.selected = props.headers
+      .filter((header) => !header.hidden)
+      .map((header) => header.key);
+    tableDataState.value.options.columns.sorted = props.headers.map(
+      (header) => header.key
+    );
   }
 
   init.value = true;

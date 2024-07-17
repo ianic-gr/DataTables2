@@ -10,6 +10,8 @@ const { tableData, filteredData, tableHeaders } = useTableData();
 
 const table_props = inject("table_props");
 
+const model = defineModel();
+
 const loading = ref(false);
 const itemsLength = ref(0);
 
@@ -43,22 +45,23 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
 
 <template>
   <v-data-table-server
+    v-model="model"
     color="primary"
     show-select
     :items="filteredData"
     :items-length="itemsLength"
-    :headers="tableHeaders"
     :loading="loading"
     :search="searchState"
     v-bind="table_props.options"
     @update:options="loadItems"
+    :headers="tableHeaders"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
     </template>
 
     <template
-      v-for="(header, i) in table_props.headers"
+      v-for="(header, i) in tableHeaders"
       #[getSlotItem(header)]="{ item, internalItem, value, column }"
       :key="i"
     >
@@ -83,6 +86,11 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
           "
         />
         <span
+          v-bind="
+            column?.cellRendererParams
+              ? column.cellRendererParams({ item, internalItem, value, column })
+              : {}
+          "
           v-else-if="column.cellRenderer"
           v-html="column.cellRenderer({ item, internalItem, value, column })"
         />
@@ -93,6 +101,18 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
           {{ String(value).length || String(value) === "0" ? value : "-" }}
         </span>
       </div>
+    </template>
+
+    <template v-slot:expanded-row="{ columns, item }">
+      <tr>
+        <td :colspan="columns.length">
+          <component
+            v-if="table_props.options.expandedRowRenderer"
+            :is="table_props.options.expandedRowRenderer"
+            :params="{ columns, item }"
+          />
+        </td>
+      </tr>
     </template>
   </v-data-table-server>
 </template>
