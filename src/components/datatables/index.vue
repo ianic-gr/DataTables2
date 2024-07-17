@@ -92,7 +92,6 @@ provide("table_props", props);
 </script>
 
 <template>
-  {{ tableDataState }}
   <Blueprint
     v-if="init"
     ref="table"

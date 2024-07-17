@@ -10,8 +10,6 @@ const table_props = inject("table_props");
 
 const model = defineModel();
 
-const loading = ref(false);
-
 const getSlotItem = (header) => {
   return !header.lock ? `item.${header.key}` : null;
 };
@@ -24,7 +22,7 @@ const getSlotItem = (header) => {
     show-select
     :items="filteredData"
     :headers="headersState"
-    :loading="loading"
+    :loading="table_props.loading"
     :search="searchState"
     v-bind="table_props.options"
   >

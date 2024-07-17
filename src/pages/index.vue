@@ -108,7 +108,6 @@ let data = ref([
 ]);
 </script>
 <template>
-  <router-link to="pop">Tes 2</router-link>
   <DataTable
     id="test"
     :headers="headers"
