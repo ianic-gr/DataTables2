@@ -5,13 +5,14 @@ import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
-const { searchState } = useTableState();
-const { tableData, filteredData, tableHeaders } = useTableData();
+const { searchState, headersState, advancedFiltersState } = useTableState();
+const { tableData } = useTableData();
 
 const table_props = inject("table_props");
 
 const model = defineModel();
 
+const datatableServer = ref(null);
 const loading = ref(false);
 const itemsLength = ref(0);
 
@@ -27,6 +28,7 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
     page,
     itemsPerPage,
     sortBy,
+    advancedFilters: advancedFiltersState.value,
   });
 
   let query = "";
@@ -41,27 +43,37 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
 
   loading.value = false;
 };
+
+watch(advancedFiltersState, () => {
+  const page = datatableServer.value.page;
+  const itemsPerPage = datatableServer.value.itemsPerPage;
+  const sortBy = datatableServer.value.sortBy;
+  const search = datatableServer.value.search;
+
+  loadItems({ page, itemsPerPage, sortBy, search });
+});
 </script>
 
 <template>
   <v-data-table-server
+    ref="datatableServer"
     v-model="model"
     color="primary"
     show-select
-    :items="filteredData"
+    :items="tableData"
     :items-length="itemsLength"
     :loading="loading"
     :search="searchState"
     v-bind="table_props.options"
     @update:options="loadItems"
-    :headers="tableHeaders"
+    :headers="headersState"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
     </template>
 
     <template
-      v-for="(header, i) in tableHeaders"
+      v-for="(header, i) in headersState"
       #[getSlotItem(header)]="{ item, internalItem, value, column }"
       :key="i"
     >

@@ -1,11 +1,10 @@
 <script setup>
 const loading = ref(false);
 
+const busEmits = inject("busEmits");
+
 const onClick = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 2000);
+  busEmits("refreshTable");
 };
 </script>
 

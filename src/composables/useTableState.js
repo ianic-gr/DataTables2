@@ -9,7 +9,9 @@ export function useTableState() {
   const table_props = inject("table_props");
 
   const tableState = computed(() => getCurrentTable(table_props.id));
-  const searchState = computed(() => tableState.value.search?.query);
+  const searchState = computed(() => {
+    return tableState.value.search?.query;
+  });
 
   const headersState = computed(() => {
     const selected = tableState.value.options?.columns.selected ?? [];

@@ -49,15 +49,6 @@ defineExpose({ openDialog });
 
 <template>
   <v-dialog v-model="dialog" max-width="500" eager>
-    <template v-slot:activator="{ props: activatorProps }">
-      <v-btn
-        v-bind="activatorProps"
-        variant="text"
-        icon="mdi-filter-outline"
-        density="comfortable"
-      />
-    </template>
-
     <template v-slot:default="{ isActive }">
       <v-card rounded="lg">
         <v-card-title class="d-flex justify-space-between align-center">
@@ -78,13 +69,13 @@ defineExpose({ openDialog });
               @click="() => {}"
               v-for="(header, i) in sortedHeaders"
               :key="`${componentKey}-${i}`"
-              :title="header.title"
-              :headerKeys="header.key"
+              :title="header?.title"
+              :headerKeys="header?.key"
             >
               <template v-slot:prepend>
                 <v-checkbox
                   v-model="selectedList"
-                  :value="header.key"
+                  :value="header?.key"
                   hide-details
                 />
               </template>

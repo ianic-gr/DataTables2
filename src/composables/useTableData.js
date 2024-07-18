@@ -31,12 +31,6 @@ export function useTableData() {
     return filteredItems;
   });
 
-  const tableHeaders = computed(() => {
-    return headersState.value.filter((header) => {
-      return !header?.hidden;
-    });
-  });
-
   watch(
     table_props,
     (v) => {
@@ -45,5 +39,5 @@ export function useTableData() {
     { deep: true, immediate: true }
   );
 
-  return { tableData, filteredData, tableHeaders };
+  return { tableData, filteredData };
 }

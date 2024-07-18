@@ -14,23 +14,33 @@ const props = defineProps({
   },
   data: {
     type: Array,
-    default: () => [],
+    default: () => {
+      return [];
+    },
   },
   options: {
     type: Object,
-    default: () => {},
+    default: () => {
+      return {};
+    },
   },
   params: {
     type: Object,
-    default: () => {},
+    default: () => {
+      return {};
+    },
   },
   hardFilters: {
     type: Array,
-    default: () => [],
+    default: () => {
+      return [];
+    },
   },
   headers: {
     type: Array,
-    default: () => [],
+    default: () => {
+      return [];
+    },
   },
   loadingData: {
     type: Boolean,
@@ -48,24 +58,11 @@ const props = defineProps({
 
 const datatablesStore = useDatatablesStore();
 const { dataState, tableDataState } = useDatastate(props);
-const { addTable, restoreData } = datatablesStore;
 
-const emit = defineEmits(["advancedFiltersChange"]);
+const { addTable, restoreData } = datatablesStore;
+const busEmits = defineEmits(["refreshTable"]);
 
 const init = ref(false);
-const key = ref(0);
-
-const forceRefresh = async (cb = () => {}) => {
-  if (typeof cb === "function") {
-    cb();
-  }
-
-  key.value++;
-};
-
-const advancedFiltersChange = async (data) => {
-  emit("advancedFiltersChange", data);
-};
 
 onMounted(async () => {
   addTable({ table_id: props.id });
@@ -77,18 +74,20 @@ onMounted(async () => {
   if (tableData) {
     restoreData({ table_id: props.id, data: tableData });
   } else {
-    tableDataState.value.options.columns.selected = props.headers
+    const columns = tableDataState.value.options.columns;
+
+    columns.selected = props.headers
       .filter((header) => !header.hidden)
       .map((header) => header.key);
-    tableDataState.value.options.columns.sorted = props.headers.map(
-      (header) => header.key
-    );
+
+    columns.sorted = props.headers.map((header) => header.key);
   }
 
   init.value = true;
 });
 
 provide("table_props", props);
+provide("busEmits", busEmits);
 </script>
 
 <template>
@@ -96,10 +95,8 @@ provide("table_props", props);
     v-if="init"
     ref="table"
     :id="id"
-    :key="`${id}-${key}`"
-    @forceRefresh="forceRefresh"
+    :key="id"
     @getData="$emit('getData')"
     @rowData="(data) => $emit('rowData', data)"
-    @advancedFiltersChange="advancedFiltersChange"
   />
 </template>

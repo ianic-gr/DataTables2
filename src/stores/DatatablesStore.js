@@ -4,27 +4,30 @@ import { defineStore } from "pinia";
 
 export const useDatatablesStore = defineStore("datatables", () => {
   const tables = ref([]);
-  const preset = ref({
-    search: {
-      query: "",
-    },
-    advancedFilters: {
-      query: {},
-    },
-    hardFilters: {
-      query: {},
-    },
-    options: {
-      test: true,
-      query: {},
-      columns: {},
-    },
-  });
 
   const addTable = ({ table_id }) => {
     const no_reac_table = JSON.parse(JSON.stringify(tables.value));
+    const existingTable = no_reac_table.find((table) => table.id === table_id);
+    const preset = {
+      search: {
+        query: "",
+      },
+      advancedFilters: {
+        query: {},
+      },
+      hardFilters: {
+        query: {},
+      },
+      options: {
+        test: true,
+        query: {},
+        columns: {},
+      },
+    };
 
-    no_reac_table.push({ id: table_id, ...preset.value });
+    if (existingTable) return;
+
+    no_reac_table.push({ id: table_id, ...preset });
     tables.value = no_reac_table;
   };
 

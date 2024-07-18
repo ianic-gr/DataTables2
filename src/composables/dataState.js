@@ -9,20 +9,13 @@ export function useDatastate(props) {
 
   const saving = ref(false);
   const dataState = ref(null);
+  const version = 1;
 
-  const tableDataState = computed(() => {
-    return getCurrentTable(props.id);
+  const tableDataState = computed(() => getCurrentTable(props.id));
+
+  watch(tableDataState, async (data) => await dataStateSave(data), {
+    deep: true,
   });
-
-  watch(
-    tableDataState,
-    async (data) => {
-      await dataStateSave(data);
-    },
-    {
-      deep: true,
-    }
-  );
 
   const dataStateSave = async (data) => {
     if (saving.value) return;
@@ -61,6 +54,13 @@ export function useDatastate(props) {
 
   onBeforeMount(() => {
     dataState.value = dataStateFetch();
+
+    const storageVersion = localStorage.getItem("datatables-state-v");
+
+    if (parseInt(storageVersion) !== parseInt(version)) {
+      localStorage.removeItem("datatables-state");
+      localStorage.setItem("datatables-state-v", version);
+    }
   });
 
   return {

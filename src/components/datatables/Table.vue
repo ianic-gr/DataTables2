@@ -10,6 +10,8 @@ const table_props = inject("table_props");
 
 const model = defineModel();
 
+const datatable = ref(null);
+
 const getSlotItem = (header) => {
   return !header.lock ? `item.${header.key}` : null;
 };
@@ -17,6 +19,7 @@ const getSlotItem = (header) => {
 
 <template>
   <v-data-table
+    ref="datatable"
     v-model="model"
     color="primary"
     show-select
