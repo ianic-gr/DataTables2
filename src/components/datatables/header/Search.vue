@@ -35,7 +35,7 @@ onMounted(() => {
       v-model="search"
       density="comfortable"
       variant="underlined"
-      label="search"
+      :label="$t('$datatables.search')"
       clearable
       hide-details
     />

@@ -7,5 +7,6 @@ export default {
       "DataTable",
       defineAsyncComponent(() => import("../components/datatables"))
     );
+    // .use(i18n);
   },
 };

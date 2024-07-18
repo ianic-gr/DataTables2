@@ -55,7 +55,9 @@ onMounted(() => {
     <template v-slot:default="{ isActive }">
       <v-card rounded="lg">
         <v-card-title class="d-flex justify-space-between align-center">
-          <div class="text-medium-emphasis ps-2">Advanced Filters</div>
+          <div class="text-medium-emphasis ps-2">
+            {{ $t("$datatables.advancedFilters") }}
+          </div>
 
           <v-btn
             icon="mdi-close"
@@ -82,14 +84,14 @@ onMounted(() => {
         <v-card-actions class="my-2 d-flex justify-end">
           <v-btn
             class="text-none"
-            text="Cancel"
+            :text="$t('$datatables.cancel')"
             @click="isActive.value = false"
           ></v-btn>
 
           <v-btn
             class="text-none"
             color="primary"
-            text="Submit"
+            :text="$t('$datatables.submit')"
             variant="flat"
             @click="save"
           ></v-btn>

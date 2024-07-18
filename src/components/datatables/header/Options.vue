@@ -1,4 +1,5 @@
 <script setup>
+import { useI18n } from "vue-i18n";
 import { useExportExcel } from "@/composables/useExportExcel";
 import { useExportCsv } from "@/composables/useExportCsv";
 
@@ -15,19 +16,21 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+
 const items = computed(() => [
   {
-    title: "Export Excel",
+    title: `${t("$datatables.export")} Excel`,
     onClick: exportExcel,
     prependIcon: "mdi-file-excel",
   },
   {
-    title: "Export CSV",
+    title: `${t("$datatables.export")} CSV`,
     onClick: exportCsv,
     prependIcon: "mdi-file-delimited",
   },
   {
-    title: "Columns",
+    title: t("$datatables.columns"),
     onClick: props.componentRefs.columns?.openDialog,
     prependIcon: "mdi-view-column",
   },

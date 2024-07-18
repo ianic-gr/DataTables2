@@ -1,4 +1,3 @@
-// Plugins
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import Fonts from "unplugin-fonts/vite";
@@ -6,6 +5,7 @@ import Layouts from "vite-plugin-vue-layouts";
 import Vue from "@vitejs/plugin-vue";
 import VueRouter from "unplugin-vue-router/vite";
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import * as path from "path";
 
 // Utilities
@@ -56,6 +56,14 @@ export default defineConfig({
         ],
       },
     }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "./src/locale", // replace with the path to the folder you want to copy
+          dest: "lib/", // destination within the dist folder
+        },
+      ],
+    }),
   ],
   define: { "process.env": {} },
   resolve: {
@@ -66,6 +74,7 @@ export default defineConfig({
   },
   build: {
     cssCodeSplit: false,
+    // minify: false,
     lib: {
       entry: path.resolve(__dirname, "src/plugins/dataTables.js"),
       formats: ["es", "cjs"],
@@ -73,7 +82,7 @@ export default defineConfig({
       fileName: "datatables",
     },
     rollupOptions: {
-      external: ["vue", "vuetify", "pinia"],
+      external: ["vue", "vuetify", "pinia", "vue-i18n"],
       output: {
         globals: {
           vue: "Vue",
