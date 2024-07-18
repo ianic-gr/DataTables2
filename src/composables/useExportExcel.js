@@ -1,9 +1,12 @@
 import { inject } from "vue";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
+import { getValueByStringPath } from "@/utils/getValueByStringPath";
 
 export function useExportExcel() {
   const table_props = inject("table_props");
+  const tableRef = inject("tableRef");
+  const downloadModal = inject("downloadModal");
 
   const tableHeaders = computed(() => {
     return table_props.headers.filter((header) => {
@@ -11,7 +14,22 @@ export function useExportExcel() {
     });
   });
 
-  const exportExcel = () => {
+  function getValueByStringPath(obj, path) {
+    return path.split(".").reduce((acc, part) => {
+      const arrayMatch = part.match(/^(\w+)\[(\d+)\]$/);
+      if (arrayMatch) {
+        const arrayName = arrayMatch[1];
+        const index = arrayMatch[2];
+        return acc && acc[arrayName] && acc[arrayName][index];
+      }
+      return acc && acc[part];
+    }, obj);
+  }
+
+  const exportExcel = async () => {
+    downloadModal.value = true;
+    const items = await tableRef.value.getItemsForPrint();
+
     // Create workbook and worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Sheet 1");
@@ -24,13 +42,13 @@ export function useExportExcel() {
     }));
 
     // Add rows to worksheet
-    table_props.data.forEach((item) => {
+    items.forEach((item) => {
       let row = {};
       tableHeaders.value.forEach((header) => {
         if (header.value) {
           row[header.key] = header.value(item);
         } else {
-          row[header.key] = item[header.key];
+          row[header.key] = getValueByStringPath(item, header.key);
         }
       });
       worksheet.addRow(row);
@@ -50,6 +68,8 @@ export function useExportExcel() {
       .catch((err) => {
         console.error("Error creating Excel file", err);
       });
+
+    downloadModal.value = false;
   };
 
   return { exportExcel };

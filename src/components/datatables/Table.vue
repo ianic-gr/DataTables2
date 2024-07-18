@@ -15,6 +15,12 @@ const datatable = ref(null);
 const getSlotItem = (header) => {
   return !header.lock ? `item.${header.key}` : null;
 };
+
+const getItemsForPrint = async () => {
+  return filteredData.value;
+};
+
+defineExpose({ getItemsForPrint });
 </script>
 
 <template>

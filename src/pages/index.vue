@@ -36,6 +36,14 @@ const headers = [
     cellRenderer: ({ value }) => `<b>${value}</b>`,
   },
   {
+    title: "Pop Stop",
+    key: "pop.stop",
+  },
+  {
+    title: "Skop",
+    key: "skop[0].pop",
+  },
+  {
     title: "Actions",
     key: "actions",
     printable: false,
@@ -80,6 +88,9 @@ let data = ref([
     engine: "V8",
     horsepower: 375,
     torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
   },
   {
     id: 2,
@@ -88,6 +99,11 @@ let data = ref([
     engine: "",
     horsepower: 271,
     torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+    ],
   },
   {
     id: 3,

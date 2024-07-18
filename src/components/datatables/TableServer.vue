@@ -20,9 +20,7 @@ const getSlotItem = (header) => {
   return !header.lock ? `item.${header.key}` : null;
 };
 
-const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
-  loading.value = true;
-
+const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
   const { url, options } = table_props.api.get({
     search,
     page,
@@ -36,7 +34,27 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
     query = `?${qs.stringify(options.query)}`;
   }
 
-  const { data } = await useFetch(`${url}${query}`, { ...options }).json();
+  return await useFetch(`${url}${query}`, { ...options }).json();
+};
+
+const getItemsForPrint = async () => {
+  const sortBy = datatableServer.value.sortBy;
+  const search = datatableServer.value.search;
+
+  const { data } = await getItems({
+    page: 1,
+    itemsPerPage: -1,
+    sortBy,
+    search,
+  });
+
+  return data.value.data;
+};
+
+const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
+  loading.value = true;
+
+  const { data } = await getItems({ page, itemsPerPage, sortBy, search });
 
   tableData.value = data.value.data;
   itemsLength.value = data.value.total;
@@ -52,6 +70,8 @@ watch(advancedFiltersState, () => {
 
   loadItems({ page, itemsPerPage, sortBy, search });
 });
+
+defineExpose({ getItemsForPrint });
 </script>
 
 <template>

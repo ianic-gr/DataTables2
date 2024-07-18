@@ -1,8 +1,11 @@
 import { inject } from "vue";
 import { mkConfig, generateCsv, download } from "export-to-csv";
+import { getValueByStringPath } from "@/utils/getValueByStringPath";
 
 export function useExportCsv() {
   const table_props = inject("table_props");
+  const tableRef = inject("tableRef");
+  const downloadModal = inject("downloadModal");
 
   const tableHeaders = computed(() => {
     return table_props.headers.filter((header) => {
@@ -10,26 +13,24 @@ export function useExportCsv() {
     });
   });
 
-  const tableData = computed(() => {
+  const exportCsv = async () => {
+    downloadModal.value = true;
+
+    const items = await tableRef.value.getItemsForPrint();
     const rows = [];
 
-    table_props.data.forEach((item) => {
+    items.forEach((item) => {
       let row = {};
       tableHeaders.value.forEach((header) => {
         if (header.value) {
           row[header.key] = header.value(item);
         } else {
-          row[header.key] = item[header.key];
+          row[header.key] = getValueByStringPath(item, header.key);
         }
-
-        rows.push(row);
       });
+      rows.push(row); // Move this line outside the inner loop
     });
 
-    return rows;
-  });
-
-  const exportCsv = () => {
     // mkConfig merges your options with the defaults
     // and returns WithDefaults<ConfigOptions>
     const csvConfig = mkConfig({
@@ -42,12 +43,13 @@ export function useExportCsv() {
     });
 
     // Converts your Array<Object> to a CsvOutput string based on the configs
-    const csv = generateCsv(csvConfig)(tableData.value);
+    const csv = generateCsv(csvConfig)(rows);
 
     // Add a click handler that will run the `download` function.
     // `download` takes `csvConfig` and the generated `CsvOutput`
     // from `generateCsv`.
     download(csvConfig)(csv);
+    downloadModal.value = false;
   };
 
   return { exportCsv };
