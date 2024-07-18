@@ -5,7 +5,6 @@ import Layouts from "vite-plugin-vue-layouts";
 import Vue from "@vitejs/plugin-vue";
 import VueRouter from "unplugin-vue-router/vite";
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
-import { viteStaticCopy } from "vite-plugin-static-copy";
 import * as path from "path";
 
 // Utilities
@@ -55,14 +54,6 @@ export default defineConfig({
           },
         ],
       },
-    }),
-    viteStaticCopy({
-      targets: [
-        {
-          src: "./src/locale", // replace with the path to the folder you want to copy
-          dest: "lib/", // destination within the dist folder
-        },
-      ],
     }),
   ],
   define: { "process.env": {} },

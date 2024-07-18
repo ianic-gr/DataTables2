@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "type": "module",
   "publishConfig": {
     "access": "public",
@@ -8,7 +8,8 @@
   },
   "exports": {
     ".": "./dist/datatables.js",
-    "./styles.css": "./dist/style.css"
+    "./styles.css": "./dist/style.css",
+    "./locale": "./lib/locale/index.js"
   },
   "browser": {
     "./styles.css": "./dist/style.css"
@@ -62,7 +63,6 @@
     "unplugin-vue-components": "^0.27.3",
     "unplugin-vue-router": "^0.10.0",
     "vite": "^5.3.4",
-    "vite-plugin-static-copy": "^1.0.6",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vite-plugin-vuetify": "^2.0.3",
     "vue-router": "^4.4.0",
