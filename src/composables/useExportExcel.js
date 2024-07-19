@@ -9,9 +9,7 @@ export function useExportExcel() {
   const downloadModal = inject("downloadModal");
 
   const tableHeaders = computed(() => {
-    return table_props.headers.filter((header) => {
-      return header?.printable !== false;
-    });
+    return table_props.headers.filter((header) => header?.printable !== false);
   });
 
   function getValueByStringPath(obj, path) {
@@ -48,7 +46,7 @@ export function useExportExcel() {
         if (header.value) {
           row[header.key] = header.value(item);
         } else {
-          row[header.key] = getValueByStringPath(item, header.key);
+          row[header.key] = getValueByStringPath(item, header.key) ?? "";
         }
       });
       worksheet.addRow(row);

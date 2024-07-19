@@ -42,9 +42,9 @@ const props = defineProps({
       return [];
     },
   },
-  loadingData: {
+  loading: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   locale: {
     type: String,

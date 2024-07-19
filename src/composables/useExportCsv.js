@@ -8,9 +8,7 @@ export function useExportCsv() {
   const downloadModal = inject("downloadModal");
 
   const tableHeaders = computed(() => {
-    return table_props.headers.filter((header) => {
-      return header?.printable !== false;
-    });
+    return table_props.headers.filter((header) => header?.printable !== false);
   });
 
   const exportCsv = async () => {
@@ -25,7 +23,7 @@ export function useExportCsv() {
         if (header.value) {
           row[header.key] = header.value(item);
         } else {
-          row[header.key] = getValueByStringPath(item, header.key);
+          row[header.key] = getValueByStringPath(item, header.key) ?? "";
         }
       });
       rows.push(row); // Move this line outside the inner loop

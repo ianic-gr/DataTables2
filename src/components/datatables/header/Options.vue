@@ -2,9 +2,13 @@
 import { useI18n } from "vue-i18n";
 import { useExportExcel } from "@/composables/useExportExcel";
 import { useExportCsv } from "@/composables/useExportCsv";
+import { useExportPDF } from "@/composables/useExportPDF";
+import { usePrint } from "@/composables/usePrint";
 
 const { exportExcel } = useExportExcel();
 const { exportCsv } = useExportCsv();
+const { exportPDF } = useExportPDF();
+const { printTable } = usePrint();
 
 const table_props = inject("table_props");
 const props = defineProps({
@@ -28,6 +32,16 @@ const items = computed(() => [
     title: `${t("$datatables.export")} CSV`,
     onClick: exportCsv,
     prependIcon: "mdi-file-delimited",
+  },
+  {
+    title: `${t("$datatables.export")} PDF`,
+    onClick: exportPDF,
+    prependIcon: "mdi-file-pdf-box",
+  },
+  {
+    title: t("$datatables.print"),
+    onClick: printTable,
+    prependIcon: "mdi-printer",
   },
   {
     title: t("$datatables.columns"),
