@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
 import { escapeKeyString } from "@/utils/escapeKeyString";
+import "../assets/fonts/roboto-normal";
 
 export function useExportPDF() {
   const table_props = inject("table_props");
@@ -42,7 +43,7 @@ export function useExportPDF() {
       body: [...rows.map((row) => Object.values(row))],
     });
 
-    doc.save("smartville.pdf");
+    doc.save(`${table_props.id}.pdf`);
     downloadModal.value = false;
   };
 
