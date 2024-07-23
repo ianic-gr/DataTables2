@@ -4,18 +4,25 @@ import { storeToRefs } from "pinia";
 
 export function useDatastate(props) {
   const datatablesStore = useDatatablesStore();
-  const { getCurrentTable } = datatablesStore;
+  const { getCurrentTable, setTableHash, hashString } = datatablesStore;
   const { tables } = storeToRefs(datatablesStore);
 
   const saving = ref(false);
-  const dataState = ref(null);
-  const version = 1;
+  const version = 2;
 
   const tableDataState = computed(() => getCurrentTable(props.id));
 
-  watch(tableDataState, async (data) => await dataStateSave(data), {
-    deep: true,
-  });
+  watch(
+    tableDataState,
+    async (data) => {
+      if (!data.options.hash) return;
+
+      await dataStateSave(data);
+    },
+    {
+      deep: true,
+    }
+  );
 
   const dataStateSave = async (data) => {
     if (saving.value) return;
@@ -52,21 +59,32 @@ export function useDatastate(props) {
     return storageData;
   };
 
-  onBeforeMount(() => {
-    dataState.value = dataStateFetch();
-
+  const checkTableState = async () => {
     const storageVersion = localStorage.getItem("datatables-state-v");
 
     if (parseInt(storageVersion) !== parseInt(version)) {
       localStorage.removeItem("datatables-state");
       localStorage.setItem("datatables-state-v", version);
     }
-  });
+
+    const currentTableState = dataStateGet();
+    const currentTableStateHash = currentTableState?.options.hash;
+
+    if (currentTableStateHash) {
+      const currentHash = await hashString(JSON.stringify(props.headers ?? []));
+
+      if (currentTableStateHash !== currentHash) {
+        localStorage.removeItem("datatables-state");
+      }
+    }
+
+    setTableHash({ table_id: props.id, headers: props.headers });
+  };
 
   return {
     saving,
-    dataState,
     dataStateGet,
     tableDataState,
+    checkTableState,
   };
 }

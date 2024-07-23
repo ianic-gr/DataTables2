@@ -35,7 +35,7 @@ const advancedFilterHeaders = computed(() => {
 });
 
 onMounted(() => {
-  advancedFiltersData.value = advancedFiltersState.value;
+  advancedFiltersData.value = { ...advancedFiltersState.value };
 });
 </script>
 

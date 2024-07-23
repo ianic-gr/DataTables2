@@ -57,9 +57,9 @@ const props = defineProps({
 });
 
 const datatablesStore = useDatatablesStore();
-const { dataState, tableDataState } = useDatastate(props);
+const { dataStateGet, tableDataState, checkTableState } = useDatastate(props);
 
-const { addTable, restoreData } = datatablesStore;
+const { addTable, restoreData, setTableHash } = datatablesStore;
 const busEmits = defineEmits(["refreshTable"]);
 
 const init = ref(false);
@@ -67,9 +67,9 @@ const init = ref(false);
 onMounted(async () => {
   addTable({ table_id: props.id });
 
-  const tableData = dataState.value?.find((table) => table.id === props.id);
+  await checkTableState();
 
-  await nextTick();
+  const tableData = dataStateGet();
 
   if (tableData) {
     restoreData({ table_id: props.id, data: tableData });
@@ -82,6 +82,8 @@ onMounted(async () => {
 
     columns.sorted = props.headers.map((header) => header.key);
   }
+
+  await nextTick();
 
   init.value = true;
 });

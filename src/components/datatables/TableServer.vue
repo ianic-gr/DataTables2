@@ -17,7 +17,7 @@ const loading = ref(false);
 const itemsLength = ref(0);
 
 const getSlotItem = (header) => {
-  return !header.lock ? `item.${header.key}` : null;
+  return !header?.lock ? `item.${header.key}` : null;
 };
 
 const getItems = async ({ page, itemsPerPage, sortBy, search }) => {

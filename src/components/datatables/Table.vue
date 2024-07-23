@@ -13,7 +13,7 @@ const model = defineModel();
 const datatable = ref(null);
 
 const getSlotItem = (header) => {
-  return !header.lock ? `item.${header.key}` : null;
+  return !header?.lock ? `item.${header.key}` : null;
 };
 
 const getItemsForPrint = async () => {

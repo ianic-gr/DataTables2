@@ -19,7 +19,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
         query: {},
       },
       options: {
-        test: true,
+        hash: null,
         query: {},
         columns: {},
       },
@@ -29,6 +29,23 @@ export const useDatatablesStore = defineStore("datatables", () => {
 
     no_reac_table.push({ id: table_id, ...preset });
     tables.value = no_reac_table;
+  };
+
+  const hashString = async (input) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  };
+
+  const setTableHash = ({ table_id, headers }) => {
+    hashString(JSON.stringify(headers ?? [])).then((hash) => {
+      setData({ table_id, name: "options", value: { hash } });
+    });
   };
 
   const setData = ({ table_id, name, value }) => {
@@ -44,6 +61,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
           }
         }
       }
+
       return table;
     });
   };
@@ -71,6 +89,9 @@ export const useDatatablesStore = defineStore("datatables", () => {
     setData,
     restoreData,
     getCurrentTable,
+    // Hash
+    hashString,
+    setTableHash,
   };
 
   return shell;
