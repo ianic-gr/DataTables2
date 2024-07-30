@@ -30,7 +30,7 @@ provide("downloadModal", downloadModal);
     <v-list class="py-2" color="primary" elevation="12" rounded="lg">
       <v-list-item
         prepend-icon="mdi-file-download"
-        title="Preparing file for download..."
+        :title="$t('$datatables.preparing_download_file')"
       >
         <template v-slot:prepend>
           <div class="pe-4">

@@ -1,4 +1,6 @@
 <script setup>
+import ExpandedVue from "@/components/examples/components/Expanded.vue";
+
 const headers = [
   {
     title: "ID",
@@ -103,6 +105,9 @@ let data = ref([
       {
         pop: "22222222222222222",
       },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
     ],
   },
   {
@@ -130,6 +135,7 @@ let data = ref([
     :data="data"
     :options="{
       showExpand: true,
+      expandedRowRenderer: ExpandedVue,
     }"
     class="mb-4"
   />

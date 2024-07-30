@@ -1,7 +1,7 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.0.17",
-  "type": "module",
+  "version": "0.0.18",
+  "type": "commonjs",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
