@@ -1,4 +1,5 @@
 <script setup>
+import defu from "defu";
 import qs from "qs";
 import { useFetch } from "@vueuse/core";
 import { useTableState } from "@/composables/useTableState";
@@ -20,6 +21,16 @@ const getSlotItem = (header) => {
   return !header?.lock ? `item.${header.key}` : null;
 };
 
+const returnObjectAttributes = computed(() => {
+  return defu(
+    {
+      data: "data",
+      total: "total",
+    },
+    table_props.api?.returnObjectAttributesMap ?? {}
+  );
+});
+
 const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
   const { url, options } = table_props.api.get({
     search,
@@ -40,6 +51,7 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
 const getItemsForPrint = async () => {
   const sortBy = datatableServer.value.sortBy;
   const search = datatableServer.value.search;
+  const { data: dataObjKey } = returnObjectAttributes.value;
 
   const { data } = await getItems({
     page: 1,
@@ -48,16 +60,17 @@ const getItemsForPrint = async () => {
     search,
   });
 
-  return data.value.data;
+  return data.value[dataObjKey];
 };
 
 const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   loading.value = true;
 
+  const { data: dataObjKey, total: totalObjKey } = returnObjectAttributes.value;
   const { data } = await getItems({ page, itemsPerPage, sortBy, search });
 
-  tableData.value = data.value.data;
-  itemsLength.value = data.value.total;
+  tableData.value = data.value[dataObjKey];
+  itemsLength.value = data.value[totalObjKey];
 
   loading.value = false;
 };
