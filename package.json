@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "type": "commonjs",
   "publishConfig": {
     "access": "public",

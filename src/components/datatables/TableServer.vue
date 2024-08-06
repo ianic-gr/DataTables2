@@ -22,13 +22,10 @@ const getSlotItem = (header) => {
 };
 
 const returnObjectAttributes = computed(() => {
-  return defu(
-    {
-      data: "data",
-      total: "total",
-    },
-    table_props.api?.returnObjectAttributesMap ?? {}
-  );
+  return defu(table_props.api?.returnObjectAttributesMap ?? {}, {
+    data: "data",
+    total: "total",
+  });
 });
 
 const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
