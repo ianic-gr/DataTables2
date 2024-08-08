@@ -22,6 +22,11 @@ export function useTableData() {
           if (typeof item[key] === "number") {
             return item[key] == filters[key];
           } else {
+            if (Array.isArray(filters[key])) {
+              return filters[key]
+                .map((filter) => filter.toLowerCase())
+                .includes(item[key].toLowerCase());
+            }
             return item[key].toLowerCase().includes(filters[key].toLowerCase());
           }
         });

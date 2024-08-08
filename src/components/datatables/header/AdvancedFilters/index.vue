@@ -1,6 +1,7 @@
 <script setup>
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
+import { VTextField, VSelect } from "vuetify/components";
 
 const datatablesStore = useDatatablesStore();
 const { advancedFiltersState } = useTableState();
@@ -8,12 +9,16 @@ const { setData } = datatablesStore;
 
 const dialog = ref(false);
 const advancedFiltersData = ref({});
+const defaultFilterComponents = {
+  textfield: VTextField,
+  select: VSelect,
+};
 
 const table_props = inject("table_props");
 
 const save = () => {
   advancedFiltersData.value = Object.entries(advancedFiltersData.value)
-    .filter(([key, value]) => value)
+    .filter(([key, value]) => value && value.length)
     .reduce((result, [key, value]) => {
       result[key] = value;
       return result;
@@ -22,7 +27,7 @@ const save = () => {
   setData({
     table_id: table_props.id,
     name: "advancedFilters",
-    value: { query: advancedFiltersData.value },
+    value: { query: { ...advancedFiltersData.value } },
   });
 
   dialog.value = false;
@@ -33,6 +38,12 @@ const advancedFilterHeaders = computed(() => {
     return header.advancedFilter !== false && !header.hidden;
   });
 });
+
+const getComponent = (comp) => {
+  if (!comp) return defaultFilterComponents["textfield"];
+
+  return typeof comp === "string" ? defaultFilterComponents[comp] : comp;
+};
 
 onMounted(() => {
   advancedFiltersData.value = { ...advancedFiltersState.value };
@@ -69,14 +80,21 @@ onMounted(() => {
         <v-divider class="mb-4"></v-divider>
 
         <v-card-text>
-          <v-text-field
-            v-model="advancedFiltersData[header.key]"
+          <div
+            :id="`advanced-filter-${header.key}`"
+            :class="`advanced-filter advanced-filter--${header.key}`"
             v-for="(header, i) in advancedFilterHeaders"
             :key="i"
-            :label="header.title"
-            variant="underlined"
-            clearable
-          ></v-text-field>
+          >
+            <component
+              :is="getComponent(header.advancedFilter?.component)"
+              v-model="advancedFiltersData[header.key]"
+              v-bind="header.advancedFilter?.options"
+              :label="header.title"
+              variant="underlined"
+              clearable
+            />
+          </div>
         </v-card-text>
 
         <v-divider class="mt-2"></v-divider>

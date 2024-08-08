@@ -12,6 +12,16 @@ const headers = [
     title: "First Name",
     key: "name",
     cellClass: "font-weight-medium",
+    advancedFilter: {
+      component: "select",
+      options: {
+        multiple: true,
+        items: [
+          { title: "Camaro", value: "Chevrolet Camaro" },
+          { title: "Mustang", value: "Ford Mustang" },
+        ],
+      },
+    },
   },
   {
     title: "Full Name",
