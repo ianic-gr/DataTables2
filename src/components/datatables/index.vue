@@ -60,9 +60,15 @@ const datatablesStore = useDatatablesStore();
 const { dataStateGet, tableDataState, checkTableState } = useDatastate(props);
 
 const { addTable, restoreData, setTableHash } = datatablesStore;
-const busEmits = defineEmits(["refreshTable"]);
+const emit = defineEmits(["refreshTable"]);
 
 const init = ref(false);
+const tableKey = ref(0);
+
+const refreshTable = () => {
+  emit("refreshTable");
+  tableKey.value++;
+};
 
 onMounted(async () => {
   addTable({ table_id: props.id });
@@ -89,7 +95,7 @@ onMounted(async () => {
 });
 
 provide("table_props", props);
-provide("busEmits", busEmits);
+defineExpose({ refreshTable });
 </script>
 
 <template>
@@ -97,8 +103,9 @@ provide("busEmits", busEmits);
     v-if="init"
     ref="table"
     :id="id"
-    :key="id"
+    :key="`${id}-${tableKey}`"
     @getData="$emit('getData')"
     @rowData="(data) => $emit('rowData', data)"
+    @refreshTable="refreshTable"
   />
 </template>

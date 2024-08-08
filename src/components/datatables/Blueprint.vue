@@ -8,6 +8,9 @@ const table_props = inject("table_props");
 const tableRef = ref(null);
 const downloadModal = ref(false);
 
+const busEmits = defineEmits(["refreshTable"]);
+
+provide("busEmits", busEmits);
 provide("tableRef", tableRef);
 provide("downloadModal", downloadModal);
 </script>
