@@ -1,5 +1,12 @@
 <script setup>
+import Search from "@/components/datatables/header/Search.vue";
+import RefreshTable from "@/components/datatables/header/RefreshTable.vue";
+import Options from "@/components/datatables/header/Options.vue";
+
+const table_props = inject("table_props");
+
 const columns = ref(null);
+const optionAPIComponents = table_props.options?.header?.components ?? {};
 </script>
 
 <template>
@@ -8,10 +15,21 @@ const columns = ref(null);
       <AdvancedFilters />
     </v-col>
     <v-col class="d-flex align-center justify-end">
-      <Columns ref="columns" />
-      <Search class="me-4" />
-      <RefreshTable />
-      <Options :component-refs="{ columns }" />
+      <component
+        id="header-search"
+        :is="optionAPIComponents.search ?? Search"
+        class="me-4"
+      />
+      <component
+        id="header-refreshTable"
+        :is="optionAPIComponents.refreshTable ?? RefreshTable"
+      />
+      <component
+        id="header-options"
+        :is="optionAPIComponents.options ?? Options"
+        :component-refs="{ columns }"
+      />
     </v-col>
   </v-row>
+  <Columns ref="columns" />
 </template>

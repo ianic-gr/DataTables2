@@ -144,6 +144,11 @@ let data = ref([
     :headers="headers"
     :data="data"
     :options="{
+      header: {
+        components: {
+          search: ExpandedVue,
+        },
+      },
       showExpand: true,
       expandedRowRenderer: ExpandedVue,
     }"
