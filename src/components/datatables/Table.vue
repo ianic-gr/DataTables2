@@ -31,6 +31,7 @@ defineExpose({ getItemsForPrint });
     show-select
     :items="filteredData"
     :headers="headersState"
+    :loading="table_props.loading"
     :search="searchState"
     v-bind="table_props.options"
   >

@@ -172,6 +172,5 @@ let data = ref([
       expandedRowRenderer: ExpandedVue,
     }"
     class="mb-4"
-    loading
   />
 </template>
