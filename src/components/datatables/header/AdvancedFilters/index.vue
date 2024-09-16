@@ -2,6 +2,8 @@
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import { VTextField, VSelect } from "vuetify/components";
+import { VNumberInput } from "vuetify/labs/VNumberInput";
+import { VDateInput } from "vuetify/labs/VDateInput";
 
 const datatablesStore = useDatatablesStore();
 const { advancedFiltersState } = useTableState();
@@ -12,6 +14,8 @@ const advancedFiltersData = ref({});
 const defaultFilterComponents = {
   textfield: VTextField,
   select: VSelect,
+  number: VNumberInput,
+  datepicker: VDateInput,
 };
 
 const table_props = inject("table_props");

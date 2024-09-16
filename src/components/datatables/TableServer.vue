@@ -92,7 +92,7 @@ defineExpose({ getItemsForPrint });
     show-select
     :items="tableData"
     :items-length="itemsLength"
-    :loading="loading"
+    :loading="loading || table_props.loading"
     :search="searchState"
     v-bind="table_props.options"
     @update:options="loadItems"

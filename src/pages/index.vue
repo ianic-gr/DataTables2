@@ -12,6 +12,15 @@ const headers = [
     title: "First Name",
     key: "name",
     cellClass: "font-weight-medium",
+    cellRendererFramework: "Link",
+    cellRendererFrameworkOptions: (v) => {
+      return {
+        variant: "link",
+        text: v.value,
+        class: "primary-text font-weight-bold text-decoration-none",
+        href: "#",
+      };
+    },
     advancedFilter: {
       component: "select",
       options: {
@@ -32,14 +41,11 @@ const headers = [
   {
     title: "Year",
     key: "year",
-    cellRendererFramework: "Link",
-    cellRendererFrameworkOptions: () => {
-      return {
-        variant: "link",
-        text: "Hello",
-        class: "primary-text font-weight-bold text-decoration-none",
-        href: "#",
-      };
+    advancedFilter: {
+      component: "datepicker",
+      options: {
+        viewMode: "year",
+      },
     },
   },
   {
@@ -54,12 +60,25 @@ const headers = [
   {
     title: "Skop",
     key: "skop[0].pop",
+    advancedFilter: {
+      component: "number",
+      options: {
+        controlVariant: "stacked",
+      },
+    },
   },
+  {
+    title: "Random",
+    key: "random",
+    value: () => Math.floor(Math.random() * 100000),
+  },
+
   {
     title: "Actions",
     key: "actions",
     printable: false,
     sortable: false,
+    advancedFilter: false,
     cellRendererFramework: "ActionButtons",
     cellRendererFrameworkOptions: ({ item }) => {
       return {
@@ -153,5 +172,6 @@ let data = ref([
       expandedRowRenderer: ExpandedVue,
     }"
     class="mb-4"
+    loading
   />
 </template>
