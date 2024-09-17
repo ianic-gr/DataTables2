@@ -38,8 +38,13 @@ export function useTableData() {
 
   watch(
     table_props,
-    (v) => {
-      tableData.value = v.data;
+    (newValue, oldValue) => {
+      const data = newValue?.data ?? [];
+      const oldData = oldValue?.data ?? [];
+
+      if (JSON.stringify(data) !== JSON.stringify(oldData)) {
+        tableData.value = newValue.data;
+      }
     },
     { deep: true, immediate: true }
   );
