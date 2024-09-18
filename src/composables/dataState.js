@@ -81,10 +81,16 @@ export function useDatastate(props) {
     setTableHash({ table_id: props.id, headers: props.headers });
   };
 
+  const deleteDataStorage = () => {
+    localStorage.removeItem("datatables-state");
+    localStorage.removeItem("datatables-state-v");
+  };
+
   return {
     saving,
     dataStateGet,
     tableDataState,
     checkTableState,
+    deleteDataStorage,
   };
 }

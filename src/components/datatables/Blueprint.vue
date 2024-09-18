@@ -1,14 +1,49 @@
 <script setup>
 import Table from "@/components/datatables/Table.vue";
 import TableServer from "@/components/datatables/TableServer.vue";
+import { useDatatablesStore } from "@/stores/DatatablesStore";
+import { useDatastate } from "@/composables/dataState";
 
 const model = defineModel();
 const table_props = inject("table_props");
 
 const tableRef = ref(null);
 const downloadModal = ref(false);
+const init = ref(false);
 
 const busEmits = defineEmits(["refreshTable"]);
+
+const datatablesStore = useDatatablesStore();
+const { dataStateGet, tableDataState, checkTableState } =
+  useDatastate(table_props);
+
+const { addTable, restoreData, setTableHash } = datatablesStore;
+
+onMounted(async () => {
+  addTable({ table_id: table_props.id });
+
+  await checkTableState();
+
+  const tableData = dataStateGet();
+
+  console.log(tableData);
+
+  if (tableData) {
+    restoreData({ table_id: table_props.id, data: tableData });
+  } else {
+    const columns = tableDataState.value.options.columns;
+
+    console.log(tableDataState);
+
+    columns.selected = table_props.headers
+      .filter((header) => !header.hidden)
+      .map((header) => header.key);
+
+    columns.sorted = table_props.headers.map((header) => header.key);
+  }
+
+  init.value = true;
+});
 
 provide("busEmits", busEmits);
 provide("tableRef", tableRef);
@@ -16,7 +51,7 @@ provide("downloadModal", downloadModal);
 </script>
 
 <template>
-  <div class="datatables-v2">
+  <div v-if="init" class="datatables-v2">
     <v-card>
       <v-card-title>
         <Header />
