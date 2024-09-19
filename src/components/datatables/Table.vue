@@ -1,4 +1,5 @@
 <script setup>
+import { onBeforeMount } from "vue";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
@@ -39,7 +40,7 @@ const itemsPerPageChange = (v) => {
   });
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   itemsPerPage.value = table_props.options.itemsPerPage;
 });
 

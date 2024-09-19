@@ -1,4 +1,5 @@
 <script setup>
+import { onBeforeMount } from "vue";
 import defu from "defu";
 import qs from "qs";
 import { useFetch } from "@vueuse/core";
@@ -100,7 +101,7 @@ const itemsPerPageChange = (v) => {
   });
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   itemsPerPage.value = table_props.options.itemsPerPage;
 });
 

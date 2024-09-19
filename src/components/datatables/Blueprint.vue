@@ -34,8 +34,6 @@ onMounted(async () => {
     const options = tableDataState.value.options;
     const columns = options.columns;
 
-    console.log(tableDataState);
-
     columns.selected = table_props.headers
       .filter((header) => !header.hidden)
       .map((header) => header.key);

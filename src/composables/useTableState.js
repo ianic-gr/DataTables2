@@ -16,8 +16,6 @@ export function useTableState() {
   const headersState = computed(() => {
     if (!table_props?.headers.length) return null;
 
-    console.log(table_props.headers.length);
-
     const selected = tableState.value.options?.columns.selected ?? [];
     const sorted = tableState.value.options?.columns.sorted ?? [];
 
