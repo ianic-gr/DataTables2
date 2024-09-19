@@ -1,6 +1,7 @@
 import { inject } from "vue";
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
+import { getCurrentFormattedDate } from "@/utils/getCurrentFormattedDate";
 
 export function useExportCsv() {
   const table_props = inject("table_props");
@@ -32,6 +33,7 @@ export function useExportCsv() {
     // mkConfig merges your options with the defaults
     // and returns WithDefaults<ConfigOptions>
     const csvConfig = mkConfig({
+      filename: `${table_props.id}_${getCurrentFormattedDate()}`,
       columnHeaders: tableHeaders.value.map((header) => {
         return {
           key: header.key,

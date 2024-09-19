@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
 import { escapeKeyString } from "@/utils/escapeKeyString";
+import { getCurrentFormattedDate } from "@/utils/getCurrentFormattedDate";
 import "../assets/fonts/roboto-normal";
 
 export function useExportPDF() {
@@ -43,7 +44,7 @@ export function useExportPDF() {
       body: [...rows.map((row) => Object.values(row))],
     });
 
-    doc.save(`${table_props.id}.pdf`);
+    doc.save(`${table_props.id}_${getCurrentFormattedDate()}.pdf`);
     downloadModal.value = false;
   };
 

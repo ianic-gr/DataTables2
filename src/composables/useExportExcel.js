@@ -2,6 +2,7 @@ import { inject } from "vue";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
+import { getCurrentFormattedDate } from "@/utils/getCurrentFormattedDate";
 
 export function useExportExcel() {
   const table_props = inject("table_props");
@@ -61,7 +62,7 @@ export function useExportExcel() {
         const blob = new Blob([buffer], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        saveAs(blob, `${table_props.id}.xlsx`);
+        saveAs(blob, `${table_props.id}_${getCurrentFormattedDate()}.xlsx`);
       })
       .catch((err) => {
         console.error("Error creating Excel file", err);
