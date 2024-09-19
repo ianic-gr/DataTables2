@@ -13,7 +13,12 @@ const table_props = inject("table_props");
 
 const save = () => {
   advancedFiltersData.value = Object.entries(advancedFiltersData.value)
-    .filter(([key, value]) => value && value.length)
+    .filter(([key, value]) => {
+      if (Array.isArray(value) || typeof value === "string") {
+        return value.length > 0;
+      }
+      return value !== null && value !== undefined && value !== "";
+    })
     .reduce((result, [key, value]) => {
       result[key] = value;
       return result;
