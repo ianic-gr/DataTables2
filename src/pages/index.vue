@@ -156,21 +156,28 @@ let data = ref([
     torque: 312,
   },
 ]);
+
+const options = ref({
+  header: {
+    components: {
+      search: ExpandedVue,
+    },
+  },
+  showExpand: true,
+  expandedRowRenderer: ExpandedVue,
+  advancedFilters: {
+    onMounted: () => {
+      alert("ook");
+    },
+  },
+});
 </script>
 <template>
   <DataTable
     id="test"
     :headers="headers"
     :data="data"
-    :options="{
-      header: {
-        components: {
-          search: ExpandedVue,
-        },
-      },
-      showExpand: true,
-      expandedRowRenderer: ExpandedVue,
-    }"
+    :options="options"
     class="mb-4"
   />
 </template>

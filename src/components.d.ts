@@ -14,6 +14,7 @@ declare module 'vue' {
     Columns: typeof import('./components/datatables/header/Columns/index.vue')['default']
     Datatables: typeof import('./components/datatables/index.vue')['default']
     Expanded: typeof import('./components/examples/components/Expanded.vue')['default']
+    Fields: typeof import('./components/datatables/header/AdvancedFilters/Fields.vue')['default']
     Header: typeof import('./components/datatables/header/index.vue')['default']
     Link: typeof import('./components/datatables/cellRendererFrameworks/Link.vue')['default']
     Options: typeof import('./components/datatables/header/Options.vue')['default']
