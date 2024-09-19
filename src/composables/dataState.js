@@ -8,7 +8,7 @@ export function useDatastate(props) {
   const { tables } = storeToRefs(datatablesStore);
 
   const saving = ref(false);
-  const version = 2;
+  const version = 3;
 
   const tableDataState = computed(() => getCurrentTable(props.id));
 
