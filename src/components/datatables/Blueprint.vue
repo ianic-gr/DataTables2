@@ -26,12 +26,13 @@ onMounted(async () => {
 
   const tableData = dataStateGet();
 
-  console.log(tableData);
-
   if (tableData) {
+    table_props.options.itemsPerPage =
+      tableData.options.pagination.itemsPerPage;
     restoreData({ table_id: table_props.id, data: tableData });
   } else {
-    const columns = tableDataState.value.options.columns;
+    const options = tableDataState.value.options;
+    const columns = options.columns;
 
     console.log(tableDataState);
 
@@ -40,6 +41,7 @@ onMounted(async () => {
       .map((header) => header.key);
 
     columns.sorted = table_props.headers.map((header) => header.key);
+    options.pagination.itemsPerPage = null;
   }
 
   init.value = true;

@@ -2,12 +2,16 @@
 import defu from "defu";
 import qs from "qs";
 import { useFetch } from "@vueuse/core";
+import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
 const { searchState, headersState, advancedFiltersState } = useTableState();
 const { tableData } = useTableData();
+const datatablesStore = useDatatablesStore();
+
+const { setData } = datatablesStore;
 
 const table_props = inject("table_props");
 
@@ -16,6 +20,7 @@ const model = defineModel();
 const datatableServer = ref(null);
 const loading = ref(false);
 const itemsLength = ref(0);
+const itemsPerPage = ref(null);
 
 const getSlotItem = (header) => {
   return !header?.lock ? `item.${header.key}` : null;
@@ -81,6 +86,24 @@ watch(advancedFiltersState, () => {
   loadItems({ page, itemsPerPage, sortBy, search });
 });
 
+const itemsPerPageChange = (v) => {
+  itemsPerPage.value = v;
+
+  setData({
+    table_id: table_props.id,
+    name: "options",
+    value: {
+      pagination: {
+        itemsPerPage: v,
+      },
+    },
+  });
+};
+
+onMounted(() => {
+  itemsPerPage.value = table_props.options.itemsPerPage;
+});
+
 defineExpose({ getItemsForPrint });
 </script>
 
@@ -96,7 +119,9 @@ defineExpose({ getItemsForPrint });
     :search="searchState"
     v-bind="table_props.options"
     @update:options="loadItems"
+    @update:itemsPerPage="itemsPerPageChange"
     :headers="headersState"
+    :items-per-page="itemsPerPage"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
