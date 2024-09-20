@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "type": "commonjs",
   "publishConfig": {
     "access": "public",
@@ -43,7 +43,7 @@
     "sortablejs": "^1.15.3",
     "vee-validate": "^4.13.2",
     "vue": "^3.5.6",
-    "vue-i18n": "^10.0.1",
+    "vue-i18n": "^9.14.0",
     "vuetify": "^3.7.2"
   },
   "devDependencies": {
