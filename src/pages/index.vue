@@ -1,5 +1,6 @@
 <script setup>
 import ExpandedVue from "@/components/examples/components/Expanded.vue";
+import moment from "moment";
 
 const headers = [
   {
@@ -45,8 +46,12 @@ const headers = [
       component: "datepicker",
       options: {
         viewMode: "date",
-        returnFormat: "DD-MM-YYYY",
+        returnFormat: "DD-MM-YYYY h:mm:ss a",
       },
+    },
+    valueFormatter: ({ value }) => {
+      if (!value) return "-";
+      return moment(value).format("DD-MM-YYYY h:mm:ss a");
     },
   },
   {
@@ -116,7 +121,7 @@ let data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
-    date: "20-09-2024",
+    date: 1597872393918,
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -127,7 +132,7 @@ let data = ref([
   {
     id: 2,
     name: "Ford Mustang",
-    date: "21-09-2024",
+    date: 1577972393418,
     engine: "",
     horsepower: 271,
     torque: 312,
@@ -143,7 +148,7 @@ let data = ref([
   {
     id: 3,
     name: "Chevrolet Camaro",
-    date: "20-09-2024",
+    date: 1577872394918,
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -151,7 +156,7 @@ let data = ref([
   {
     id: 4,
     name: "Ford Mustang",
-    date: "25-09-2024",
+    date: 1699852393918,
     engine: "*",
     horsepower: 271,
     torque: 312,
@@ -162,6 +167,11 @@ const options = ref({
   header: {
     components: {
       search: ExpandedVue,
+    },
+    export: {
+      buttons: {
+        disabled: true,
+      },
     },
   },
   showExpand: true,

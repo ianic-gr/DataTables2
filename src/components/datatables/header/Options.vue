@@ -27,26 +27,31 @@ const items = computed(() => [
     title: `${t("$datatables.export")} Excel`,
     onClick: exportExcel,
     prependIcon: "mdi-file-excel",
+    ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} CSV`,
     onClick: exportCsv,
     prependIcon: "mdi-file-delimited",
+    ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} PDF`,
     onClick: exportPDF,
     prependIcon: "mdi-file-pdf-box",
+    ...table_props.options.header?.export?.buttons,
   },
   {
     title: t("$datatables.print"),
     onClick: printTable,
     prependIcon: "mdi-printer",
+    ...table_props.options.header?.export?.buttons,
   },
   {
     title: t("$datatables.columns"),
     onClick: props.componentRefs.columns?.openDialog,
     prependIcon: "mdi-view-column",
+    ...table_props.options.header?.columns?.button,
   },
   ...(table_props.options?.globalButtons ?? []),
 ]);
