@@ -36,15 +36,16 @@ const headers = [
     title: "Full Name",
     key: "fullName",
     hidden: true,
-    value: (item) => `${item.name} <b>${item.year}</b>`,
+    value: (item) => `${item.name} <b>${item.date}</b>`,
   },
   {
-    title: "Year",
-    key: "year",
+    title: "Date",
+    key: "date",
     advancedFilter: {
       component: "datepicker",
       options: {
-        viewMode: "year",
+        viewMode: "date",
+        returnFormat: "DD-MM-YYYY",
       },
     },
   },
@@ -115,7 +116,7 @@ let data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
-    year: 1967,
+    date: "20-09-2024",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -126,7 +127,7 @@ let data = ref([
   {
     id: 2,
     name: "Ford Mustang",
-    year: 1965,
+    date: "21-09-2024",
     engine: "",
     horsepower: 271,
     torque: 312,
@@ -142,7 +143,7 @@ let data = ref([
   {
     id: 3,
     name: "Chevrolet Camaro",
-    year: 1967,
+    date: "20-09-2024",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -150,7 +151,7 @@ let data = ref([
   {
     id: 4,
     name: "Ford Mustang",
-    year: 1965,
+    date: "25-09-2024",
     engine: "*",
     horsepower: 271,
     torque: 312,
@@ -166,9 +167,7 @@ const options = ref({
   showExpand: true,
   expandedRowRenderer: ExpandedVue,
   advancedFilters: {
-    onMounted: () => {
-      alert("ook");
-    },
+    onMounted: () => {},
   },
 });
 </script>

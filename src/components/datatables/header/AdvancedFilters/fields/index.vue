@@ -1,7 +1,7 @@
 <script setup>
 import { VTextField, VSelect } from "vuetify/components";
 import { VNumberInput } from "vuetify/labs/VNumberInput";
-import { VDateInput } from "vuetify/labs/VDateInput";
+import Datepicker from "@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue";
 
 const table_props = inject("table_props");
 
@@ -12,7 +12,7 @@ const defaultFilterComponents = {
   textfield: VTextField,
   select: VSelect,
   number: VNumberInput,
-  datepicker: VDateInput,
+  datepicker: Datepicker,
 };
 
 const advancedFilterHeaders = computed(() => {
