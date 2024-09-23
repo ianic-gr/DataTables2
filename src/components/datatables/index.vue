@@ -57,8 +57,10 @@ const emit = defineEmits(["refreshTable"]);
 
 const tableKey = ref(0);
 
-const refreshTable = () => {
+const refreshTable = async () => {
   emit("refreshTable");
+
+  await nextTick();
   tableKey.value++;
 };
 
