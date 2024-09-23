@@ -104,7 +104,6 @@ defineExpose({ getItemsForPrint });
     :loading="loading || table_props.loading"
     :search="searchState"
     @update:options="loadItems"
-    @update:itemsPerPage="itemsPerPageChange"
     :headers="headersState"
     v-bind="{ ...table_props.options, ...tableState.options.state }"
   >
