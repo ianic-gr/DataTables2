@@ -68,11 +68,12 @@ const refreshTable = async () => {
 const refetchData = () => {
   if (table.value.tableRef.hasOwnProperty("reloadItems")) {
     table.value.tableRef.reloadItems();
+    emit("refetchData");
   }
 };
 
 provide("table_props", props);
-defineExpose({ refreshTable });
+defineExpose({ refreshTable, refetchData });
 </script>
 
 <template>
