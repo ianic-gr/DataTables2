@@ -27,8 +27,6 @@ onMounted(async () => {
   const tableData = dataStateGet();
 
   if (tableData) {
-    table_props.options.itemsPerPage =
-      tableData.options.pagination.itemsPerPage;
     restoreData({ table_id: table_props.id, data: tableData });
   } else {
     const options = tableDataState.value.options;
@@ -39,7 +37,6 @@ onMounted(async () => {
       .map((header) => header.key);
 
     columns.sorted = table_props.headers.map((header) => header.key);
-    options.pagination.itemsPerPage = table_props.options?.itemsPerPage ?? null;
   }
 
   init.value = true;

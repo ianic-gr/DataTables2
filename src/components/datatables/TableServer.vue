@@ -1,18 +1,19 @@
 <script setup>
-import { onBeforeMount } from "vue";
 import defu from "defu";
 import qs from "qs";
 import { useFetch } from "@vueuse/core";
-import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
-const { searchState, headersState, advancedFiltersState } = useTableState();
+const {
+  tableState,
+  searchState,
+  headersState,
+  advancedFiltersState,
+  saveTableOptions,
+} = useTableState();
 const { tableData } = useTableData();
-const datatablesStore = useDatatablesStore();
-
-const { setData } = datatablesStore;
 
 const table_props = inject("table_props");
 
@@ -69,6 +70,8 @@ const getItemsForPrint = async () => {
 const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   loading.value = true;
 
+  saveTableOptions({ page, itemsPerPage, sortBy, search });
+
   const { data: dataObjKey, total: totalObjKey } = returnObjectAttributes.value;
   const { data } = await getItems({ page, itemsPerPage, sortBy, search });
 
@@ -87,24 +90,6 @@ watch(advancedFiltersState, () => {
   loadItems({ page, itemsPerPage, sortBy, search });
 });
 
-const itemsPerPageChange = (v) => {
-  itemsPerPage.value = v;
-
-  setData({
-    table_id: table_props.id,
-    name: "options",
-    value: {
-      pagination: {
-        itemsPerPage: v,
-      },
-    },
-  });
-};
-
-onBeforeMount(() => {
-  itemsPerPage.value = table_props.options.itemsPerPage;
-});
-
 defineExpose({ getItemsForPrint });
 </script>
 
@@ -118,11 +103,10 @@ defineExpose({ getItemsForPrint });
     :items-length="itemsLength"
     :loading="loading || table_props.loading"
     :search="searchState"
-    v-bind="table_props.options"
     @update:options="loadItems"
     @update:itemsPerPage="itemsPerPageChange"
     :headers="headersState"
-    :items-per-page="itemsPerPage"
+    v-bind="{ ...table_props.options, ...tableState.options.state }"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>

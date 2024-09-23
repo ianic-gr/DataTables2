@@ -1,22 +1,17 @@
 <script setup>
-import { onBeforeMount } from "vue";
-import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
-const { searchState, headersState } = useTableState();
+const { tableState, searchState, headersState, saveTableOptions } =
+  useTableState();
 const { filteredData } = useTableData();
-const datatablesStore = useDatatablesStore();
-
-const { setData } = datatablesStore;
 
 const table_props = inject("table_props");
 
 const model = defineModel();
 
 const datatable = ref(null);
-const itemsPerPage = ref(null);
 
 const getSlotItem = (header) => {
   return !header?.lock ? `item.${header.key}` : null;
@@ -25,24 +20,6 @@ const getSlotItem = (header) => {
 const getItemsForPrint = async () => {
   return filteredData.value;
 };
-
-const itemsPerPageChange = (v) => {
-  itemsPerPage.value = v;
-
-  setData({
-    table_id: table_props.id,
-    name: "options",
-    value: {
-      pagination: {
-        itemsPerPage: v,
-      },
-    },
-  });
-};
-
-onBeforeMount(() => {
-  itemsPerPage.value = table_props.options.itemsPerPage;
-});
 
 defineExpose({ getItemsForPrint });
 </script>
@@ -53,13 +30,12 @@ defineExpose({ getItemsForPrint });
     v-model="model"
     color="primary"
     show-select
-    @update:itemsPerPage="itemsPerPageChange"
+    @update:options="saveTableOptions"
     :items="filteredData"
     :headers="headersState"
     :loading="table_props.loading"
     :search="searchState"
-    v-bind="table_props.options"
-    :items-per-page="itemsPerPage"
+    v-bind="{ ...table_props.options, ...tableState.options.state }"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>

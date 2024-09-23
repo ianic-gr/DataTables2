@@ -174,6 +174,8 @@ const options = ref({
       },
     },
   },
+  itemsPerPage: 1,
+
   showExpand: true,
   expandedRowRenderer: ExpandedVue,
   advancedFilters: {

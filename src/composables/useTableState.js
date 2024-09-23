@@ -4,7 +4,7 @@ import { saveAs } from "file-saver";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 
 export function useTableState() {
-  const { getCurrentTable } = useDatatablesStore();
+  const { setData, getCurrentTable } = useDatatablesStore();
 
   const table_props = inject("table_props");
 
@@ -30,5 +30,21 @@ export function useTableState() {
     return tableState.value.advancedFilters?.query;
   });
 
-  return { tableState, searchState, advancedFiltersState, headersState };
+  const saveTableOptions = (state) => {
+    setData({
+      table_id: table_props.id,
+      name: "options",
+      value: {
+        state,
+      },
+    });
+  };
+
+  return {
+    tableState,
+    searchState,
+    advancedFiltersState,
+    headersState,
+    saveTableOptions,
+  };
 }

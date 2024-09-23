@@ -23,9 +23,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
       options: {
         hash: null,
         columns: {},
-        pagination: {
-          itemsPerPage: null,
-        },
+        state: {},
       },
     };
 
