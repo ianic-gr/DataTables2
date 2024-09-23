@@ -11,7 +11,7 @@ const tableRef = ref(null);
 const downloadModal = ref(false);
 const init = ref(false);
 
-const busEmits = defineEmits(["refreshTable"]);
+const busEmits = defineEmits(["refreshTable", "refetchData"]);
 
 const datatablesStore = useDatatablesStore();
 const { dataStateGet, tableDataState, checkTableState } =
@@ -45,6 +45,8 @@ onMounted(async () => {
 provide("busEmits", busEmits);
 provide("tableRef", tableRef);
 provide("downloadModal", downloadModal);
+
+defineExpose({ tableRef });
 </script>
 
 <template>

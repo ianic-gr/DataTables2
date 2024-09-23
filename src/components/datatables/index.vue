@@ -53,7 +53,8 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["refreshTable"]);
+const table = ref(null);
+const emit = defineEmits(["refreshTable", "refetchData"]);
 
 const tableKey = ref(0);
 
@@ -62,6 +63,12 @@ const refreshTable = async () => {
 
   await nextTick();
   tableKey.value++;
+};
+
+const refetchData = () => {
+  if (table.value.tableRef.hasOwnProperty("reloadItems")) {
+    table.value.tableRef.reloadItems();
+  }
 };
 
 provide("table_props", props);
@@ -76,5 +83,6 @@ defineExpose({ refreshTable });
     @getData="$emit('getData')"
     @rowData="(data) => $emit('rowData', data)"
     @refreshTable="refreshTable"
+    @refetchData="refetchData"
   />
 </template>

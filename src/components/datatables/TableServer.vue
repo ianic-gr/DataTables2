@@ -81,16 +81,18 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   loading.value = false;
 };
 
-watch(advancedFiltersState, () => {
+const reloadItems = () => {
   const page = datatableServer.value.page;
   const itemsPerPage = datatableServer.value.itemsPerPage;
   const sortBy = datatableServer.value.sortBy;
   const search = datatableServer.value.search;
 
   loadItems({ page, itemsPerPage, sortBy, search });
-});
+};
 
-defineExpose({ getItemsForPrint });
+watch(advancedFiltersState, () => reloadItems());
+
+defineExpose({ getItemsForPrint, reloadItems });
 </script>
 
 <template>
