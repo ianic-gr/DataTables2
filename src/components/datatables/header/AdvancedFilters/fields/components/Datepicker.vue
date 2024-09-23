@@ -20,11 +20,8 @@ const dateInputVal = computed({
     model.value = moment(v).format(props.returnFormat);
   },
 });
-
-const pop = ref(null);
 </script>
 
 <template>
-  {{ dateInputVal }}
   <VDateInput v-model="dateInputVal" />
 </template>
