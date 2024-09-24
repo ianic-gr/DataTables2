@@ -104,10 +104,10 @@ defineExpose({ getItemsForPrint, reloadItems });
     :items="tableData"
     :items-length="itemsLength"
     :loading="loading || table_props.loading"
-    :search="searchState"
-    @update:options="loadItems"
     :headers="headersState"
     v-bind="{ ...table_props.options, ...tableState.options.state }"
+    :search="searchState"
+    @update:options="loadItems"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>

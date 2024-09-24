@@ -166,7 +166,7 @@ let data = ref([
 const options = ref({
   header: {
     components: {
-      search: ExpandedVue,
+      // search: ExpandedVue,
     },
     export: {
       buttons: {
@@ -174,8 +174,6 @@ const options = ref({
       },
     },
   },
-  itemsPerPage: 1,
-
   showExpand: true,
   expandedRowRenderer: ExpandedVue,
   advancedFilters: {

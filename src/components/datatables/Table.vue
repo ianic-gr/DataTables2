@@ -34,8 +34,8 @@ defineExpose({ getItemsForPrint });
     :items="filteredData"
     :headers="headersState"
     :loading="table_props.loading"
-    :search="searchState"
     v-bind="{ ...table_props.options, ...tableState.options.state }"
+    :search="searchState"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
