@@ -42,7 +42,7 @@ export function useTableData() {
       const data = newValue?.data ?? [];
       const oldData = oldValue?.data ?? [];
 
-      if (JSON.stringify(data) !== JSON.stringify(oldData)) {
+      if (JSON.stringify(data) !== JSON.stringify(oldData) || !oldValue) {
         tableData.value = newValue.data;
       }
     },
