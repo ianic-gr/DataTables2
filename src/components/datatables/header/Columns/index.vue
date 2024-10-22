@@ -20,7 +20,8 @@ const openDialog = () => {
   dialog.value = true;
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
   const sortable = Sortable.create(list.value.$el, {
     onEnd: async (evt) => {
       sortedList.value = Array.from(evt.from.children).map(function (item) {
