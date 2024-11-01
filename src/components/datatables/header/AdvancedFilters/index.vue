@@ -47,12 +47,15 @@ onMounted(async () => {
         icon="mdi-filter-outline"
         density="comfortable"
       />
-
-      <Selected v-model="advancedFiltersData" @save="save" />
+      <DatatablesHeaderAdvancedFiltersSelected
+        v-if="Object.keys(advancedFiltersState).length"
+        v-model="advancedFiltersData"
+        @save="save"
+      />
     </template>
 
     <template v-slot:default="{ isActive }">
-      <Fields
+      <DatatablesHeaderAdvancedFiltersFields
         v-model="advancedFiltersData"
         @save="save"
         @close-dialog="isActive.value = false"

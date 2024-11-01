@@ -53,7 +53,7 @@ defineExpose({ tableRef });
   <div v-if="init" class="datatables-v2">
     <v-card>
       <v-card-title>
-        <Header />
+        <DatatablesHeader />
       </v-card-title>
       <v-card-text class="pa-0">
         <component

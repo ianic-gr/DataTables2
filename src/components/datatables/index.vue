@@ -77,7 +77,7 @@ defineExpose({ refreshTable, refetchData });
 </script>
 
 <template>
-  <Blueprint
+  <DatatablesBlueprint
     ref="table"
     :id="id"
     :key="`${id}-${tableKey}`"

@@ -2,6 +2,7 @@
 import Search from "@/components/datatables/header/Search.vue";
 import RefreshTable from "@/components/datatables/header/RefreshTable.vue";
 import Options from "@/components/datatables/header/Options.vue";
+import HardFilters from "@/components/datatables/header/HardFilters/index.vue";
 
 const table_props = inject("table_props");
 
@@ -12,7 +13,12 @@ const optionAPIComponents = table_props.options?.header?.components ?? {};
 <template>
   <v-row>
     <v-col class="d-flex align-center">
-      <AdvancedFilters />
+      <DatatablesHeaderAdvancedFilters />
+      <component
+        id="header-hardFilters"
+        :is="optionAPIComponents.hardFilters ?? HardFilters"
+        class="me-4"
+      />
     </v-col>
     <v-col class="d-flex align-center justify-end">
       <component
@@ -31,5 +37,5 @@ const optionAPIComponents = table_props.options?.header?.components ?? {};
       />
     </v-col>
   </v-row>
-  <Columns ref="columns" />
+  <DatatablesHeaderColumns ref="columns" />
 </template>

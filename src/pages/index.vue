@@ -163,6 +163,33 @@ let data = ref([
   },
 ]);
 
+const hardFilters = ref([
+  {
+    text: "Camaro",
+    active: true,
+    args: {
+      name: "Chevrolet Camaro",
+    },
+  },
+  {
+    text: "deleted",
+    args: {
+      name: "Chevrolet Camaro",
+      engine: "V8",
+    },
+    query: {
+      trashed: true,
+    },
+  },
+  {
+    text: "deleted",
+    value: "pop",
+    query: {
+      trashed: true,
+    },
+  },
+]);
+
 const options = ref({
   header: {
     components: {
@@ -187,6 +214,7 @@ const options = ref({
     :headers="headers"
     :data="data"
     :options="options"
+    :hardFilters="hardFilters"
     class="mb-4"
   />
 </template>

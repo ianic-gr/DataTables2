@@ -26,6 +26,10 @@ export function useTableState() {
     );
   });
 
+  const hardFiltersState = computed(() => {
+    return tableState.value.hardFilters?.query;
+  });
+
   const advancedFiltersState = computed(() => {
     return tableState.value.advancedFilters?.query;
   });
@@ -44,6 +48,7 @@ export function useTableState() {
     tableState,
     searchState,
     advancedFiltersState,
+    hardFiltersState,
     headersState,
     saveTableOptions,
   };

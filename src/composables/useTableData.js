@@ -4,14 +4,19 @@ import { useTableState } from "@/composables/useTableState";
 
 export function useTableData() {
   const { getCurrentTable } = useDatatablesStore();
-  const { advancedFiltersState, headersState } = useTableState();
+  const { advancedFiltersState, hardFiltersState, headersState } =
+    useTableState();
 
   const table_props = inject("table_props");
-
   const tableData = ref();
 
   const filteredData = computed(() => {
-    const filters = advancedFiltersState.value;
+    const hardFilters = Object.values(hardFiltersState.value)
+      .filter((filter) => filter.args)
+      .map((filter) => filter.args)
+      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+
+    const filters = { ...advancedFiltersState.value, ...hardFilters };
     let filteredItems = tableData.value;
 
     if (!filters) return filteredItems;
@@ -19,15 +24,20 @@ export function useTableData() {
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         filteredItems = filteredItems.filter((item) => {
-          if (typeof item[key] === "number") {
-            return item[key] == filters[key];
+          const value = key
+            .split(".")
+            .reduce((acc, key) => acc && acc[key], item);
+
+          if (typeof value === "number") {
+            return value == filters[key];
           } else {
             if (Array.isArray(filters[key])) {
               return filters[key]
                 .map((filter) => filter.toLowerCase())
-                .includes(item[key].toLowerCase());
+                .includes(value.toLowerCase());
             }
-            return item[key].toLowerCase().includes(filters[key].toLowerCase());
+
+            return value?.toLowerCase().includes(filters[key].toLowerCase());
           }
         });
       }

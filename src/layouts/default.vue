@@ -16,55 +16,6 @@ onMounted(() => {
     {
       title: "Types",
     },
-    {
-      title: "Checks & radios",
-      to: "/examples/checks-radios",
-    },
-    {
-      title: "Datepicker",
-      to: "/examples/datepicker",
-    },
-    {
-      title: "Password",
-      to: "/examples/password",
-    },
-    {
-      title: "Conditionals",
-      to: "/examples/conditionals",
-    },
-    {
-      title: "Epic",
-      to: "/examples/epic",
-    },
-    {
-      title: "Layout",
-    },
-    {
-      title: "Accordion (Coming Soon)",
-      to: "/examples/contactForm",
-    },
-    {
-      title: "Tabs (Coming Soon)",
-      to: "/examples/contactForm",
-    },
-    {
-      title: "Theme",
-    },
-    {
-      title: "Fluid (Coming Soon)",
-      to: "/examples/contactForm",
-    },
-    {
-      title: "Breeze (Coming Soon)",
-      to: "/examples/contactForm",
-    },
-    {
-      title: "Use Cases",
-    },
-    {
-      title: "Contact Form",
-      to: "/examples/contactForm",
-    },
   ];
 });
 </script>
