@@ -133,7 +133,7 @@ let data = ref([
     id: 2,
     name: "Ford Mustang",
     date: 1577972393418,
-    engine: "",
+    engine: "V8",
     horsepower: 271,
     torque: 312,
     skop: [
@@ -165,16 +165,15 @@ let data = ref([
 
 const hardFilters = ref([
   {
-    text: "Camaro",
+    text: "Mustang",
     active: true,
     args: {
-      name: "Chevrolet Camaro",
+      name: "Mustang",
     },
   },
   {
-    text: "deleted",
+    text: "V8",
     args: {
-      name: "Chevrolet Camaro",
       engine: "V8",
     },
     query: {

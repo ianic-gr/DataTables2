@@ -11,6 +11,7 @@ const {
   searchState,
   headersState,
   advancedFiltersState,
+  hardFiltersState,
   saveTableOptions,
 } = useTableState();
 const { tableData } = useTableData();
@@ -42,6 +43,7 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
     itemsPerPage,
     sortBy,
     advancedFilters: advancedFiltersState.value,
+    hardFilters: hardFiltersState.value,
   });
 
   let query = "";

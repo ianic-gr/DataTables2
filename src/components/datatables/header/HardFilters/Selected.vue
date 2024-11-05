@@ -12,11 +12,6 @@ const chipName = (tag, key) => {
   return `${header.title}: ${tag}`;
 };
 
-const removeFilter = (key) => {
-  model.value[key] = null;
-  emit("save");
-};
-
 const selected = ref([]);
 
 const emit = defineEmits("save");
