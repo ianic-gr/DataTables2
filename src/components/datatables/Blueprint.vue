@@ -44,6 +44,7 @@ onMounted(async () => {
 
 provide("busEmits", busEmits);
 provide("tableRef", tableRef);
+provide("tableState", tableDataState);
 provide("downloadModal", downloadModal);
 
 defineExpose({ tableRef });
