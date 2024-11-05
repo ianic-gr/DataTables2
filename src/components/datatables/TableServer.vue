@@ -92,7 +92,7 @@ const reloadItems = () => {
   loadItems({ page, itemsPerPage, sortBy, search });
 };
 
-watch(advancedFiltersState, () => reloadItems());
+watch([advancedFiltersState, hardFiltersState], () => reloadItems());
 
 defineExpose({ getItemsForPrint, reloadItems });
 </script>
