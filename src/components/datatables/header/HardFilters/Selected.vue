@@ -1,10 +1,12 @@
 <script setup>
 import { useTableState } from "@/composables/useTableState";
+import { useDatatablesHooksStore } from "@/stores/DatatablesHooksStore";
 
 const table_props = inject("table_props");
 const model = defineModel();
 
 const { hardFiltersState } = useTableState();
+const { registerHook, triggerHook } = useDatatablesHooksStore();
 
 const chipName = (tag, key) => {
   const header = table_props.headers.find((header) => header.key === key);
@@ -15,6 +17,7 @@ const chipName = (tag, key) => {
 const selected = ref([]);
 
 const emit = defineEmits("save");
+const busEmits = inject("busEmits");
 
 watch(selected, (arr) => {
   const selectedObj = {};
@@ -29,6 +32,7 @@ watch(selected, (arr) => {
   });
 
   model.value = selectedObj;
+  busEmits("hardFilters:update", { keys: arr, filters: selectedObj });
   emit("save");
 });
 
@@ -42,7 +46,27 @@ onMounted(() => {
       }
     });
   }
+
+  registerHook("hardFilters:activate", activate);
+  registerHook("hardFilters:deactivate", deactivate);
 });
+
+const activate = (key) => {
+  const selectedFitlers = JSON.parse(JSON.stringify(selected.value));
+
+  selectedFitlers.push(key);
+  selected.value = selectedFitlers;
+};
+
+const deactivate = (key) => {
+  const selectedFitlers = JSON.parse(JSON.stringify(selected.value));
+  const filterIndex = selectedFitlers.findIndex((item) => item === key);
+
+  if (filterIndex !== -1) {
+    selectedFitlers.splice(filterIndex, 1);
+    selected.value = selectedFitlers;
+  }
+};
 </script>
 
 <template>

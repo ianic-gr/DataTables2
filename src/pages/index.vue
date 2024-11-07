@@ -192,7 +192,7 @@ const hardFilters = ref([
 const options = ref({
   header: {
     components: {
-      // search: ExpandedVue,
+      toolbar: ExpandedVue,
     },
     export: {
       buttons: {

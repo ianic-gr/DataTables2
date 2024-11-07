@@ -11,7 +11,12 @@ const tableRef = ref(null);
 const downloadModal = ref(false);
 const init = ref(false);
 
-const busEmits = defineEmits(["refreshTable", "refetchData"]);
+const busEmits = defineEmits([
+  "refreshTable",
+  "refetchData",
+  "advancedFilters:update",
+  "hardFilters:update",
+]);
 
 const datatablesStore = useDatatablesStore();
 const { dataStateGet, tableDataState, checkTableState } =

@@ -15,8 +15,14 @@ const optionAPIComponents = table_props.options?.header?.components ?? {};
     <v-col class="d-flex align-center">
       <DatatablesHeaderAdvancedFilters />
       <component
+        v-if="table_props.hardFilters.length"
         id="header-hardFilters"
         :is="optionAPIComponents.hardFilters ?? HardFilters"
+        class="me-4"
+      />
+      <component
+        id="header-toolbar"
+        :is="optionAPIComponents.toolbar"
         class="me-4"
       />
     </v-col>

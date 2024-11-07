@@ -10,6 +10,7 @@ const dialog = ref(false);
 const advancedFiltersData = ref({});
 
 const table_props = inject("table_props");
+const busEmits = inject("busEmits");
 
 const save = () => {
   advancedFiltersData.value = Object.entries(advancedFiltersData.value)
@@ -30,6 +31,7 @@ const save = () => {
     value: { query: { ...advancedFiltersData.value } },
   });
 
+  busEmits("advancedFilters:update", advancedFiltersData.value);
   dialog.value = false;
 };
 

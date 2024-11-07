@@ -37,7 +37,7 @@ const returnObjectAttributes = computed(() => {
 });
 
 const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
-  const { url, options } = table_props.api.get({
+  const response = await table_props.api.get({
     search,
     page,
     itemsPerPage,
@@ -45,6 +45,9 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
     advancedFilters: advancedFiltersState.value,
     hardFilters: hardFiltersState.value,
   });
+
+  if (!response) return null;
+  const { url = null, options = {} } = response;
 
   let query = "";
   if (options.query) {
@@ -75,7 +78,10 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   saveTableOptions({ page, itemsPerPage, sortBy, search });
 
   const { data: dataObjKey, total: totalObjKey } = returnObjectAttributes.value;
-  const { data } = await getItems({ page, itemsPerPage, sortBy, search });
+  const responseData = await getItems({ page, itemsPerPage, sortBy, search });
+
+  if (!responseData) return;
+  const { data } = responseData;
 
   tableData.value = data.value[dataObjKey];
   itemsLength.value = data.value[totalObjKey];
@@ -84,6 +90,8 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
 };
 
 const reloadItems = () => {
+  if (!datatableServer.value) return;
+
   const page = datatableServer.value.page;
   const itemsPerPage = datatableServer.value.itemsPerPage;
   const sortBy = datatableServer.value.sortBy;
@@ -92,7 +100,10 @@ const reloadItems = () => {
   loadItems({ page, itemsPerPage, sortBy, search });
 };
 
-watch([advancedFiltersState, hardFiltersState], () => reloadItems());
+onMounted(async () => {
+  await nextTick();
+  watch([advancedFiltersState, hardFiltersState], () => reloadItems());
+});
 
 defineExpose({ getItemsForPrint, reloadItems });
 </script>

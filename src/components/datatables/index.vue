@@ -1,4 +1,6 @@
 <script setup>
+import { useDatatablesHooksStore } from "@/stores/DatatablesHooksStore";
+
 const props = defineProps({
   id: {
     type: String,
@@ -54,9 +56,9 @@ const props = defineProps({
 });
 
 const table = ref(null);
-const emit = defineEmits(["refreshTable", "refetchData"]);
-
 const tableKey = ref(0);
+
+const { triggerHook } = useDatatablesHooksStore();
 
 const refreshTable = async () => {
   emit("refreshTable");
@@ -72,8 +74,11 @@ const refetchData = () => {
   }
 };
 
+const emit = defineEmits(["refreshTable", "refetchData"]);
+defineExpose({ refreshTable, refetchData, triggerHook });
+
 provide("table_props", props);
-defineExpose({ refreshTable, refetchData });
+provide("triggerHook", triggerHook);
 </script>
 
 <template>
