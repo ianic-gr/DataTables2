@@ -1,8 +1,14 @@
 <script setup>
+import defu from "defu";
 import Table from "@/components/datatables/Table.vue";
 import TableServer from "@/components/datatables/TableServer.vue";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useDatastate } from "@/composables/dataState";
+import { useUserState } from "@/composables/useUserState.ts";
+import { useTableState } from "@/composables/useTableState";
+
+const { storeOptions } = useUserState();
+const { saveTableOptions } = useTableState();
 
 const model = defineModel();
 const table_props = inject("table_props");
@@ -43,6 +49,10 @@ onMounted(async () => {
 
     columns.sorted = table_props.headers.map((header) => header.key);
   }
+
+  saveTableOptions(
+    defu(storeOptions.state.value, tableDataState.value.options.state)
+  );
 
   init.value = true;
 });

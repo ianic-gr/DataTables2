@@ -1,5 +1,6 @@
 <script setup>
 import { useDatatablesHooksStore } from "@/stores/DatatablesHooksStore";
+import { useUserState } from "@/composables/useUserState.ts";
 
 const props = defineProps({
   id: {
@@ -55,21 +56,29 @@ const props = defineProps({
   },
 });
 
+const { triggerHook } = useDatatablesHooksStore();
+const { storeOptions, setUserOptions } = useUserState();
+
 const table = ref(null);
 const tableKey = ref(0);
 
-const { triggerHook } = useDatatablesHooksStore();
+const refreshTable = async (userOptions = {}) => {
+  setUserOptions(userOptions);
 
-const refreshTable = async () => {
-  emit("refreshTable");
+  // Prevent infinite loop
+  if (tableKey.value < 99) {
+    emit("refreshTable");
 
-  await nextTick();
-  tableKey.value++;
+    await nextTick();
+    tableKey.value++;
+  }
 };
 
-const refetchData = () => {
+const refetchData = (userOptions = {}) => {
+  setUserOptions(userOptions);
+
   if (table.value.tableRef.hasOwnProperty("reloadItems")) {
-    table.value.tableRef.reloadItems();
+    table.value.tableRef.reloadItems(storeOptions);
     emit("refetchData");
   }
 };

@@ -89,7 +89,7 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   loading.value = false;
 };
 
-const reloadItems = () => {
+const reloadItems = (userOptions = {}) => {
   if (!datatableServer.value) return;
 
   const page = datatableServer.value.page;
@@ -97,7 +97,7 @@ const reloadItems = () => {
   const sortBy = datatableServer.value.sortBy;
   const search = datatableServer.value.search;
 
-  loadItems({ page, itemsPerPage, sortBy, search });
+  loadItems(defu(userOptions, { page, itemsPerPage, sortBy, search }));
 };
 
 onMounted(async () => {
