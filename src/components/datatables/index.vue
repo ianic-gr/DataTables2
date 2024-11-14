@@ -78,7 +78,7 @@ const refetchData = (userOptions = {}) => {
   setUserOptions(userOptions);
 
   if (table.value.tableRef.hasOwnProperty("reloadItems")) {
-    table.value.tableRef.reloadItems(storeOptions);
+    table.value.tableRef.reloadItems(storeOptions.state.value);
     emit("refetchData");
   }
 };
