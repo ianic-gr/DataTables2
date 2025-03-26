@@ -1,5 +1,5 @@
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import { autoTable } from "jspdf-autotable";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
 import { escapeKeyString } from "@/utils/escapeKeyString";
 import { getCurrentFormattedDate } from "@/utils/getCurrentFormattedDate";
@@ -37,7 +37,7 @@ export function useExportPDF() {
       orientation: "landscape",
     });
 
-    doc.autoTable({
+    autoTable(doc, {
       styles: { font: "roboto" },
       margin: { top: 0, left: 0, right: 0, bottom: 0 },
       head: [tableHeaders.value.map((prop) => prop.title)],
