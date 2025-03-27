@@ -192,7 +192,7 @@ const hardFilters = ref([
 const options = ref({
   header: {
     components: {
-      toolbar: ExpandedVue,
+      toolbar: markRaw(ExpandedVue),
     },
     export: {
       buttons: {
@@ -201,7 +201,7 @@ const options = ref({
     },
   },
   showExpand: true,
-  expandedRowRenderer: ExpandedVue,
+  expandedRowRenderer: markRaw(ExpandedVue),
   advancedFilters: {
     onMounted: () => {},
   },

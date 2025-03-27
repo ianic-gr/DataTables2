@@ -1,16 +1,21 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.2.4",
-  "type": "commonjs",
+  "version": "0.2.5",
+  "type": "module",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "exports": {
-    ".": "./dist/datatables.js",
+    ".": {
+      "import": "./dist/datatables.js",
+      "require": "./dist/datatables.cjs"
+    },
     "./styles.css": "./dist/style.css",
     "./locale": "./lib/locale/index.js"
   },
+  "module": "./dist/datatables.js",
+  "main": "./dist/datatables.cjs",
   "browser": {
     "./styles.css": "./dist/style.css"
   },

@@ -1,6 +1,8 @@
 <script setup>
 onMounted(() => {
-  console.log("ook");
+  console.log("Expanded.vue loaded.");
 });
 </script>
-<template>hello</template>
+<template>
+  <div>hello</div>
+</template>

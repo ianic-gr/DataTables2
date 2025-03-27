@@ -1,6 +1,7 @@
 <script setup>
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
+import deepClone from "@/utils/deepClone";
 
 const datatablesStore = useDatatablesStore();
 const { advancedFiltersState } = useTableState();
@@ -28,15 +29,15 @@ const save = () => {
   setData({
     table_id: table_props.id,
     name: "advancedFilters",
-    value: { query: { ...advancedFiltersData.value } },
+    value: { query: deepClone(advancedFiltersData.value) },
   });
 
   busEmits("advancedFilters:update", advancedFiltersData.value);
   dialog.value = false;
 };
 
-onMounted(async () => {
-  advancedFiltersData.value = { ...advancedFiltersState.value };
+onMounted(() => {
+  advancedFiltersData.value = deepClone(advancedFiltersState.value);
 });
 </script>
 

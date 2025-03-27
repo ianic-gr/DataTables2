@@ -16,7 +16,7 @@ const chipName = (tag, key) => {
 
 const selected = ref([]);
 
-const emit = defineEmits("save");
+const emit = defineEmits(["save"]);
 const busEmits = inject("busEmits");
 
 watch(selected, (arr) => {
