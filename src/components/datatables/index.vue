@@ -5,7 +5,6 @@ import { useUserState } from "@/composables/useUserState.ts";
 const props = defineProps({
   id: {
     type: String,
-    default: "default",
     required: true,
   },
   api: {
@@ -92,12 +91,10 @@ provide("triggerHook", triggerHook);
 
 <template>
   <DatatablesBlueprint
-    ref="table"
     :id="id"
+    ref="table"
     :key="`${id}-${tableKey}`"
-    @getData="$emit('getData')"
-    @rowData="(data) => $emit('rowData', data)"
-    @refreshTable="refreshTable"
-    @refetchData="refetchData"
+    @refresh-table="refreshTable"
+    @refetch-data="refetchData"
   />
 </template>

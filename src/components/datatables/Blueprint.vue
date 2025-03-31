@@ -73,9 +73,9 @@ defineExpose({ tableRef });
       </v-card-title>
       <v-card-text class="pa-0">
         <component
+          :is="table_props.api ? TableServer : Table"
           ref="tableRef"
           v-model="model"
-          :is="table_props.api ? TableServer : Table"
         />
       </v-card-text>
     </v-card>
@@ -86,19 +86,19 @@ defineExpose({ tableRef });
           prepend-icon="mdi-file-download"
           :title="$t('$datatables.preparing_download_file')"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <div class="pe-4">
-              <v-icon color="primary" size="x-large"></v-icon>
+              <v-icon color="primary" size="x-large" />
             </div>
           </template>
 
-          <template v-slot:append>
+          <template #append>
             <v-progress-circular
               color="primary"
               indeterminate="disable-shrink"
               size="16"
               width="2"
-            ></v-progress-circular>
+            />
           </template>
         </v-list-item>
       </v-list>

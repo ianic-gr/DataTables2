@@ -117,7 +117,7 @@ const headers = [
   },
 ];
 
-let data = ref([
+const data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
@@ -213,7 +213,7 @@ const options = ref({
     :headers="headers"
     :data="data"
     :options="options"
-    :hardFilters="hardFilters"
+    :hard-filters="hardFilters"
     class="mb-4"
   />
 </template>

@@ -30,15 +30,15 @@ defineExpose({ getItemsForPrint });
     v-model="model"
     color="primary"
     show-select
-    @update:options="saveTableOptions"
     :items="filteredData"
     :headers="headersState"
     :loading="table_props.loading"
     v-bind="{ ...table_props.options, ...tableState.options.state }"
     :search="searchState"
+    @update:options="saveTableOptions"
   >
-    <template v-slot:loading>
-      <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+    <template #loading>
+      <v-skeleton-loader type="table-row@10" />
     </template>
 
     <template
@@ -48,14 +48,14 @@ defineExpose({ getItemsForPrint });
     >
       <div :class="column.cellClass">
         <component
-          v-if="column.cellRendererFramework"
           :is="
             typeof column.cellRendererFramework === 'string'
               ? useCellRendererFrameworks()[column.cellRendererFramework]
               : column.cellRendererFramework
           "
+          v-if="column.cellRendererFramework"
           :params="{ item, internalItem, value, column }"
-          :cellRendererFrameworkParams="
+          :cell-renderer-framework-params="
             column.cellRendererFrameworkParams
               ? column.cellRendererFrameworkParams({
                   item,
@@ -67,12 +67,12 @@ defineExpose({ getItemsForPrint });
           "
         />
         <span
+          v-else-if="column.cellRenderer"
           v-bind="
             column?.cellRendererParams
               ? column.cellRendererParams({ item, internalItem, value, column })
               : {}
           "
-          v-else-if="column.cellRenderer"
           v-html="column.cellRenderer({ item, internalItem, value, column })"
         />
         <span v-else-if="column.valueFormatter">
@@ -84,12 +84,12 @@ defineExpose({ getItemsForPrint });
       </div>
     </template>
 
-    <template v-slot:expanded-row="{ columns, item }">
+    <template #expanded-row="{ columns, item }">
       <tr>
         <td :colspan="columns.length">
           <component
-            v-if="table_props.options.expandedRowRenderer"
             :is="table_props.options.expandedRowRenderer"
+            v-if="table_props.options.expandedRowRenderer"
             :params="{ columns, item }"
           />
         </td>
