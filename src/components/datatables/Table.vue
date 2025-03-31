@@ -85,8 +85,8 @@ defineExpose({ getItemsForPrint });
     </template>
 
     <template #expanded-row="{ columns, item }">
-      <tr>
-        <td :colspan="columns.length">
+      <tr class="expandable-row">
+        <td class="expandable-row--column" :colspan="columns.length">
           <component
             :is="table_props.options.expandedRowRenderer"
             v-if="table_props.options.expandedRowRenderer"
