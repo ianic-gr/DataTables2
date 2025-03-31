@@ -49,14 +49,14 @@ const getItemsForPrint = async () => {
   const search = datatableServer.value.search;
   const { data: dataObjKey } = returnObjectAttributes.value;
 
-  const { data } = await getItems({
+  const data = await getItems({
     page: 1,
     itemsPerPage: -1,
     sortBy,
     search,
   });
 
-  return data.value[dataObjKey];
+  return data[dataObjKey];
 };
 
 const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
@@ -68,10 +68,10 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   const responseData = await getItems({ page, itemsPerPage, sortBy, search });
 
   if (!responseData) return;
-  const { data } = responseData;
+  const data = responseData;
 
-  tableData.value = data.value[dataObjKey];
-  itemsLength.value = data.value[totalObjKey];
+  tableData.value = data[dataObjKey];
+  itemsLength.value = data[totalObjKey];
 
   loading.value = false;
 };
