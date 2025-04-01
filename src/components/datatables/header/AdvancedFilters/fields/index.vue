@@ -1,6 +1,5 @@
 <script setup>
-import { VTextField, VSelect } from "vuetify/components";
-import { VNumberInput } from "vuetify/labs/VNumberInput";
+import { VTextField, VSelect, VNumberInput } from "vuetify/components";
 import Datepicker from "@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue";
 
 const table_props = inject("table_props");
@@ -39,21 +38,17 @@ onMounted(async () => {
         {{ $t("$datatables.advancedFilters") }}
       </div>
 
-      <v-btn
-        icon="mdi-close"
-        variant="text"
-        @click="emit('closeDialog')"
-      ></v-btn>
+      <v-btn icon="mdi-close" variant="text" @click="emit('closeDialog')" />
     </v-card-title>
 
-    <v-divider class="mb-4"></v-divider>
+    <v-divider class="mb-4" />
 
     <v-card-text>
       <div
-        :id="`advanced-filter-${header.key}`"
-        :class="`advanced-filter advanced-filter--${header.key}`"
         v-for="(header, i) in advancedFilterHeaders"
+        :id="`advanced-filter-${header.key}`"
         :key="i"
+        :class="`advanced-filter advanced-filter--${header.key}`"
       >
         <component
           :is="getComponent(header.advancedFilter?.component)"
@@ -66,14 +61,14 @@ onMounted(async () => {
       </div>
     </v-card-text>
 
-    <v-divider class="mt-2"></v-divider>
+    <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
       <v-btn
         class="text-none"
         :text="$t('$datatables.cancel')"
         @click="emit('closeDialog')"
-      ></v-btn>
+      />
 
       <v-btn
         class="text-none"
@@ -81,7 +76,7 @@ onMounted(async () => {
         :text="$t('$datatables.submit')"
         variant="flat"
         @click="emit('save')"
-      ></v-btn>
+      />
     </v-card-actions>
   </v-card>
 </template>
