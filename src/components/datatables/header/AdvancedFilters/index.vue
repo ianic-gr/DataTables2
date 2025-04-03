@@ -27,7 +27,9 @@ const save = () => {
     }, {});
 
   // Only update if the filters have actually changed
-  if (JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)) {
+  if (
+    JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)
+  ) {
     setData({
       table_id: table_props.id,
       name: "advancedFilters",
@@ -36,7 +38,7 @@ const save = () => {
 
     busEmits("advancedFilters:update", newFilters);
   }
-  
+
   dialog.value = false;
 };
 
@@ -46,7 +48,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-dialog v-model="dialog" max-width="500">
+  <v-dialog v-model="dialog" max-width="500" eager :retain-focus="false">
     <template #activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
