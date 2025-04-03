@@ -28,7 +28,7 @@ const datatablesStore = useDatatablesStore();
 const { dataStateGet, tableDataState, checkTableState } =
   useDatastate(table_props);
 
-const { addTable, restoreData, setTableHash } = datatablesStore;
+const { addTable, restoreData } = datatablesStore;
 
 onMounted(async () => {
   addTable({ table_id: table_props.id });

@@ -1,11 +1,9 @@
-import { ref, watch, computed, nextTick, onBeforeMount } from "vue";
+import { ref, watch, computed, nextTick } from "vue";
 import { useDatatablesStore } from "../stores/DatatablesStore";
-import { storeToRefs } from "pinia";
 
 export function useDatastate(props) {
   const datatablesStore = useDatatablesStore();
   const { getCurrentTable, setTableHash, hashString } = datatablesStore;
-  const { tables } = storeToRefs(datatablesStore);
 
   const saving = ref(false);
   const version = 4;

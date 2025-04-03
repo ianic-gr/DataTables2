@@ -62,23 +62,28 @@ const table = ref(null);
 const tableKey = ref(0);
 
 const refreshTable = async (userOptions = {}) => {
-  setUserOptions(userOptions);
+  // Only update if the options have actually changed
+  if (JSON.stringify(userOptions) !== JSON.stringify(storeOptions.state.value)) {
+    setUserOptions(userOptions);
 
-  // Prevent infinite loop
-  if (tableKey.value < 99) {
-    emit("refreshTable");
-
-    await nextTick();
-    tableKey.value++;
+    // Prevent infinite loop
+    if (tableKey.value < 99) {
+      emit("refreshTable");
+      await nextTick();
+      tableKey.value++;
+    }
   }
 };
 
 const refetchData = (userOptions = {}) => {
-  setUserOptions(userOptions);
+  // Only update if the options have actually changed
+  if (JSON.stringify(userOptions) !== JSON.stringify(storeOptions.state.value)) {
+    setUserOptions(userOptions);
 
-  if (table.value.tableRef.hasOwnProperty("reloadItems")) {
-    table.value.tableRef.reloadItems(storeOptions.state.value);
-    emit("refetchData");
+    if (table.value.tableRef.hasOwnProperty("reloadItems")) {
+      table.value.tableRef.reloadItems(storeOptions.state.value);
+      emit("refetchData");
+    }
   }
 };
 

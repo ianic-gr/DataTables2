@@ -14,7 +14,7 @@ const table_props = inject("table_props");
 const busEmits = inject("busEmits");
 
 const save = () => {
-  advancedFiltersData.value = Object.entries(advancedFiltersData.value)
+  const newFilters = Object.entries(advancedFiltersData.value)
     .filter(([key, value]) => {
       if (Array.isArray(value) || typeof value === "string") {
         return value.length > 0;
@@ -26,13 +26,17 @@ const save = () => {
       return result;
     }, {});
 
-  setData({
-    table_id: table_props.id,
-    name: "advancedFilters",
-    value: { query: deepClone(advancedFiltersData.value) },
-  });
+  // Only update if the filters have actually changed
+  if (JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)) {
+    setData({
+      table_id: table_props.id,
+      name: "advancedFilters",
+      value: { query: deepClone(newFilters) },
+    });
 
-  busEmits("advancedFilters:update", advancedFiltersData.value);
+    busEmits("advancedFilters:update", newFilters);
+  }
+  
   dialog.value = false;
 };
 
@@ -43,7 +47,7 @@ onMounted(() => {
 
 <template>
   <v-dialog v-model="dialog" max-width="500">
-    <template v-slot:activator="{ props: activatorProps }">
+    <template #activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
         variant="text"
@@ -57,7 +61,7 @@ onMounted(() => {
       />
     </template>
 
-    <template v-slot:default="{ isActive }">
+    <template #default="{ isActive }">
       <DatatablesHeaderAdvancedFiltersFields
         v-model="advancedFiltersData"
         @save="save"

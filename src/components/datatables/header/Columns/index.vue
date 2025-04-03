@@ -24,9 +24,13 @@ onMounted(async () => {
   await nextTick();
   const sortable = Sortable.create(list.value.$el, {
     onEnd: async (evt) => {
-      sortedList.value = Array.from(evt.from.children).map(function (item) {
+      const newSortedList = Array.from(evt.from.children).map(function (item) {
         return item.getAttribute("headerKeys");
       });
+      
+      if (JSON.stringify(newSortedList) !== JSON.stringify(sortedList.value)) {
+        sortedList.value = newSortedList;
+      }
     },
   });
 
@@ -39,9 +43,14 @@ onMounted(async () => {
 });
 
 const save = () => {
-  tableDataState.value.options.columns.selected = selectedList.value;
-  tableDataState.value.options.columns.sorted = sortedList.value;
-
+  if (
+    JSON.stringify(selectedList.value) !== JSON.stringify(tableState.value.options.columns?.selected) ||
+    JSON.stringify(sortedList.value) !== JSON.stringify(tableState.value.options.columns?.sorted)
+  ) {
+    tableDataState.value.options.columns.selected = selectedList.value;
+    tableDataState.value.options.columns.sorted = sortedList.value;
+  }
+  
   dialog.value = false;
 };
 

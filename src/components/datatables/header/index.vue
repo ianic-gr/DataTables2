@@ -16,30 +16,30 @@ const optionAPIComponents = table_props.options?.header?.components ?? {};
       <v-col class="d-flex align-center">
         <DatatablesHeaderAdvancedFilters />
         <component
+          :is="optionAPIComponents.hardFilters ?? HardFilters"
           v-if="table_props.hardFilters.length"
           id="header-hardFilters"
-          :is="optionAPIComponents.hardFilters ?? HardFilters"
           class="me-4"
         />
         <component
-          id="header-toolbar"
           :is="optionAPIComponents.toolbar"
+          id="header-toolbar"
           class="me-4"
         />
       </v-col>
       <v-col class="d-flex align-center justify-end">
         <component
-          id="header-search"
           :is="optionAPIComponents.search ?? Search"
+          id="header-search"
           class="me-4"
         />
         <component
-          id="header-refreshTable"
           :is="optionAPIComponents.refreshTable ?? RefreshTable"
+          id="header-refreshTable"
         />
         <component
-          id="header-options"
           :is="optionAPIComponents.options ?? Options"
+          id="header-options"
           :component-refs="{ columns }"
         />
       </v-col>
