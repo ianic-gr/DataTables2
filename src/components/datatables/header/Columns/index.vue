@@ -27,7 +27,7 @@ onMounted(async () => {
       const newSortedList = Array.from(evt.from.children).map(function (item) {
         return item.getAttribute("headerKeys");
       });
-      
+
       if (JSON.stringify(newSortedList) !== JSON.stringify(sortedList.value)) {
         sortedList.value = newSortedList;
       }
@@ -44,13 +44,15 @@ onMounted(async () => {
 
 const save = () => {
   if (
-    JSON.stringify(selectedList.value) !== JSON.stringify(tableState.value.options.columns?.selected) ||
-    JSON.stringify(sortedList.value) !== JSON.stringify(tableState.value.options.columns?.sorted)
+    JSON.stringify(selectedList.value) !==
+      JSON.stringify(tableState.value.options.columns?.selected) ||
+    JSON.stringify(sortedList.value) !==
+      JSON.stringify(tableState.value.options.columns?.sorted)
   ) {
     tableDataState.value.options.columns.selected = selectedList.value;
     tableDataState.value.options.columns.sorted = sortedList.value;
   }
-  
+
   dialog.value = false;
 };
 
@@ -58,8 +60,8 @@ defineExpose({ openDialog });
 </script>
 
 <template>
-  <v-dialog v-model="dialog" max-width="500" eager>
-    <template v-slot:default="{ isActive }">
+  <v-dialog v-model="dialog" max-width="500" eager :retain-focus="false">
+    <template #default="{ isActive }">
       <v-card rounded="lg">
         <v-card-title class="d-flex justify-space-between align-center">
           <div class="text-medium-emphasis ps-2">
@@ -70,21 +72,21 @@ defineExpose({ openDialog });
             icon="mdi-close"
             variant="text"
             @click="isActive.value = false"
-          ></v-btn>
+          />
         </v-card-title>
 
-        <v-divider class="mb-4"></v-divider>
+        <v-divider class="mb-4" />
 
         <v-card-text>
           <v-list ref="list">
             <v-list-item
-              @click="() => {}"
               v-for="(header, i) in sortedHeaders"
               :key="`${componentKey}-${i}`"
               :title="header?.title"
-              :headerKeys="header?.key"
+              :header-keys="header?.key"
+              @click="() => {}"
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <v-checkbox
                   v-model="selectedList"
                   :value="header?.key"
@@ -92,21 +94,21 @@ defineExpose({ openDialog });
                 />
               </template>
 
-              <template v-slot:append>
+              <template #append>
                 <v-icon>mdi-drag-vertical</v-icon>
               </template>
             </v-list-item>
           </v-list>
         </v-card-text>
 
-        <v-divider class="mt-2"></v-divider>
+        <v-divider class="mt-2" />
 
         <v-card-actions class="my-2 d-flex justify-end">
           <v-btn
             class="text-none"
             :text="$t('$datatables.cancel')"
             @click="isActive.value = false"
-          ></v-btn>
+          />
 
           <v-btn
             class="text-none"
@@ -114,7 +116,7 @@ defineExpose({ openDialog });
             :text="$t('$datatables.submit')"
             variant="flat"
             @click="save"
-          ></v-btn>
+          />
         </v-card-actions>
       </v-card>
     </template>

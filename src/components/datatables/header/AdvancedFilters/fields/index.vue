@@ -47,7 +47,7 @@ onMounted(async () => {
       <div
         v-for="(header, i) in advancedFilterHeaders"
         :id="`advanced-filter-${header.key}`"
-        :key="i"
+        :key="`filter-${i}`"
         :class="`advanced-filter advanced-filter--${header.key}`"
       >
         <component
