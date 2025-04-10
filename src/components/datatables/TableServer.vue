@@ -1,4 +1,5 @@
 <script setup>
+import _ from "lodash";
 import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
@@ -56,7 +57,7 @@ const getItemsForPrint = async () => {
     search,
   });
 
-  return data[dataObjKey];
+  return _.get(data, dataObjKey);
 };
 
 const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
@@ -70,8 +71,8 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   if (!responseData) return;
   const data = responseData;
 
-  tableData.value = data[dataObjKey];
-  itemsLength.value = data[totalObjKey];
+  tableData.value = _.get(data, dataObjKey);
+  itemsLength.value = _.get(data, totalObjKey);
 
   loading.value = false;
 };
