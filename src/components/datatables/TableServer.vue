@@ -3,6 +3,7 @@ import _ from "lodash";
 import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
+import { CellRender } from "@/utils/cellRender";
 
 const {
   tableState,
