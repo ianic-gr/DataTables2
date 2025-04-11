@@ -1,15 +1,15 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "type": "module",
-  "types": "./lib/locale/index.d.ts",
+  "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "exports": {
     ".": {
-      "types": "./lib/locale/index.d.ts",
+      "types": "./lib/index.d.ts",
       "import": "./dist/datatables.js",
       "require": "./dist/datatables.cjs"
     },
@@ -28,6 +28,7 @@
   "files": [
     "dist/",
     "lib/",
+    "lib/index.d.ts",
     "lib/locale/index.d.ts"
   ],
   "scripts": {
