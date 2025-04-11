@@ -1,6 +1,4 @@
 import { inject } from "vue";
-import ExcelJS from "exceljs";
-import { saveAs } from "file-saver";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 
 export function useTableState() {

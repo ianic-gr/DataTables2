@@ -22,10 +22,10 @@ const openDialog = () => {
 
 onMounted(async () => {
   await nextTick();
-  const sortable = Sortable.create(list.value.$el, {
+  Sortable.create(list.value.$el, {
     onEnd: async (evt) => {
       const newSortedList = Array.from(evt.from.children).map(function (item) {
-        return item.getAttribute("headerKeys");
+        return item.getAttribute("header-keys");
       });
 
       if (JSON.stringify(newSortedList) !== JSON.stringify(sortedList.value)) {

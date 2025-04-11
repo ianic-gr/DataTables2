@@ -1,11 +1,8 @@
 import { inject } from "vue";
-import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 
 export function useTableData() {
-  const { getCurrentTable } = useDatatablesStore();
-  const { advancedFiltersState, hardFiltersState, headersState } =
-    useTableState();
+  const { advancedFiltersState, hardFiltersState } = useTableState();
 
   const table_props = inject("table_props");
   const tableData = ref();

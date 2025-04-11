@@ -59,18 +59,17 @@ const items = computed(() => [
 
 <template>
   <v-menu>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         icon="mdi-dots-vertical"
         variant="text"
         v-bind="props"
         density="comfortable"
-      ></v-btn>
+      />
     </template>
 
     <v-list class="options-list">
-      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i">
-      </v-list-item>
+      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i" />
     </v-list>
   </v-menu>
 </template>
