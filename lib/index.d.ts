@@ -1,3 +1,2 @@
-declare module "@ianicdev/datatables2" {
-  export function useCellRendererFrameworks(): any;
-}
+// lib/index.d.ts
+export function useCellRendererFrameworks(): any;

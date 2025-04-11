@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {
@@ -16,7 +16,8 @@
     "./styles.css": "./dist/style.css",
     "./locale": {
       "types": "./lib/locale/index.d.ts",
-      "import": "./lib/locale/index.js"
+      "import": "./lib/locale/index.js",
+      "require": "./lib/locale/index.js"
     }
   },
   "module": "./dist/datatables.js",
@@ -29,8 +30,19 @@
     "dist/",
     "lib/",
     "lib/index.d.ts",
+    "lib/locale.d.ts",
     "lib/locale/index.d.ts"
   ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "lib/index.d.ts"
+      ],
+      "locale": [
+        "lib/locale.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && vue-tsc --noEmit && vite build",
