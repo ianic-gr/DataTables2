@@ -1,38 +1,30 @@
-<script setup>
-const props = defineProps({
-  params: {
-    type: Object,
-    default: () => {
-      return {};
-    },
-  },
-});
+<script setup lang="ts">
+import { computed } from "vue";
 
-const options = computed(() => {
-  const frameworkOptionsFn = props.params.column?.cellRendererFrameworkOptions;
-
-  return frameworkOptionsFn ? frameworkOptionsFn(props.params) : {};
+interface Props {
+  buttons?: Record<string, any>[];
+}
+const props = withDefaults(defineProps<Props>(), {
+  buttons: () => [],
 });
 
 const items = computed(() => {
-  return options.value?.buttons ?? [{ title: "No Items" }];
+  return props.buttons ?? [{ title: "No Items" }];
 });
 </script>
 
 <template>
   <v-menu class="action-buttons">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props: btnProps }">
       <v-btn
         icon="mdi-dots-vertical"
         variant="text"
-        v-bind="props"
+        v-bind="btnProps"
         size="small"
       />
     </template>
-
     <v-list>
-      <v-list-item v-bind="item" v-for="(item, i) in items" :key="i">
-      </v-list-item>
+      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i" />
     </v-list>
   </v-menu>
 </template>

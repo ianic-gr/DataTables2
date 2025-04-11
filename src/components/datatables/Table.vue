@@ -1,7 +1,7 @@
 <script setup>
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
-import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
+import { CellRender } from "@/utils/cellRender";
 
 const { tableState, searchState, headersState, saveTableOptions } =
   useTableState();
@@ -47,37 +47,11 @@ defineExpose({ getItemsForPrint });
       :key="i"
     >
       <div :class="column.cellClass">
-        <component
-          :is="
-            typeof column.cellRendererFramework === 'string'
-              ? useCellRendererFrameworks()[column.cellRendererFramework]
-              : column.cellRendererFramework
-          "
-          v-if="column.cellRendererFramework"
+        <CellRender
+          v-if="column?.cell"
+          :render="column.cell({ item, internalItem, value, column })"
           :params="{ item, internalItem, value, column }"
-          :cell-renderer-framework-params="
-            column.cellRendererFrameworkParams
-              ? column.cellRendererFrameworkParams({
-                  item,
-                  internalItem,
-                  value,
-                  column,
-                })
-              : {}
-          "
         />
-        <span
-          v-else-if="column.cellRenderer"
-          v-bind="
-            column?.cellRendererParams
-              ? column.cellRendererParams({ item, internalItem, value, column })
-              : {}
-          "
-          v-html="column.cellRenderer({ item, internalItem, value, column })"
-        />
-        <span v-else-if="column.valueFormatter">
-          {{ column.valueFormatter({ item, internalItem, value, column }) }}
-        </span>
         <span v-else>
           {{ String(value).length || String(value) === "0" ? value : "-" }}
         </span>

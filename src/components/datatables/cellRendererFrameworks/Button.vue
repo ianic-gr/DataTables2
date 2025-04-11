@@ -1,20 +1,14 @@
-<script setup>
-const props = defineProps({
-  params: {
-    type: Object,
-    default: () => {
-      return {};
-    },
-  },
-});
+<script setup lang="ts">
+import type { RouterLinkProps } from "vue-router";
 
-const options = computed(() => {
-  const frameworkOptionsFn = props.params.column?.cellRendererFrameworkOptions;
-
-  return frameworkOptionsFn ? frameworkOptionsFn(props.params) : {};
+interface Props {
+  options?: Record<string, any> & RouterLinkProps;
+}
+withDefaults(defineProps<Props>(), {
+  options: () => ({ to: "#" }),
 });
 </script>
 
 <template>
-  <v-btn v-bind="options"></v-btn>
+  <v-btn v-bind="options" />
 </template>

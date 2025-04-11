@@ -3,7 +3,6 @@ import _ from "lodash";
 import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
-import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 
 const {
   tableState,
@@ -111,7 +110,7 @@ defineExpose({ getItemsForPrint, reloadItems });
     @update:options="loadItems"
   >
     <template #loading>
-      <v-skeleton-loader type="table-row@10" />
+      <v-skeleton-loader type="table-row@20" />
     </template>
 
     <template
@@ -120,37 +119,11 @@ defineExpose({ getItemsForPrint, reloadItems });
       :key="i"
     >
       <div :class="column.cellClass">
-        <component
-          :is="
-            typeof column.cellRendererFramework === 'string'
-              ? useCellRendererFrameworks()[column.cellRendererFramework]
-              : column.cellRendererFramework
-          "
-          v-if="column.cellRendererFramework"
+        <CellRender
+          v-if="column?.cell"
+          :render="column.cell({ item, internalItem, value, column })"
           :params="{ item, internalItem, value, column }"
-          :cell-renderer-framework-params="
-            column.cellRendererFrameworkParams
-              ? column.cellRendererFrameworkParams({
-                  item,
-                  internalItem,
-                  value,
-                  column,
-                })
-              : {}
-          "
         />
-        <span
-          v-else-if="column.cellRenderer"
-          v-bind="
-            column?.cellRendererParams
-              ? column.cellRendererParams({ item, internalItem, value, column })
-              : {}
-          "
-          v-html="column.cellRenderer({ item, internalItem, value, column })"
-        />
-        <span v-else-if="column.valueFormatter">
-          {{ column.valueFormatter({ item, internalItem, value, column }) }}
-        </span>
         <span v-else>
           {{ String(value).length || String(value) === "0" ? value : "-" }}
         </span>

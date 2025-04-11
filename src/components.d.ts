@@ -26,6 +26,7 @@ declare module 'vue' {
     DatatablesHeaderSearch: typeof import('./components/datatables/header/Search.vue')['default']
     DatatablesTable: typeof import('./components/datatables/Table.vue')['default']
     DatatablesTableServer: typeof import('./components/datatables/TableServer.vue')['default']
+    ExamplesComponentsCellDemo: typeof import('./components/examples/components/CellDemo.vue')['default']
     ExamplesComponentsExpanded: typeof import('./components/examples/components/Expanded.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

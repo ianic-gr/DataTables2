@@ -1,5 +1,6 @@
 <script setup>
 import ExpandedVue from "@/components/examples/components/Expanded.vue";
+import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 import moment from "moment";
 
 const headers = [
@@ -13,14 +14,17 @@ const headers = [
     title: "First Name",
     key: "name",
     cellClass: "font-weight-medium",
-    cellRendererFramework: "Link",
-    cellRendererFrameworkOptions: (v) => {
-      return {
-        variant: "link",
-        text: v.value,
-        class: "primary-text font-weight-bold text-decoration-none",
-        href: "#",
-      };
+    cell: ({ value }) => {
+      const { Link } = useCellRendererFrameworks();
+
+      return h(Link, {
+        options: {
+          variant: "link",
+          text: value,
+          class: "primary-text font-weight-bold text-decoration-none",
+          href: "#",
+        },
+      });
     },
     advancedFilter: {
       component: "select",
@@ -49,7 +53,7 @@ const headers = [
         returnFormat: "DD-MM-YYYY h:mm:ss a",
       },
     },
-    valueFormatter: ({ value }) => {
+    cell: ({ value }) => {
       if (!value) return "-";
       return moment(value).format("DD-MM-YYYY h:mm:ss a");
     },
@@ -57,7 +61,7 @@ const headers = [
   {
     title: "Engine",
     key: "engine",
-    cellRenderer: ({ value }) => `<b>${value}</b>`,
+    cell: ({ value }) => h("b", value),
   },
   {
     title: "Pop Stop",
@@ -85,34 +89,37 @@ const headers = [
     printable: false,
     sortable: false,
     advancedFilter: false,
-    cellRendererFramework: "ActionButtons",
-    cellRendererFrameworkOptions: ({ item }) => {
-      return {
-        buttons: [
-          {
-            title: "View",
-            prependIcon: "mdi-eye",
-            onClick: () => {
-              alert("View " + item.name);
-            },
+    cell: ({ item }) => {
+      const { ActionButtons } = useCellRendererFrameworks();
+
+      const buttons = [
+        {
+          title: "View",
+          prependIcon: "mdi-eye",
+          onClick: () => {
+            alert("View " + item.name);
           },
-          {
-            title: "Edit",
-            prependIcon: "mdi-pencil",
-            onClick: () => {
-              alert("Edit " + item.name);
-            },
+        },
+        {
+          title: "Edit",
+          prependIcon: "mdi-pencil",
+          onClick: () => {
+            alert("Edit " + item.name);
           },
-          {
-            title: "Delete",
-            prependIcon: "mdi-delete",
-            class: "text-error",
-            onClick: () => {
-              alert("Delete " + item.name);
-            },
+        },
+        {
+          title: "Delete",
+          prependIcon: "mdi-delete",
+          class: "text-error",
+          onClick: () => {
+            alert("Delete " + item.name);
           },
-        ],
-      };
+        },
+      ];
+
+      return h(ActionButtons, {
+        buttons,
+      });
     },
   },
 ];

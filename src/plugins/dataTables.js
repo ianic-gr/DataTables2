@@ -1,4 +1,5 @@
 import { defineAsyncComponent } from "vue";
+export { useCellRendererFrameworks } from "../composables/useCellRendererFrameworks";
 
 export default {
   install(app) {
@@ -7,6 +8,5 @@ export default {
       "DataTable",
       defineAsyncComponent(() => import("../components/datatables"))
     );
-    // .use(i18n);
   },
 };
