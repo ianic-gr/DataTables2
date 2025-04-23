@@ -6,7 +6,7 @@
 
 // Plugins
 import vuetify from "./vuetify";
-import dataTables from "./dataTables";
+import dataTables from "./dataTables.js";
 import pinia from "../stores";
 import router from "../router";
 

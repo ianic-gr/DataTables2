@@ -6,7 +6,7 @@ export default {
     // Register a global component
     app.component(
       "DataTable",
-      defineAsyncComponent(() => import("../components/datatables"))
+      defineAsyncComponent(() => import("../components/datatables/index.vue"))
     );
   },
 };

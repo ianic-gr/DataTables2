@@ -1,9 +1,11 @@
+// Plugins
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import Fonts from "unplugin-fonts/vite";
-import Layouts from "vite-plugin-vue-layouts";
+import Layouts from "vite-plugin-vue-layouts-next";
 import Vue from "@vitejs/plugin-vue";
 import VueRouter from "unplugin-vue-router/vite";
+import { VueRouterAutoImports } from "unplugin-vue-router";
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import * as path from "path";
 
@@ -21,8 +23,9 @@ export default defineConfig({
     AutoImport({
       imports: [
         "vue",
+        VueRouterAutoImports,
         {
-          "vue-router/auto": ["useRoute", "useRouter"],
+          pinia: ["defineStore", "storeToRefs"],
         },
       ],
       dts: "src/auto-imports.d.ts",
@@ -57,6 +60,15 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    exclude: [
+      "vuetify",
+      "vue-router",
+      "unplugin-vue-router/runtime",
+      "unplugin-vue-router/data-loaders",
+      "unplugin-vue-router/data-loaders/basic",
+    ],
+  },
   define: { "process.env": {} },
   resolve: {
     alias: {
@@ -88,6 +100,9 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       sass: {
+        api: "modern-compiler",
+      },
+      scss: {
         api: "modern-compiler",
       },
     },

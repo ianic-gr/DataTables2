@@ -15,7 +15,7 @@ const busEmits = inject("busEmits");
 
 const save = () => {
   const newFilters = Object.entries(advancedFiltersData.value)
-    .filter(([key, value]) => {
+    .filter(([, value]) => {
       if (Array.isArray(value) || typeof value === "string") {
         return value.length > 0;
       }
@@ -27,7 +27,9 @@ const save = () => {
     }, {});
 
   // Only update if the filters have actually changed
-  if (JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)) {
+  if (
+    JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)
+  ) {
     setData({
       table_id: table_props.id,
       name: "advancedFilters",
@@ -36,7 +38,7 @@ const save = () => {
 
     busEmits("advancedFilters:update", newFilters);
   }
-  
+
   dialog.value = false;
 };
 

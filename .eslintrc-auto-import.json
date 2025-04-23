@@ -71,6 +71,12 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true
+    "watchSyncEffect": true,
+    "Slot": true,
+    "Slots": true,
+    "defineStore": true,
+    "onBeforeRouteLeave": true,
+    "onBeforeRouteUpdate": true,
+    "storeToRefs": true
   }
 }
