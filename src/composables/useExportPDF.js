@@ -38,7 +38,7 @@ export function useExportPDF() {
     });
 
     autoTable(doc, {
-      styles: { font: "roboto" },
+      styles: { font: "roboto", fontStyle: "normal" },
       margin: { top: 0, left: 0, right: 0, bottom: 0 },
       head: [tableHeaders.value.map((prop) => prop.title)],
       body: [...rows.map((row) => Object.values(row))],
