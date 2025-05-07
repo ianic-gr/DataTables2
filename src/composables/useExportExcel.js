@@ -1,5 +1,5 @@
-import { inject } from "vue";
-import ExcelJS from "exceljs";
+import { inject, computed } from "vue";
+import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { getValueByStringPath } from "@/utils/getValueByStringPath";
 import { getCurrentFormattedDate } from "@/utils/getCurrentFormattedDate";
@@ -13,62 +13,74 @@ export function useExportExcel() {
     return table_props.headers.filter((header) => header?.printable !== false);
   });
 
-  function getValueByStringPath(obj, path) {
-    return path.split(".").reduce((acc, part) => {
-      const arrayMatch = part.match(/^(\w+)\[(\d+)\]$/);
-      if (arrayMatch) {
-        const arrayName = arrayMatch[1];
-        const index = arrayMatch[2];
-        return acc && acc[arrayName] && acc[arrayName][index];
-      }
-      return acc && acc[part];
-    }, obj);
+  // Function to estimate column width based on content length
+  function estimateColumnWidths(headers, dataRows, minWidth = 15) {
+    return headers.map((header, colIndex) => {
+      const headerLength = header.title.length;
+      const maxDataLength = Math.max(
+        ...dataRows.map((row) => {
+          const cell = row[colIndex];
+          return cell ? cell.toString().length : 0;
+        })
+      );
+
+      const widthFromHeader = headerLength + 5;
+      const widthFromData = maxDataLength + 5;
+
+      const customWidth = header.width || 0;
+
+      // Use the highest value from header, data, or provided width
+      return {
+        wch: Math.max(minWidth, widthFromHeader, widthFromData, customWidth),
+      };
+    });
   }
 
   const exportExcel = async () => {
-    downloadModal.value = true;
-    const items = await tableRef.value.getItemsForPrint();
+    try {
+      downloadModal.value = true;
+      const items = await tableRef.value.getItemsForPrint();
 
-    // Create workbook and worksheet
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Sheet 1");
+      // Build header row
+      const headerRow = tableHeaders.value.map((header) => header.title);
 
-    // Add headers to worksheet and set column widths
-    worksheet.columns = tableHeaders.value.map((header) => ({
-      header: header.title,
-      key: header.key,
-      width: header.width || 25,
-    }));
+      // Build data rows
+      const dataRows = items.map((item) =>
+        tableHeaders.value.map((header) => {
+          if (header.value) {
+            return header.value(item);
+          }
+          return getValueByStringPath(item, header.key) ?? "";
+        })
+      );
 
-    // Add rows to worksheet
-    items.forEach((item) => {
-      let row = {};
-      tableHeaders.value.forEach((header) => {
-        if (header.value) {
-          row[header.key] = header.value(item);
-        } else {
-          row[header.key] = getValueByStringPath(item, header.key) ?? "";
-        }
-      });
-      worksheet.addRow(row);
-    });
+      // Combine headers with data
+      const worksheetData = [headerRow, ...dataRows];
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
 
-    const fileName = table_props.title ?? table_props.id;
+      // Calculate and set column widths
+      worksheet["!cols"] = estimateColumnWidths(tableHeaders.value, dataRows);
 
-    // Save workbook to file and trigger download
-    workbook.xlsx
-      .writeBuffer()
-      .then((buffer) => {
-        const blob = new Blob([buffer], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-        saveAs(blob, `${table_props.id}_${getCurrentFormattedDate()}.xlsx`);
-      })
-      .catch((err) => {
-        console.error("Error creating Excel file", err);
+      // Create workbook and append sheet
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet 1");
+
+      // Generate Excel file buffer
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
       });
 
-    downloadModal.value = false;
+      // Trigger download
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      saveAs(blob, `${table_props.id}_${getCurrentFormattedDate()}.xlsx`);
+    } catch (err) {
+      console.error("Error exporting Excel file:", err);
+    } finally {
+      downloadModal.value = false;
+    }
   };
 
   return { exportExcel };

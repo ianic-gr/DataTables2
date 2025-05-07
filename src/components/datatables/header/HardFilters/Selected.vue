@@ -6,13 +6,7 @@ const table_props = inject("table_props");
 const model = defineModel();
 
 const { hardFiltersState } = useTableState();
-const { registerHook, triggerHook } = useDatatablesHooksStore();
-
-const chipName = (tag, key) => {
-  const header = table_props.headers.find((header) => header.key === key);
-
-  return `${header.title}: ${tag}`;
-};
+const { registerHook } = useDatatablesHooksStore();
 
 const selected = ref([]);
 
@@ -73,12 +67,12 @@ const deactivate = (key) => {
   <v-sheet class="px-3">
     <v-chip-group v-model="selected" selected-class="text-primary" multiple>
       <v-chip
-        class="my-0"
         v-for="(tag, key) in table_props.hardFilters"
         :key="key"
+        class="my-0"
         v-bind="tag"
         density="comfortable"
-      ></v-chip>
+      />
     </v-chip-group>
   </v-sheet>
 </template>

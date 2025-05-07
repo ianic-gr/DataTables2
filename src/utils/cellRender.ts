@@ -1,12 +1,26 @@
 export const CellRender = defineComponent({
-  props: ["render", "props"],
-  setup: (props: { render: any; props: any }) => {
+  props: {
+    render: {
+      type: [Function, Object, String, Number, Date],
+      required: true,
+    },
+    props: {
+      type: Object,
+      default: () => ({}),
+    },
+    params: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  setup: (props) => {
     return () => {
-      if (
-        typeof props.render === "function" ||
-        typeof props.render === "object"
-      ) {
-        return h(props.render, props.props);
+      const mergedProps = { ...props.props, ...props.params };
+
+      if (typeof props.render === "function") {
+        return props.render(mergedProps);
+      } else if (typeof props.render === "object" && props.render !== null) {
+        return h(props.render, mergedProps);
       }
 
       return props.render;

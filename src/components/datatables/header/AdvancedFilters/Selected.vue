@@ -24,16 +24,16 @@ const emit = defineEmits("save");
   <v-sheet class="px-3">
     <v-chip-group selected-class="text-primary" multiple>
       <v-chip
-        class="my-0"
         v-for="(tag, key) in advancedFiltersState"
         :key="key"
+        class="my-0"
         :text="chipName(tag, key)"
         closable
         :value="tag"
         active
         density="comfortable"
         @click:close="removeFilter(key)"
-      ></v-chip>
+      />
     </v-chip-group>
   </v-sheet>
 </template>

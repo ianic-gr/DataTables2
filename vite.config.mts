@@ -86,10 +86,18 @@ export default defineConfig({
       fileName: "datatables",
     },
     rollupOptions: {
-      external: ["vue", "vuetify", "pinia", "vue-i18n"],
+      external: ["vue", "vuetify", "pinia", "vue-i18n", "moment"],
       output: {
         globals: {
           vue: "Vue",
+        },
+        manualChunks: {
+          sortablejs: ["sortablejs"],
+          jspdf: ["jspdf", "jspdf-autotable"],
+          xlsx: ["xlsx"],
+          exporttocsv: ["export-to-csv"],
+          printjs: ["print-js"],
+          filesaver: ["file-saver"],
         },
       },
     },

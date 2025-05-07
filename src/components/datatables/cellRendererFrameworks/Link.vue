@@ -10,8 +10,10 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <RouterLink v-if="options.to" v-bind="options">
-    {{ options.text }}
-  </RouterLink>
-  <a v-else v-bind="options">{{ options.text }}</a>
+  <div>
+    <RouterLink v-if="options.to" v-bind="options">
+      {{ options.text }}
+    </RouterLink>
+    <a v-else v-bind="options">{{ options.text }}</a>
+  </div>
 </template>
