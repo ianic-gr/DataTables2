@@ -58,20 +58,32 @@ const items = computed(() => [
 </script>
 
 <template>
-  <v-menu>
-    <template #activator="{ props }">
-      <v-btn
-        icon="mdi-dots-vertical"
+  <v-btn
+    icon="mdi-dots-vertical"
+    variant="text"
+    v-bind="props"
+    density="comfortable"
+  >
+    <v-icon />
+    <v-menu location="bottom end" activator="parent" offset="4">
+      <v-list
+        bg-color="surface-light"
+        class="options-list d-flex flex-column ga-1 pa-1"
+        density="compact"
+        rounded="lg"
         variant="text"
-        v-bind="props"
-        density="comfortable"
-      />
-    </template>
-
-    <v-list class="options-list">
-      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i" />
-    </v-list>
-  </v-menu>
+        slim
+      >
+        <v-list-item
+          v-for="(item, i) in items"
+          v-bind="item"
+          :key="i"
+          rounded="lg"
+          link
+        />
+      </v-list>
+    </v-menu>
+  </v-btn>
 </template>
 
 <style lang="scss">
