@@ -1,4 +1,5 @@
 import { inject } from "vue";
+import deepClone from "@/utils/deepClone";
 import { useTableState } from "@/composables/useTableState";
 
 export function useTableData() {
@@ -21,13 +22,28 @@ export function useTableData() {
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         filteredItems = filteredItems.filter((item) => {
-          const value = key
+          const header = table_props.headers.find((h) => h.key === key);
+          let itemsData = deepClone(item);
+
+          if (
+            Object.hasOwn(header, "filterReturnValue") &&
+            typeof header.filterReturnValue === "function"
+          ) {
+            itemsData[key] = header.filterReturnValue({
+              value: item[key],
+              item,
+            });
+          }
+
+          let value = key
             .split(".")
-            .reduce((acc, key) => acc && acc[key], item);
+            .reduce((acc, key) => acc && acc[key], itemsData);
 
           if (typeof value === "number") {
             return value == filters[key];
-          } else {
+          }
+
+          if (typeof value === "string") {
             if (Array.isArray(filters[key])) {
               return filters[key]
                 .map((filter) => filter.toLowerCase())

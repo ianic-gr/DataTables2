@@ -2,6 +2,6 @@ import ActionButtons from "@/components/datatables/cellRendererFrameworks/Action
 import Button from "@/components/datatables/cellRendererFrameworks/Button.vue";
 import Link from "@/components/datatables/cellRendererFrameworks/Link.vue";
 
-export function useCellRendererFrameworks() {
+export function useCellRendererFrameworks(): Record<string, any> {
   return { ActionButtons, Button, Link };
 }

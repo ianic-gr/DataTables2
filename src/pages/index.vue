@@ -2,6 +2,7 @@
 import ExpandedVue from "@/components/examples/components/Expanded.vue";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 import moment from "moment";
+import { VChip } from "vuetify/components";
 
 const headers = [
   {
@@ -82,7 +83,64 @@ const headers = [
     key: "random",
     value: () => Math.floor(Math.random() * 100000),
   },
+  {
+    title: "Alarms",
+    key: "alarms",
+    advancedFilter: {
+      component: "select",
+      options: {
+        items: [
+          {
+            title: "Engine Fail",
+            value: "engine_fail",
+          },
+          {
+            title: "Overheat",
+            value: "overheat",
+          },
 
+          {
+            title: "Burst",
+            value: "burst",
+          },
+        ],
+      },
+    },
+    filterReturnValue: ({ value }) => {
+      return value
+        .filter((item) => item.active === 1)
+        .map((item) => item.alarm)
+        .join();
+    },
+    cell: ({ value }) => {
+      const badges = [];
+      for (const i in value) {
+        if (value[i].active === 1) {
+          let alarmColor = "error";
+
+          if (value[i].alarm === "overheat") {
+            alarmColor = "warning";
+          }
+
+          badges.push(
+            h(
+              VChip,
+              {
+                class: "font-weight-bold text-center py-1 px-4",
+                style: "height:unset",
+                color: alarmColor,
+                size: "small",
+              },
+              {
+                default: () => h("div", value[i].alarm),
+              }
+            )
+          );
+        }
+      }
+      return h("div", { class: "d-flex", style: "gap: 0.2rem" }, badges);
+    },
+  },
   {
     title: "Actions",
     key: "actions",
@@ -135,6 +193,11 @@ const data = ref([
     pop: {
       stop: "Hellox",
     },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
   },
   {
     id: 2,
@@ -151,6 +214,11 @@ const data = ref([
         pop: "xxxxxxxxxxxxx",
       },
     ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
   },
   {
     id: 3,
@@ -159,6 +227,11 @@ const data = ref([
     engine: "V8",
     horsepower: 375,
     torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
   },
   {
     id: 4,
@@ -167,6 +240,11 @@ const data = ref([
     engine: "*",
     horsepower: 271,
     torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
   },
 ]);
 
