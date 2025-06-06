@@ -53,7 +53,7 @@ onMounted(() => {
       <v-btn
         v-bind="activatorProps"
         variant="text"
-        icon="mdi-filter-outline"
+        icon="mdi-filter-variant"
         density="comfortable"
       />
       <DatatablesHeaderAdvancedFiltersSelected
