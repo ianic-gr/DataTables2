@@ -21,6 +21,7 @@ const onClick = () => {
     text="Refresh"
     variant="text"
     density="comfortable"
+    color="dark"
     @click="onClick"
   />
 </template>

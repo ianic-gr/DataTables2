@@ -13,6 +13,8 @@
     "MaybeRefOrGetter": true,
     "PropType": true,
     "Ref": true,
+    "Slot": true,
+    "Slots": true,
     "VNode": true,
     "WritableComputedRef": true,
     "computed": true,
@@ -20,6 +22,7 @@
     "customRef": true,
     "defineAsyncComponent": true,
     "defineComponent": true,
+    "defineStore": true,
     "effectScope": true,
     "getCurrentInstance": true,
     "getCurrentScope": true,
@@ -33,6 +36,8 @@
     "nextTick": true,
     "onActivated": true,
     "onBeforeMount": true,
+    "onBeforeRouteLeave": true,
+    "onBeforeRouteUpdate": true,
     "onBeforeUnmount": true,
     "onBeforeUpdate": true,
     "onDeactivated": true,
@@ -53,6 +58,7 @@
     "shallowReactive": true,
     "shallowReadonly": true,
     "shallowRef": true,
+    "storeToRefs": true,
     "toRaw": true,
     "toRef": true,
     "toRefs": true,
@@ -71,12 +77,6 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true,
-    "Slot": true,
-    "Slots": true,
-    "defineStore": true,
-    "onBeforeRouteLeave": true,
-    "onBeforeRouteUpdate": true,
-    "storeToRefs": true
+    "watchSyncEffect": true
   }
 }

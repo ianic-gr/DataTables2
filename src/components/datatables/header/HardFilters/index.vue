@@ -10,7 +10,7 @@ const table_props = inject("table_props");
 
 const save = () => {
   const query = Object.entries(hardFiltersData.value)
-    .filter(([key, value]) => {
+    .filter(([, value]) => {
       if (Array.isArray(value) || typeof value === "string") {
         return value.length > 0;
       }

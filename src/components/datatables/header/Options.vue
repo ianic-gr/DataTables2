@@ -62,6 +62,7 @@ const items = computed(() => [
     icon="mdi-dots-vertical"
     variant="text"
     v-bind="props"
+    color="dark"
     density="comfortable"
   >
     <v-icon />
