@@ -22,7 +22,11 @@ export function useTableData() {
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         filteredItems = filteredItems.filter((item) => {
-          const header = table_props.headers.find((h) => h.key === key);
+          const header = table_props.headers.find((h) => {
+            const headerKey = h.advancedFilter?.key ?? h.key;
+            return headerKey === key;
+          });
+
           let itemsData = deepClone(item);
 
           if (

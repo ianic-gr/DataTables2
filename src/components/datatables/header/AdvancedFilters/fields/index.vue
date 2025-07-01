@@ -52,7 +52,9 @@ onMounted(async () => {
       >
         <component
           :is="getComponent(header.advancedFilter?.component)"
-          v-model="advancedFiltersData[header.key]"
+          v-model="
+            advancedFiltersData[header.advancedFilter?.key ?? header.key]
+          "
           v-bind="header.advancedFilter?.options"
           :label="header.title"
           variant="underlined"

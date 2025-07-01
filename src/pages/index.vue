@@ -29,6 +29,9 @@ const headers = [
     },
     advancedFilter: {
       component: "select",
+      valueFormatter: ({ value }) => {
+        return value === "Chevrolet Camaro" ? "Vrooom!!" : "Oh yes!";
+      },
       options: {
         multiple: true,
         items: [
@@ -82,6 +85,9 @@ const headers = [
     title: "Random",
     key: "random",
     value: () => Math.floor(Math.random() * 100000),
+    advancedFilter: {
+      key: "name",
+    },
   },
   {
     title: "Alarms",
