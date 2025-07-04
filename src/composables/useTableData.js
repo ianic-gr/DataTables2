@@ -1,5 +1,6 @@
 import { inject } from "vue";
 import deepClone from "@/utils/deepClone";
+import compareValues from "@/utils/compareValues";
 import { useTableState } from "@/composables/useTableState";
 
 export function useTableData() {
@@ -20,7 +21,10 @@ export function useTableData() {
     if (!filters) return filteredItems;
 
     Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
+      const filterValue = filters[key].value;
+      const filterComparison = filters[key]?.comparison ?? "=";
+
+      if (filterValue) {
         filteredItems = filteredItems.filter((item) => {
           const header = table_props.headers.find((h) => {
             const headerKey = h.advancedFilter?.key ?? h.key;
@@ -44,17 +48,17 @@ export function useTableData() {
             .reduce((acc, key) => acc && acc[key], itemsData);
 
           if (typeof value === "number") {
-            return value == filters[key];
+            return compareValues(value, filterValue, filterComparison);
           }
 
           if (typeof value === "string") {
-            if (Array.isArray(filters[key])) {
-              return filters[key]
+            if (Array.isArray(filterValue)) {
+              return filterValue
                 .map((filter) => filter.toLowerCase())
                 .includes(value.toLowerCase());
             }
 
-            return value?.toLowerCase().includes(filters[key].toLowerCase());
+            return value?.toLowerCase().includes(filterValue.toLowerCase());
           }
         });
       }

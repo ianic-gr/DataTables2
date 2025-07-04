@@ -6,7 +6,7 @@ export function useDatastate(props) {
   const { getCurrentTable, setTableHash, hashString } = datatablesStore;
 
   const saving = ref(false);
-  const version = 4;
+  const version = 5;
 
   const tableDataState = computed(() => getCurrentTable(props.id));
 

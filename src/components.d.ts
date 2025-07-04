@@ -16,6 +16,7 @@ declare module 'vue' {
     DatatablesHeader: typeof import('./components/datatables/header/index.vue')['default']
     DatatablesHeaderAdvancedFilters: typeof import('./components/datatables/header/AdvancedFilters/index.vue')['default']
     DatatablesHeaderAdvancedFiltersFields: typeof import('./components/datatables/header/AdvancedFilters/fields/index.vue')['default']
+    DatatablesHeaderAdvancedFiltersFieldsComponentsComparison: typeof import('./components/datatables/header/AdvancedFilters/fields/components/Comparison.vue')['default']
     DatatablesHeaderAdvancedFiltersFieldsComponentsDatepicker: typeof import('./components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue')['default']
     DatatablesHeaderAdvancedFiltersSelected: typeof import('./components/datatables/header/AdvancedFilters/Selected.vue')['default']
     DatatablesHeaderColumns: typeof import('./components/datatables/header/Columns/index.vue')['default']

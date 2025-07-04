@@ -75,9 +75,9 @@ defineExpose({ openDialog });
           />
         </v-card-title>
 
-        <v-divider class="mb-4" />
+        <v-divider />
 
-        <v-card-text>
+        <v-card-text class="overflow-auto pt-8">
           <v-list ref="list">
             <v-list-item
               v-for="(header, i) in sortedHeaders"

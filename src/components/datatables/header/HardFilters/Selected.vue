@@ -64,7 +64,7 @@ const deactivate = (key) => {
 </script>
 
 <template>
-  <v-sheet class="px-3">
+  <v-sheet>
     <v-chip-group v-model="selected" selected-class="text-primary" multiple>
       <v-chip
         v-for="(tag, key) in table_props.hardFilters"

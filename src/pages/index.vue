@@ -68,6 +68,13 @@ const headers = [
     cell: ({ value }) => h("b", value),
   },
   {
+    title: "Horsepower",
+    key: "horsepower",
+    advancedFilter: {
+      component: "comparison",
+    },
+  },
+  {
     title: "Pop Stop",
     key: "pop.stop",
   },
@@ -259,23 +266,31 @@ const hardFilters = ref([
     text: "Mustang",
     active: true,
     args: {
-      name: "Mustang",
+      name: {
+        value: "Mustang",
+      },
     },
   },
   {
     text: "V8",
     args: {
-      engine: "V8",
+      engine: {
+        value: "V8",
+      },
     },
     query: {
-      trashed: true,
+      trashed: {
+        value: true,
+      },
     },
   },
   {
     text: "deleted",
     value: "pop",
     query: {
-      trashed: true,
+      trashed: {
+        value: true,
+      },
     },
   },
 ]);

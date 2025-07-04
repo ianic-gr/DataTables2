@@ -12,7 +12,8 @@ const chipName = (tag, key) => {
     return headerKey === key;
   });
 
-  const tags = Array.isArray(tag) ? tag : [tag];
+  const operator = tag.comparison === "=" ? ":" : " " + tag.comparison;
+  const tags = Array.isArray(tag.value) ? tag.value : [tag.value];
 
   const returnTags = tags.map((tag) => {
     const advancedFilterItems = header.advancedFilter?.options?.items ?? [];
@@ -37,11 +38,11 @@ const chipName = (tag, key) => {
     return tagItem;
   });
 
-  return `${header.title}: ${returnTags}`;
+  return `${header.title}${operator} ${returnTags}`;
 };
 
 const removeFilter = (key) => {
-  model.value[key] = null;
+  model.value[key] = { comparison: "=", value: null };
   emit("save");
 };
 
@@ -49,8 +50,8 @@ const emit = defineEmits("save");
 </script>
 
 <template>
-  <v-sheet class="px-3">
-    <v-chip-group selected-class="text-primary" multiple>
+  <v-sheet>
+    <v-chip-group>
       <v-chip
         v-for="(tag, key) in advancedFiltersState"
         :key="key"
@@ -58,7 +59,6 @@ const emit = defineEmits("save");
         :text="chipName(tag, key)"
         closable
         :value="tag"
-        active
         density="comfortable"
         @click:close="removeFilter(key)"
       />
