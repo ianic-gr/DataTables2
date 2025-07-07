@@ -15,7 +15,8 @@ const table_props = inject("table_props");
 
 const tableRef = ref(null);
 const downloadModal = ref(false);
-const init = ref(false);
+const blueprintInit = ref(false);
+const tableInit = ref(false);
 
 const busEmits = defineEmits([
   "refreshTable",
@@ -54,7 +55,10 @@ onMounted(async () => {
     defu(storeOptions.state.value, tableDataState.value.options.state)
   );
 
-  init.value = true;
+  blueprintInit.value = true;
+
+  await nextTick();
+  tableInit.value = true;
 });
 
 provide("busEmits", busEmits);
@@ -66,7 +70,7 @@ defineExpose({ tableRef });
 </script>
 
 <template>
-  <div v-if="init" class="datatables-v2">
+  <div v-if="blueprintInit" class="datatables-v2">
     <v-card>
       <v-card-title>
         <DatatablesHeader />
@@ -74,6 +78,7 @@ defineExpose({ tableRef });
       <v-card-text class="pa-0">
         <component
           :is="table_props.api ? TableServer : Table"
+          v-if="tableInit"
           ref="tableRef"
           v-model="model"
         />

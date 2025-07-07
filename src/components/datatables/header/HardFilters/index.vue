@@ -7,6 +7,7 @@ const { setData } = datatablesStore;
 const hardFiltersData = ref({});
 
 const table_props = inject("table_props");
+const selectedKey = ref(0);
 
 const save = () => {
   const query = Object.entries(hardFiltersData.value)
@@ -27,8 +28,19 @@ const save = () => {
     value: { query },
   });
 };
+
+watch(
+  () => table_props.hardFilters,
+  () => {
+    selectedKey.value++;
+  }
+);
 </script>
 
 <template>
-  <DatatablesHeaderHardFiltersSelected v-model="hardFiltersData" @save="save" />
+  <DatatablesHeaderHardFiltersSelected
+    :key="selectedKey"
+    v-model="hardFiltersData"
+    @save="save"
+  />
 </template>
