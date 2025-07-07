@@ -32,8 +32,10 @@ watch(
   advancedFilterHeaders,
   (v) => {
     v.forEach((item) => {
-      if (!Object.hasOwn(advancedFiltersData.value, item.key)) {
-        advancedFiltersData.value[item.key] = {
+      const filterKey = item.advancedFilter?.key ?? item.key;
+
+      if (!Object.hasOwn(advancedFiltersData.value, filterKey)) {
+        advancedFiltersData.value[filterKey] = {
           comparison: "=",
           value: null,
         };

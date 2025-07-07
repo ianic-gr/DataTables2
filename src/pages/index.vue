@@ -101,6 +101,7 @@ const headers = [
     key: "alarms",
     advancedFilter: {
       component: "select",
+      key: "popalarm",
       options: {
         items: [
           {
