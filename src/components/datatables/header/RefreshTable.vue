@@ -10,7 +10,7 @@ const { deleteDataStorage } = useDatastate(table_props);
 
 const onClick = () => {
   deleteDataStorage();
-  busEmits("refreshTable");
+  busEmits("refetchData");
 };
 </script>
 

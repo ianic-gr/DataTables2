@@ -6,10 +6,10 @@ export const useDatatablesStore = defineStore("datatables", () => {
   const tables = ref([]);
 
   const addTable = ({ table_id }) => {
-    const no_reac_table = JSON.parse(JSON.stringify(tables.value));
-    const existingTableIndex = no_reac_table.findIndex(
+    const existingTableIndex = tables.value.findIndex(
       (table) => table.id === table_id
     );
+
     const preset = {
       search: {
         query: "",
@@ -28,11 +28,10 @@ export const useDatatablesStore = defineStore("datatables", () => {
     };
 
     if (existingTableIndex !== -1) {
-      no_reac_table.splice(existingTableIndex, 1);
+      tables.value.splice(existingTableIndex, 1);
     }
 
-    no_reac_table.push({ id: table_id, ...preset });
-    tables.value = no_reac_table;
+    tables.value.push({ id: table_id, ...preset });
   };
 
   const hashString = async (input) => {

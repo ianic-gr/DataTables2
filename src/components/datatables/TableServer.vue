@@ -90,7 +90,21 @@ const reloadItems = (userOptions = {}) => {
 
 onMounted(async () => {
   await nextTick();
-  watch([advancedFiltersState, hardFiltersState], () => reloadItems());
+  watch(
+    [advancedFiltersState, hardFiltersState],
+    (newValues, oldValues) => {
+      const [newAdvanced, newHard] = newValues;
+      const [oldAdvanced, oldHard] = oldValues;
+
+      if (
+        JSON.stringify(newAdvanced) !== JSON.stringify(oldAdvanced) ||
+        JSON.stringify(newHard) !== JSON.stringify(oldHard)
+      ) {
+        reloadItems();
+      }
+    },
+    { deep: true }
+  );
 });
 
 defineExpose({ getItemsForPrint, reloadItems });

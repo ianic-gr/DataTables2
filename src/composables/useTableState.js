@@ -6,7 +6,10 @@ export function useTableState() {
 
   const table_props = inject("table_props");
 
-  const tableState = computed(() => getCurrentTable(table_props.id));
+  const tableState = computed(() => {
+    return getCurrentTable(table_props.id);
+  });
+
   const searchState = computed(() => {
     return tableState.value.search?.query;
   });
