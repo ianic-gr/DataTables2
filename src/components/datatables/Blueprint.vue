@@ -31,6 +31,15 @@ const { dataStateGet, tableDataState, checkTableState } =
 
 const { addTable, restoreData } = datatablesStore;
 
+const headerVisibility = computed(() => {
+  const headerOption = table_props.options?.header;
+
+  return (
+    headerOption === undefined ||
+    (typeof headerOption === "object" && headerOption !== null)
+  );
+});
+
 onMounted(async () => {
   addTable({ table_id: table_props.id });
 
@@ -72,7 +81,7 @@ defineExpose({ tableRef });
 <template>
   <div v-if="blueprintInit" class="datatables-v2">
     <v-card>
-      <v-card-title>
+      <v-card-title v-if="headerVisibility">
         <DatatablesHeader />
       </v-card-title>
       <v-card-text class="pa-0">
