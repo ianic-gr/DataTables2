@@ -1,12 +1,14 @@
 <script setup>
 import { useDatastate } from "@/composables/dataState";
-
-const loading = ref(false);
+import { useI18n } from "vue-i18n";
 
 const busEmits = inject("busEmits");
 const table_props = inject("table_props");
 
 const { deleteDataStorage } = useDatastate(table_props);
+const { t } = useI18n();
+
+const loading = ref(false);
 
 const onClick = () => {
   deleteDataStorage();
@@ -17,11 +19,13 @@ const onClick = () => {
 <template>
   <v-btn
     :disabled="loading"
-    icon="mdi-refresh"
-    text="Refresh"
+    prepend-icon="mdi-refresh"
+    :text="t('$datatables.refresh')"
     variant="text"
     density="comfortable"
     color="dark"
+    stacked
+    class="text-capitalize"
     @click="onClick"
   />
 </template>

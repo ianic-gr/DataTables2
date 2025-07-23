@@ -71,10 +71,3 @@ defineExpose({ getItemsForPrint });
     </template>
   </v-data-table>
 </template>
-
-<style lang="scss">
-th.v-data-table__td.v-data-table__th {
-  background-color: #f5f5f5;
-  border-top: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-</style>

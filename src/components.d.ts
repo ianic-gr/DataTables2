@@ -20,6 +20,7 @@ declare module 'vue' {
     DatatablesHeaderAdvancedFiltersFieldsComponentsDatepicker: typeof import('./components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue')['default']
     DatatablesHeaderAdvancedFiltersSelected: typeof import('./components/datatables/header/AdvancedFilters/Selected.vue')['default']
     DatatablesHeaderColumns: typeof import('./components/datatables/header/Columns/index.vue')['default']
+    DatatablesHeaderDownload: typeof import('./components/datatables/header/Download.vue')['default']
     DatatablesHeaderHardFilters: typeof import('./components/datatables/header/HardFilters/index.vue')['default']
     DatatablesHeaderHardFiltersSelected: typeof import('./components/datatables/header/HardFilters/Selected.vue')['default']
     DatatablesHeaderOptions: typeof import('./components/datatables/header/Options.vue')['default']

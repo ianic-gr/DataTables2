@@ -1,8 +1,12 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import { usePrint } from "@/composables/usePrint";
+import { useExportExcel } from "@/composables/useExportExcel";
+import { useExportCsv } from "@/composables/useExportCsv";
+import { useExportPDF } from "@/composables/useExportPDF";
 
-const { printTable } = usePrint();
+const { exportExcel } = useExportExcel();
+const { exportCsv } = useExportCsv();
+const { exportPDF } = useExportPDF();
 
 const table_props = inject("table_props");
 
@@ -12,21 +16,38 @@ const menu = ref(false);
 
 const items = computed(() => [
   {
-    title: t("$datatables.print"),
-    onClick: printTable,
-    prependIcon: "mdi-printer",
+    title: `${t("$datatables.export")} Excel`,
+    onClick: exportExcel,
+    prependIcon: "mdi-file-excel",
     ...table_props.options.header?.export?.buttons,
   },
-  ...(table_props.options?.globalButtons ?? []),
+  {
+    title: `${t("$datatables.export")} CSV`,
+    onClick: exportCsv,
+    prependIcon: "mdi-file-delimited",
+    ...table_props.options.header?.export?.buttons,
+  },
+  {
+    title: `${t("$datatables.export")} PDF`,
+    onClick: exportPDF,
+    prependIcon: "mdi-file-pdf-box",
+    ...table_props.options.header?.export?.buttons,
+  },
 ]);
 </script>
 
+=
+
 <template>
-  <v-menu v-model="menu" :close-on-content-click="false" location="bottom end">
+  <v-menu
+    v-model="menu"
+    :close-on-content-click="false"
+    location="bottom center"
+  >
     <template #activator="{ props }">
       <v-btn
-        prepend-icon="mdi-dots-vertical"
-        :text="$t('$datatables.more')"
+        prepend-icon="mdi-tray-arrow-down"
+        :text="t('$datatables.download')"
         variant="text"
         density="comfortable"
         color="dark"
