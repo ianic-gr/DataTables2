@@ -105,11 +105,11 @@ th.v-data-table__td.v-data-table__th {
   border-top: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
-th.v-data-table__th {
+th.v-data-table__th:not(:last-child) {
   border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
-td.v-data-table__td {
+td.v-data-table__td:not(:last-child) {
   border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 </style>
