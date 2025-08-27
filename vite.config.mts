@@ -42,7 +42,6 @@ export default defineConfig({
     Vue({
       template: { transformAssetUrls },
     }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({
       autoImport: true,
       styles: {
@@ -78,41 +77,32 @@ export default defineConfig({
   },
   build: {
     cssCodeSplit: false,
-    // minify: false,
     lib: {
-      entry: path.resolve(__dirname, "src/plugins/dataTables.js"),
+      entry: path.resolve(__dirname, "src/index.ts"),
       formats: ["es", "cjs"],
-      name: "Datatables 2",
-      fileName: "datatables",
+      name: "DataTables2",
+      fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: ["vue", "vuetify", "pinia", "vue-i18n", "moment"],
       output: {
         globals: {
           vue: "Vue",
+          vuetify: "Vuetify",
+          pinia: "Pinia",
         },
-        manualChunks: {
-          sortablejs: ["sortablejs"],
-          jspdf: ["jspdf", "jspdf-autotable"],
-          xlsx: ["xlsx"],
-          exporttocsv: ["export-to-csv"],
-          printjs: ["print-js"],
-          filesaver: ["file-saver"],
-        },
+        // manualChunks: {
+        //   sortablejs: ["sortablejs"],
+        //   jspdf: ["jspdf", "jspdf-autotable"],
+        //   xlsx: ["xlsx"],
+        //   exporttocsv: ["export-to-csv"],
+        //   printjs: ["print-js"],
+        //   filesaver: ["file-saver"],
+        // },
       },
     },
   },
   server: {
     port: 3000,
-  },
-  css: {
-    preprocessorOptions: {
-      sass: {
-        api: "modern-compiler",
-      },
-      scss: {
-        api: "modern-compiler",
-      },
-    },
   },
 });

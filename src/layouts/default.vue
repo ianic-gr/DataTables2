@@ -27,14 +27,14 @@ onMounted(() => {
         <h2 class="me-5">📃 Datatables 2</h2>
 
         <v-btn
-          :to="link.to"
           v-for="link in links"
           :key="link.title"
+          :to="link.to"
           :text="link.title"
           variant="text"
-        ></v-btn>
+        />
 
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <v-responsive max-width="160">
           <v-text-field
@@ -45,7 +45,7 @@ onMounted(() => {
             flat
             hide-details
             single-line
-          ></v-text-field>
+          />
         </v-responsive>
       </v-container>
     </v-app-bar>
@@ -69,7 +69,7 @@ onMounted(() => {
                   </p>
                 </template>
 
-                <v-divider v-if="$route.path !== '/'" class="my-2"></v-divider>
+                <v-divider v-if="$route.path !== '/'" class="my-2" />
 
                 <v-list-item
                   v-if="$route.path !== '/'"
@@ -77,7 +77,7 @@ onMounted(() => {
                   color="grey-lighten-4"
                   title="← Back"
                   link
-                ></v-list-item>
+                />
               </v-list>
             </v-sheet>
           </v-col>
