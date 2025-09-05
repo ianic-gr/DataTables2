@@ -1,11 +1,10 @@
-import type { App, Plugin } from "vue";
 import { defineAsyncComponent } from "vue";
 
 export { useCellRendererFrameworks } from "../composables/useCellRendererFrameworks.js";
 
 // Main DataTable Plugin
-const DataTablePlugin: Plugin = {
-  install(app: App) {
+export default {
+  install(app) {
     // Register the DataTable component globally
     app.component(
       "DataTable",
@@ -13,5 +12,3 @@ const DataTablePlugin: Plugin = {
     );
   },
 };
-
-export default DataTablePlugin;

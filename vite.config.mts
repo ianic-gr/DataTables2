@@ -78,10 +78,10 @@ export default defineConfig({
   build: {
     cssCodeSplit: false,
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: path.resolve(__dirname, "src/plugins/dataTables.js"),
       formats: ["es", "cjs"],
       name: "DataTables2",
-      fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
+      fileName: (format) => `datatables.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: ["vue", "vuetify", "pinia", "vue-i18n", "moment"],
