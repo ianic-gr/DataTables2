@@ -1,11 +1,17 @@
 <script setup>
 import defu from "defu";
-import Table from "@/components/datatables/Table.vue";
-import TableServer from "@/components/datatables/TableServer.vue";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useDatastate } from "@/composables/dataState";
 import { useUserState } from "@/composables/useUserState.ts";
 import { useTableState } from "@/composables/useTableState";
+
+const Table = defineAsyncComponent(() =>
+  import("@/components/datatables/Table.vue")
+);
+
+const TableServer = defineAsyncComponent(() =>
+  import("@/components/datatables/TableServer.vue")
+);
 
 const { storeOptions } = useUserState();
 const { saveTableOptions } = useTableState();

@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.8.10",
+  "version": "0.8.12",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {
@@ -68,13 +68,13 @@
     "sortablejs": "^1.15.6",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
-    "vuetify": "^3.10.7",
+    "vuetify": "^3.10.8",
     "xlsx": "npm:@e965/xlsx@0.20.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
     "@tsconfig/node22": "^22.0.2",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.9.2",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.8.1",
@@ -92,6 +92,6 @@
     "vite-plugin-vue-layouts-next": "^1.1.1",
     "vite-plugin-vuetify": "^2.1.2",
     "vue-router": "^4.6.3",
-    "vue-tsc": "^3.1.1"
+    "vue-tsc": "^3.1.2"
   }
 }

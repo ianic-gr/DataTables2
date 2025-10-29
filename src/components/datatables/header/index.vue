@@ -1,11 +1,29 @@
 <script setup>
-import Search from "@/components/datatables/header/Search.vue";
-import RefreshTable from "@/components/datatables/header/RefreshTable.vue";
-import Options from "@/components/datatables/header/Options.vue";
-import HardFilters from "@/components/datatables/header/HardFilters/index.vue";
-import Columns from "@/components/datatables/header/Columns.vue";
-import Download from "@/components/datatables/header/Download.vue";
 import { useTableState } from "@/composables/useTableState";
+
+const Search = defineAsyncComponent(() =>
+  import("@/components/datatables/header/Search.vue")
+);
+
+const RefreshTable = defineAsyncComponent(() =>
+  import("@/components/datatables/header/RefreshTable.vue")
+);
+
+const Options = defineAsyncComponent(() =>
+  import("@/components/datatables/header/Options.vue")
+);
+
+const HardFilters = defineAsyncComponent(() =>
+  import("@/components/datatables/header/HardFilters/index.vue")
+);
+
+const Columns = defineAsyncComponent(() =>
+  import("@/components/datatables/header/Columns.vue")
+);
+
+const Download = defineAsyncComponent(() =>
+  import("@/components/datatables/header/Download.vue")
+);
 
 const table_props = inject("table_props");
 

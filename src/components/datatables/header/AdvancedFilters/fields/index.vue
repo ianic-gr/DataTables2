@@ -1,7 +1,5 @@
 <script setup>
 import { VTextField, VSelect, VNumberInput } from "vuetify/components";
-import Datepicker from "@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue";
-import Comparison from "@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue";
 
 const table_props = inject("table_props");
 
@@ -12,8 +10,16 @@ const defaultFilterComponents = {
   textfield: VTextField,
   select: VSelect,
   number: VNumberInput,
-  datepicker: Datepicker,
-  comparison: Comparison,
+  datepicker: defineAsyncComponent(() =>
+    import(
+      "@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue"
+    )
+  ),
+  comparison: defineAsyncComponent(() =>
+    import(
+      "@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue"
+    )
+  ),
 };
 
 const advancedFilterHeaders = computed(() => {

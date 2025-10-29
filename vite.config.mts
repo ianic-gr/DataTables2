@@ -84,21 +84,21 @@ export default defineConfig({
       fileName: (format) => `datatables.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["vue", "vuetify", "pinia", "vue-i18n", "moment"],
+      external: ["vue", "vuetify", "pinia", "vue-i18n", "moment", "@vueuse/core"],
       output: {
         globals: {
           vue: "Vue",
           vuetify: "Vuetify",
           pinia: "Pinia",
         },
-        // manualChunks: {
-        //   sortablejs: ["sortablejs"],
-        //   jspdf: ["jspdf", "jspdf-autotable"],
-        //   xlsx: ["xlsx"],
-        //   exporttocsv: ["export-to-csv"],
-        //   printjs: ["print-js"],
-        //   filesaver: ["file-saver"],
-        // },
+        manualChunks: {
+          sortablejs: ["sortablejs"],
+          jspdf: ["jspdf", "jspdf-autotable"],
+          xlsx: ["xlsx"],
+          exporttocsv: ["export-to-csv"],
+          printjs: ["print-js"],
+          filesaver: ["file-saver"],
+        },
       },
     },
   },
