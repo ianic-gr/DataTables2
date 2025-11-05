@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.8.12",
+  "version": "0.8.14",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {

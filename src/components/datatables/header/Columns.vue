@@ -1,6 +1,8 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 
+const pluginOptions = inject("pluginOptions");
+
 const { t } = useI18n();
 
 defineProps({
@@ -15,7 +17,7 @@ defineProps({
 
 <template>
   <v-btn
-    prepend-icon="mdi-view-column-outline"
+    :prepend-icon="pluginOptions.header.icons.columns"
     :text="t('$datatables.columns')"
     variant="text"
     density="comfortable"

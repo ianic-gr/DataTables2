@@ -4,13 +4,13 @@ import { useExportExcel } from "@/composables/useExportExcel";
 import { useExportCsv } from "@/composables/useExportCsv";
 import { useExportPDF } from "@/composables/useExportPDF";
 
+const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
+
+const { t } = useI18n();
 const { exportExcel } = useExportExcel();
 const { exportCsv } = useExportCsv();
 const { exportPDF } = useExportPDF();
-
-const table_props = inject("table_props");
-
-const { t } = useI18n();
 
 const menu = ref(false);
 
@@ -46,7 +46,7 @@ const items = computed(() => [
   >
     <template #activator="{ props }">
       <v-btn
-        prepend-icon="mdi-tray-arrow-down"
+        :prepend-icon="pluginOptions.header.icons.download"
         :text="t('$datatables.download')"
         variant="text"
         density="comfortable"

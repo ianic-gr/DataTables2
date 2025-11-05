@@ -4,7 +4,22 @@ export { useCellRendererFrameworks } from "../composables/useCellRendererFramewo
 
 // Main DataTable Plugin
 export default {
-  install(app) {
+  install(app, options) {
+    app.provide("pluginOptions", {
+      header: {
+        icons: {
+          advancedFilters: "mdi-filter-variant",
+          search: "mdi-magnify",
+          columns: "mdi-view-column-outline",
+          download: "mdi-tray-arrow-down",
+          refresh: "mdi-refresh",
+          options: "mdi-dots-vertical",
+          print: "mdi-printer",
+        },
+      },
+      ...options,
+    });
+
     // Register the DataTable component globally
     app.component(
       "DataTable",

@@ -4,12 +4,13 @@ import { useTableState } from "@/composables/useTableState";
 import { watchDebounced } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
+const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
+
 const datatablesStore = useDatatablesStore();
 const { searchState } = useTableState();
 
 const { setData } = datatablesStore;
-
-const table_props = inject("table_props");
 
 const search = ref(null);
 const menu = ref(false);
@@ -52,7 +53,7 @@ onMounted(() => {
   >
     <template #activator="{ props }">
       <v-btn
-        prepend-icon="mdi-magnify"
+        :prepend-icon="pluginOptions.header.icons.search"
         :text="$t('$datatables.search')"
         variant="text"
         density="comfortable"

@@ -26,6 +26,7 @@ const Download = defineAsyncComponent(() =>
 );
 
 const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
 
 const { advancedFiltersState } = useTableState();
 
@@ -44,7 +45,7 @@ const activeAdvancedFilters = computed(() => {
       <v-col class="d-flex align-center" style="gap: 0.75rem">
         <v-btn
           variant="text"
-          icon="mdi-filter-variant"
+          :icon="pluginOptions.header.icons.advancedFilters"
           :color="activeAdvancedFilters ? 'primary' : 'dark'"
           density="comfortable"
           @click="advancedFiltersDialog = true"

@@ -8,13 +8,19 @@ const props = withDefaults(defineProps<Props>(), {
   buttons: () => [],
 });
 
+const pluginOptions = inject<Record<string, any>>("pluginOptions");
+
 const items = computed(() => {
   return props.buttons ?? [{ title: "No Items" }];
 });
 </script>
 
 <template>
-  <v-btn icon="mdi-dots-vertical" variant="text" size="small">
+  <v-btn
+    :icon="pluginOptions?.header.icons.options"
+    variant="text"
+    size="small"
+  >
     <v-icon />
     <v-menu
       class="action-buttons"
