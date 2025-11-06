@@ -18,6 +18,7 @@ const { saveTableOptions } = useTableState();
 
 const model = defineModel();
 const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
 
 const tableRef = ref(null);
 const downloadModal = ref(false);
@@ -103,7 +104,7 @@ defineExpose({ tableRef });
     <v-dialog v-model="downloadModal" max-width="350" persistent>
       <v-list class="py-2" color="primary" elevation="12" rounded="lg">
         <v-list-item
-          prepend-icon="mdi-file-download"
+          :prepend-icon="pluginOptions.header.icons.download"
           :title="$t('$datatables.preparing_download_file')"
         >
           <template #prepend>

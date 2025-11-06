@@ -18,19 +18,19 @@ const items = computed(() => [
   {
     title: `${t("$datatables.export")} Excel`,
     onClick: exportExcel,
-    prependIcon: "mdi-file-excel",
+    prependIcon: pluginOptions.header.icons.excel,
     ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} CSV`,
     onClick: exportCsv,
-    prependIcon: "mdi-file-delimited",
+    prependIcon: pluginOptions.header.icons.csv,
     ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} PDF`,
     onClick: exportPDF,
-    prependIcon: "mdi-file-pdf-box",
+    prependIcon: pluginOptions.header.icons.pdf,
     ...table_props.options.header?.export?.buttons,
   },
 ]);

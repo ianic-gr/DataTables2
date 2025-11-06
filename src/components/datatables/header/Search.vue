@@ -74,7 +74,7 @@ onMounted(() => {
           variant="outlined"
           clearable
           hide-details
-          prepend-inner-icon="mdi-magnify"
+          :prepend-inner-icon="pluginOptions.header.icons.search"
         />
       </v-card-text>
     </v-card>

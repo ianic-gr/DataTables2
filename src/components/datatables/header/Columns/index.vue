@@ -4,6 +4,7 @@ import { useTableState } from "@/composables/useTableState";
 import { useDatastate } from "@/composables/dataState";
 
 const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
 
 const { tableState } = useTableState();
 const { tableDataState } = useDatastate(table_props);
@@ -69,7 +70,7 @@ defineExpose({ openDialog });
           </div>
 
           <v-btn
-            icon="mdi-close"
+            :icon="pluginOptions.header.icons.close"
             variant="text"
             @click="isActive.value = false"
           />
@@ -95,7 +96,7 @@ defineExpose({ openDialog });
               </template>
 
               <template #append>
-                <v-icon>mdi-drag-vertical</v-icon>
+                <v-icon :icon="pluginOptions.header.icons.drag" />
               </template>
             </v-list-item>
           </v-list>

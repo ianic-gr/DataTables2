@@ -2,6 +2,7 @@
 import { VTextField, VSelect, VNumberInput } from "vuetify/components";
 
 const table_props = inject("table_props");
+const pluginOptions = inject("pluginOptions");
 
 const advancedFiltersData = defineModel();
 const emit = defineEmits(["closeDialog", "save"]);
@@ -63,7 +64,11 @@ onMounted(async () => {
         {{ $t("$datatables.advancedFilters") }}
       </div>
 
-      <v-btn icon="mdi-close" variant="text" @click="emit('closeDialog')" />
+      <v-btn
+        :icon="pluginOptions.header.icons.close"
+        variant="text"
+        @click="emit('closeDialog')"
+      />
     </v-card-title>
 
     <v-divider />
