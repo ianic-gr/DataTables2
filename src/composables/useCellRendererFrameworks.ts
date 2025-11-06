@@ -3,5 +3,5 @@ import Button from "@/components/datatables/cellRendererFrameworks/Button.vue";
 import Link from "@/components/datatables/cellRendererFrameworks/Link.vue";
 
 export function useCellRendererFrameworks(): Record<string, any> {
-  return { ActionButtons, Button, Link };
+  return { DTActionButtons: ActionButtons, DTButton: Button, DTLink: Link };
 }

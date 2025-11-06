@@ -16,9 +16,9 @@ const headers = [
     key: "name",
     cellClass: "font-weight-medium",
     cell: ({ value }) => {
-      const { Link } = useCellRendererFrameworks();
+      const { DTLink } = useCellRendererFrameworks();
 
-      return h(Link, {
+      return h(DTLink, {
         options: {
           variant: "link",
           text: value,
@@ -162,7 +162,7 @@ const headers = [
     sortable: false,
     advancedFilter: false,
     cell: ({ item }) => {
-      const { ActionButtons } = useCellRendererFrameworks();
+      const { DTActionButtons } = useCellRendererFrameworks();
 
       const buttons = [
         {
@@ -189,7 +189,7 @@ const headers = [
         },
       ];
 
-      return h(ActionButtons, {
+      return h(DTActionButtons, {
         buttons,
       });
     },

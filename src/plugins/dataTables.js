@@ -1,6 +1,6 @@
 import { defineAsyncComponent } from "vue";
 import defu from "defu";
-export { useCellRendererFrameworks } from "../composables/useCellRendererFrameworks.js";
+export { useCellRendererFrameworks } from "../composables/useCellRendererFrameworks";
 
 // Main DataTable Plugin
 export default {
