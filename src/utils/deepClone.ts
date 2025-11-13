@@ -1,3 +1,3 @@
-export default function (data: any): any {
-  return JSON.parse(JSON.stringify(data));
+export default function <T>(data: T): T {
+  return JSON.parse(JSON.stringify(data)) as T;
 }

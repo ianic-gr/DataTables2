@@ -45,7 +45,8 @@ const headers = [
     title: "Full Name",
     key: "fullName",
     hidden: true,
-    value: (item) => `${item.name} <b>${item.date}</b>`,
+    value: (item) =>
+      `${item.name} <b>${moment(item.date).format("DD-MM-YYYY h:mm:ss a")}</b>`,
   },
   {
     title: "Date",
@@ -303,7 +304,7 @@ const options = ref({
     },
     export: {
       buttons: {
-        disabled: true,
+        disabled: false,
       },
     },
   },
