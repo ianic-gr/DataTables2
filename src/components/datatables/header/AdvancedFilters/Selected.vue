@@ -15,30 +15,40 @@ const chipName = (tag, key) => {
   const operator = tag.comparison === "=" ? ":" : " " + tag.comparison;
   const tags = Array.isArray(tag.value) ? tag.value : [tag.value];
 
-  const returnTags = tags.map((tag) => {
-    const advancedFilterItems = header.advancedFilter?.options?.items ?? [];
-    let tagItem = tag;
-    let foundFilter;
-
-    if (advancedFilterItems.length) {
-      foundFilter = advancedFilterItems.find((v) => v.value === tag);
-
-      if (foundFilter) {
-        tagItem = foundFilter.title;
+  const returnTags = tags
+    .filter((_, i) => {
+      if (header.advancedFilter.component === "datepicker") {
+        if (i !== 0 && i !== tags.length - 1) {
+          return false;
+        }
       }
-    }
 
-    if (typeof header.advancedFilter?.valueFormatter === "function") {
-      tagItem = header.advancedFilter.valueFormatter({
-        item: foundFilter,
-        value: tag,
-      });
-    }
+      return true;
+    })
+    .map((tag) => {
+      const advancedFilterItems = header.advancedFilter?.options?.items ?? [];
+      let tagItem = tag;
+      let foundFilter;
 
-    return tagItem;
-  });
+      if (advancedFilterItems.length) {
+        foundFilter = advancedFilterItems.find((v) => v.value === tag);
 
-  return `${header.title}${operator} ${returnTags}`;
+        if (foundFilter) {
+          tagItem = foundFilter.title;
+        }
+      }
+
+      if (typeof header.advancedFilter?.valueFormatter === "function") {
+        tagItem = header.advancedFilter.valueFormatter({
+          item: foundFilter,
+          value: tag,
+        });
+      }
+
+      return tagItem;
+    });
+
+  return `${header.title}${operator} ${returnTags.join(", ")}`;
 };
 
 const removeFilter = (key) => {

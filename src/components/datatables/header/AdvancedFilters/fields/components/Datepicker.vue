@@ -16,13 +16,11 @@ const dateInputVal = computed({
     const isMultiple = Array.isArray(model.value);
     let returnValue;
 
-    if (!model.value) return;
-
-    if (isMultiple && model.value.length) {
-      returnValue = model.value.map(
-        (val) => new Date(moment(val, format).format())
-      );
-    } else {
+    if (isMultiple) {
+      returnValue = model.value
+        .filter((val) => moment(val, format).isValid())
+        .map((val) => new Date(moment(val, format).format()));
+    } else if (moment(model.value, format).isValid()) {
       returnValue = new Date(moment(model.value, format).format());
     }
 
@@ -32,10 +30,14 @@ const dateInputVal = computed({
     const format = props.returnFormat;
     const isMultiple = Array.isArray(value);
 
-    if (isMultiple && value.length) {
-      model.value = value.map((val) => moment(val).format(format));
+    if (isMultiple) {
+      model.value = value
+        .filter((val) => moment(val).isValid())
+        .map((val) => moment(val).format(format));
     } else {
-      model.value = moment(value).format(format);
+      model.value = moment(value).isValid()
+        ? moment(value).format(format)
+        : undefined;
     }
   },
 });

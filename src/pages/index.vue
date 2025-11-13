@@ -55,12 +55,13 @@ const headers = [
       component: "datepicker",
       options: {
         viewMode: "date",
-        returnFormat: "DD-MM-YYYY h:mm:ss a",
+        returnFormat: "DD-MM-YYYY",
+        multiple: "range",
       },
     },
     cell: ({ value }) => {
       if (!value) return "-";
-      return moment(value).format("DD-MM-YYYY h:mm:ss a");
+      return moment(value, "DD-MM-YYYY").format("DD-MM-YYYY");
     },
   },
   {
@@ -201,7 +202,7 @@ const data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
-    date: 1597872393918,
+    date: "03-11-2025",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -217,7 +218,7 @@ const data = ref([
   {
     id: 2,
     name: "Ford Mustang",
-    date: 1577972393418,
+    date: "08-11-2025",
     engine: "V8",
     horsepower: 271,
     torque: 312,
@@ -238,7 +239,7 @@ const data = ref([
   {
     id: 3,
     name: "Chevrolet Camaro",
-    date: 1577872394918,
+    date: "21-11-2025",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -251,7 +252,7 @@ const data = ref([
   {
     id: 4,
     name: "Ford Mustang",
-    date: 1699852393918,
+    date: "16-11-2025",
     engine: "*",
     horsepower: 271,
     torque: 312,
