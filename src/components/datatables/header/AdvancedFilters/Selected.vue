@@ -17,7 +17,7 @@ const chipName = (tag, key) => {
 
   const returnTags = tags
     .filter((_, i) => {
-      if (header.advancedFilter.component === "datepicker") {
+      if (header.advancedFilter?.component === "datepicker") {
         if (i !== 0 && i !== tags.length - 1) {
           return false;
         }

@@ -1,7 +1,7 @@
-import { inject } from "vue";
 import deepClone from "@/utils/deepClone";
 import compareValues from "@/utils/compareValues";
 import { useTableState } from "@/composables/useTableState";
+import moment from "moment";
 
 export function useTableData() {
   const { advancedFiltersState, hardFiltersState } = useTableState();
@@ -47,6 +47,10 @@ export function useTableData() {
             .split(".")
             .reduce((acc, key) => acc && acc[key], itemsData);
 
+          if (header.advancedFilter?.component === "datepicker") {
+            return filterDateRange(value, filterValue);
+          }
+
           if (typeof value === "number") {
             return compareValues(value, filterValue, filterComparison);
           }
@@ -66,6 +70,17 @@ export function useTableData() {
 
     return filteredItems;
   });
+
+  const filterDateRange = (value, filterValue) => {
+    const items = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+    return (
+      moment(items[0]).startOf("day").isSameOrBefore(moment(value).format()) &&
+      moment(items[items.length - 1])
+        .endOf("day")
+        .isSameOrAfter(moment(value).format())
+    );
+  };
 
   watch(
     () => table_props.data,

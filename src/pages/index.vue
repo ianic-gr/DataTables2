@@ -46,7 +46,7 @@ const headers = [
     key: "fullName",
     hidden: true,
     value: (item) =>
-      `${item.name} <b>${moment(item.date).format("DD-MM-YYYY h:mm:ss a")}</b>`,
+      `${item.name} <b>${moment(item.date).format("YYYY-MM-DD h:mm:ss a")}</b>`,
   },
   {
     title: "Date",
@@ -54,14 +54,13 @@ const headers = [
     advancedFilter: {
       component: "datepicker",
       options: {
-        viewMode: "date",
-        returnFormat: "DD-MM-YYYY",
+        returnFormat: "DD/MM/YYYY",
         multiple: "range",
       },
     },
-    cell: ({ value }) => {
-      if (!value) return "-";
-      return moment(value, "DD-MM-YYYY").format("DD-MM-YYYY");
+    value: (item) => {
+      if (!item.date) return "-";
+      return moment(item.date, "DD/MM/YYYY").format("MM-DD-YYYY");
     },
   },
   {
@@ -202,7 +201,7 @@ const data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
-    date: "03-11-2025",
+    date: "05/11/2025 08:34:31",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -218,7 +217,7 @@ const data = ref([
   {
     id: 2,
     name: "Ford Mustang",
-    date: "08-11-2025",
+    date: "06/11/2025 08:34:31",
     engine: "V8",
     horsepower: 271,
     torque: 312,
@@ -239,7 +238,7 @@ const data = ref([
   {
     id: 3,
     name: "Chevrolet Camaro",
-    date: "21-11-2025",
+    date: "07/11/2025 08:34:31",
     engine: "V8",
     horsepower: 375,
     torque: 415,
@@ -252,7 +251,7 @@ const data = ref([
   {
     id: 4,
     name: "Ford Mustang",
-    date: "16-11-2025",
+    date: "08/11/2025 08:34:31",
     engine: "*",
     horsepower: 271,
     torque: 312,
