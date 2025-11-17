@@ -42,6 +42,7 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
     sortBy,
     advancedFilters: advancedFiltersState.value,
     hardFilters: hardFiltersState.value,
+    headers: headersState.value,
   });
 };
 

@@ -18,7 +18,7 @@ export function useTableData() {
     const filters = { ...advancedFiltersState.value, ...hardFilters };
     let filteredItems = tableData.value;
 
-    if (!filters) return filteredItems;
+    if (!filters || Object.keys(filters).length === 0) return filteredItems;
 
     Object.keys(filters).forEach((key) => {
       const filterValue = filters[key].value;
@@ -30,6 +30,8 @@ export function useTableData() {
             const headerKey = h.advancedFilter?.key ?? h.key;
             return headerKey === key;
           });
+
+          if (!header) return true;
 
           let itemsData = deepClone(item);
 
@@ -62,24 +64,29 @@ export function useTableData() {
                 .includes(value.toLowerCase());
             }
 
-            return value?.toLowerCase().includes(filterValue.toLowerCase());
+            return value
+              ?.toString()
+              .toLowerCase()
+              .includes(filterValue.toString().toLowerCase());
           }
+
+          return true;
         });
       }
     });
 
     return filteredItems;
   });
-
   const filterDateRange = (value, filterValue) => {
     const items = Array.isArray(filterValue) ? filterValue : [filterValue];
+    const start = moment(items[0])
+      .startOf("day")
+      .isSameOrBefore(moment(value).format());
+    const end = moment(items[items.length - 1])
+      .endOf("day")
+      .isSameOrAfter(moment(value).format());
 
-    return (
-      moment(items[0]).startOf("day").isSameOrBefore(moment(value).format()) &&
-      moment(items[items.length - 1])
-        .endOf("day")
-        .isSameOrAfter(moment(value).format())
-    );
+    return start && end;
   };
 
   watch(
