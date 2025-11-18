@@ -41,34 +41,35 @@ const activeAdvancedFilters = computed(() => {
 
 <template>
   <div>
-    <v-row>
-      <v-col class="d-flex align-center" style="gap: 0.75rem">
-        <v-btn
-          variant="text"
-          :icon="pluginOptions.header.icons.advancedFilters"
-          :color="activeAdvancedFilters ? 'primary' : 'dark'"
-          density="comfortable"
-          @click="advancedFiltersDialog = true"
+    <div class="d-flex align-center" style="gap: 0.75rem">
+      <v-btn
+        variant="text"
+        :icon="pluginOptions.header.icons.advancedFilters"
+        :color="activeAdvancedFilters ? 'primary' : 'dark'"
+        density="comfortable"
+        @click="advancedFiltersDialog = true"
+      >
+        <v-badge
+          v-if="activeAdvancedFilters"
+          color="primary"
+          :content="activeAdvancedFilters"
         >
-          <v-badge
-            v-if="activeAdvancedFilters"
-            color="primary"
-            :content="activeAdvancedFilters"
-          >
-            <v-icon />
-          </v-badge>
+          <v-icon />
+        </v-badge>
 
-          <v-icon v-else />
-        </v-btn>
-        <component
-          :is="optionAPIComponents.hardFilters ?? HardFilters"
-          v-if="table_props.hardFilters.length"
-          id="header-hardFilters"
-        />
-        <DatatablesHeaderAdvancedFilters v-model="advancedFiltersDialog" />
-        <component :is="optionAPIComponents.toolbar" id="header-toolbar" />
-      </v-col>
-      <v-col class="d-flex align-center justify-end">
+        <v-icon v-else />
+      </v-btn>
+      <component
+        :is="optionAPIComponents.hardFilters ?? HardFilters"
+        v-if="table_props.hardFilters.length"
+        id="header-hardFilters"
+      />
+
+      <DatatablesHeaderAdvancedFilters v-model="advancedFiltersDialog" />
+
+      <component :is="optionAPIComponents.toolbar" id="header-toolbar" />
+
+      <div class="ms-auto">
         <component
           :is="optionAPIComponents.search ?? Search"
           id="header-search"
@@ -91,8 +92,8 @@ const activeAdvancedFilters = computed(() => {
           id="header-options"
           :component-refs="{ columns }"
         />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
     <DatatablesHeaderColumns ref="columns" />
   </div>
 </template>
