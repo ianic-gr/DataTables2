@@ -23,15 +23,15 @@ export function useTableData() {
     Object.keys(filters).forEach((key) => {
       const filterValue = filters[key].value;
       const filterComparison = filters[key]?.comparison ?? "=";
+      const header = table_props.headers.find((h) => {
+        const headerKey = h.advancedFilter?.key ?? h.key;
+        return headerKey === key;
+      });
 
       if (filterValue) {
         filteredItems = filteredItems.filter((item) => {
-          const header = table_props.headers.find((h) => {
-            const headerKey = h.advancedFilter?.key ?? h.key;
-            return headerKey === key;
-          });
-
-          if (!header) return true;
+          let resultFilter = true;
+          if (!header) return resultFilter;
 
           let itemsData = deepClone(item);
 
@@ -49,34 +49,44 @@ export function useTableData() {
             .split(".")
             .reduce((acc, key) => acc && acc[key], itemsData);
 
-          if (header.advancedFilter?.component === "datepicker") {
-            return filterDateRange(value, filterValue);
+          console.log(value);
+
+          switch (header.advancedFilter?.component) {
+            case "datepicker":
+              resultFilter = filterDateRange(value, filterValue);
+              break;
+
+            case "comparison":
+              resultFilter = compareValues(
+                Number(value),
+                Number(filterValue),
+                filterComparison
+              );
+              break;
+
+            default:
+              if (Array.isArray(filterValue)) {
+                resultFilter = filterValue
+                  .map((filter) => filter.toString().toLowerCase())
+                  .includes(value.toString().toLowerCase());
+              } else {
+                resultFilter = value
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(filterValue.toString().toLowerCase());
+              }
+
+              break;
           }
 
-          if (typeof value === "number") {
-            return compareValues(value, filterValue, filterComparison);
-          }
-
-          if (typeof value === "string") {
-            if (Array.isArray(filterValue)) {
-              return filterValue
-                .map((filter) => filter.toLowerCase())
-                .includes(value.toLowerCase());
-            }
-
-            return value
-              ?.toString()
-              .toLowerCase()
-              .includes(filterValue.toString().toLowerCase());
-          }
-
-          return true;
+          return resultFilter;
         });
       }
     });
 
     return filteredItems;
   });
+
   const filterDateRange = (value, filterValue) => {
     const items = Array.isArray(filterValue) ? filterValue : [filterValue];
     const start = moment(items[0])
