@@ -5,103 +5,109 @@ import moment from "moment";
 
 export function useTableData() {
   const { advancedFiltersState, hardFiltersState } = useTableState();
-
   const table_props = inject("table_props");
   const tableData = ref();
 
   const filteredData = computed(() => {
-    const hardFilters = Object.values(hardFiltersState.value)
-      .filter((filter) => filter.args)
-      .map((filter) => filter.args)
-      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
-
-    const filters = { ...advancedFiltersState.value, ...hardFilters };
     let filteredItems = tableData.value;
 
-    if (!filters || Object.keys(filters).length === 0) return filteredItems;
+    if (!filteredItems) return filteredItems;
+
+    const filters = mergeFilters(advancedFiltersState.value, hardFiltersState.value);
+
+    if (!filters || Object.keys(filters).length === 0) {
+      return filteredItems;
+    }
 
     Object.keys(filters).forEach((key) => {
-      const filterValue = filters[key].value;
-      const filterComparison = filters[key]?.comparison ?? "=";
-      const header = table_props.headers.find((h) => {
-        const headerKey = h.advancedFilter?.key ?? h.key;
-        return headerKey === key;
+      const { value: filterValue, comparison: filterComparison = "=" } = filters[key];
+
+      if (!filterValue) return;
+
+      const header = findHeaderForKey(table_props.headers, key);
+      if (!header) return;
+
+      filteredItems = filteredItems.filter((item) => {
+        const value = processItemData(item, key, header);
+
+        if (header.advancedFilter?.customFilterFn && typeof header.advancedFilter.customFilterFn === "function") {
+          return header.advancedFilter.customFilterFn({ value, filterValue, filterComparison, header, item });
+        }
+
+        return applyFilter(value, filterValue, filterComparison, header);
       });
-
-      if (filterValue) {
-        filteredItems = filteredItems.filter((item) => {
-          let resultFilter = true;
-          if (!header) return resultFilter;
-
-          let itemsData = deepClone(item);
-
-          if (
-            Object.hasOwn(header, "filterReturnValue") &&
-            typeof header.filterReturnValue === "function"
-          ) {
-            itemsData[key] = header.filterReturnValue({
-              value: item[key],
-              item,
-            });
-          }
-
-          let value = key
-            .split(".")
-            .reduce((acc, key) => acc && acc[key], itemsData);
-
-          console.log(value);
-
-          switch (header.advancedFilter?.component) {
-            case "datepicker":
-              resultFilter = filterDateRange(value, filterValue);
-              break;
-
-            case "comparison":
-              resultFilter = compareValues(
-                Number(value),
-                Number(filterValue),
-                filterComparison
-              );
-              break;
-
-            default:
-              if (Array.isArray(filterValue)) {
-                resultFilter = filterValue
-                  .map((filter) => filter.toString().toLowerCase())
-                  .includes(value.toString().toLowerCase());
-              } else {
-                resultFilter = value
-                  ?.toString()
-                  .toLowerCase()
-                  .includes(filterValue.toString().toLowerCase());
-              }
-
-              break;
-          }
-
-          return resultFilter;
-        });
-      }
     });
 
     return filteredItems;
   });
 
-  const filterDateRange = (value, filterValue) => {
+  function filterDateRange(value, filterValue) {
     const items = Array.isArray(filterValue) ? filterValue : [filterValue];
-    const start = moment(items[0])
-      .startOf("day")
-      .isSameOrBefore(moment(value).format());
+    const start = moment(items[0]).startOf("day").isSameOrBefore(moment(value).format());
     const end = moment(items[items.length - 1])
       .endOf("day")
       .isSameOrAfter(moment(value).format());
 
     return start && end;
-  };
+  }
+
+  function filterByValue(value, filterValue) {
+    if (Array.isArray(filterValue)) {
+      return filterValue.map((f) => f.toString().toLowerCase()).includes(value.toString().toLowerCase());
+    }
+
+    return value?.toString().toLowerCase().includes(filterValue.toString().toLowerCase());
+  }
+
+  function applyFilter(value, filterValue, filterComparison, header) {
+    switch (header.advancedFilter?.component) {
+      case "datepicker":
+        return filterDateRange(value, filterValue);
+
+      case "comparison":
+        return compareValues(Number(value), Number(filterValue), filterComparison);
+
+      default:
+        return filterByValue(value, filterValue);
+    }
+  }
+
+  function mergeFilters(advancedFiltersState, hardFiltersState) {
+    const hardFilters = Object.values(hardFiltersState)
+      .filter((filter) => filter.args)
+      .map((filter) => filter.args)
+      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+
+    return { ...advancedFiltersState, ...hardFilters };
+  }
+
+  function getNestedValue(obj, path) {
+    return path.split(".").reduce((acc, key) => acc && acc[key], obj);
+  }
+
+  function processItemData(item, key, header) {
+    const itemsData = deepClone(item);
+
+    if (Object.hasOwn(header, "filterReturnValue") && typeof header.filterReturnValue === "function") {
+      itemsData[key] = header.filterReturnValue({
+        value: item[key],
+        item,
+      });
+    }
+
+    return getNestedValue(itemsData, key);
+  }
+
+  function findHeaderForKey(headers, key) {
+    return headers.find((h) => {
+      const headerKey = h.advancedFilter?.key ?? h.key;
+      return headerKey === key;
+    });
+  }
 
   watch(
     () => table_props.data,
-    async (newValue, oldValue) => {
+    (newValue, oldValue) => {
       const data = newValue ?? [];
       const oldData = oldValue ?? [];
 

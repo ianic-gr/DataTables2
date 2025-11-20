@@ -45,8 +45,7 @@ const headers = [
     title: "Full Name",
     key: "fullName",
     hidden: true,
-    value: (item) =>
-      `${item.name} <b>${moment(item.date).format("YYYY-MM-DD h:mm:ss a")}</b>`,
+    value: (item) => `${item.name} <b>${moment(item.date).format("YYYY-MM-DD h:mm:ss a")}</b>`,
   },
   {
     title: "Date",
@@ -102,8 +101,8 @@ const headers = [
     key: "alarms",
     advancedFilter: {
       component: "select",
-      key: "popalarm",
       options: {
+        // multiple: true,
         items: [
           {
             title: "Engine Fail",
@@ -120,13 +119,26 @@ const headers = [
           },
         ],
       },
+      customFilterFn: ({ value, filterValue }) => {
+        if (!filterValue || !filterValue.length) return true;
+
+        const activeAlarms = value.filter((item) => item.active === 1).map((item) => item.alarm);
+
+        for (const i in filterValue) {
+          if (activeAlarms.includes(filterValue[i])) {
+            return true;
+          }
+        }
+
+        return false;
+      },
     },
-    filterReturnValue: ({ value }) => {
-      return value
-        .filter((item) => item.active === 1)
-        .map((item) => item.alarm)
-        .join();
-    },
+    // filterReturnValue: ({ value }) => {
+    //   return value
+    //     .filter((item) => item.active === 1)
+    //     .map((item) => item.alarm)
+    //     .join();
+    // },
     cell: ({ value }) => {
       const badges = [];
       for (const i in value) {
@@ -316,12 +328,5 @@ const options = ref({
 });
 </script>
 <template>
-  <DataTable
-    id="test"
-    :headers="headers"
-    :data="data"
-    :options="options"
-    :hard-filters="hardFilters"
-    class="mb-4"
-  />
+  <DataTable id="test" :headers="headers" :data="data" :options="options" :hard-filters="hardFilters" class="mb-4" />
 </template>
