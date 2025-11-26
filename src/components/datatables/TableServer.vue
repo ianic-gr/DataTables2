@@ -9,6 +9,7 @@ const { tableState, searchState, headersState, advancedFiltersState, hardFilters
 const { tableData } = useTableData();
 
 const table_props = inject("table_props");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const model = defineModel();
 
@@ -16,9 +17,7 @@ const datatableServer = ref(null);
 const loading = ref(false);
 const itemsLength = ref(0);
 
-const getSlotItem = (header) => {
-  return !header?.lock ? `item.${header.key}` : null;
-};
+const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
 
 const returnObjectAttributes = computed(() => {
   return defu(table_props.api?.returnObjectAttributesMap ?? {}, {
@@ -26,6 +25,10 @@ const returnObjectAttributes = computed(() => {
     total: "total",
   });
 });
+
+const getSlotItem = (header) => {
+  return !header?.lock ? `item.${header.key}` : null;
+};
 
 const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
   return await table_props.api.get({
@@ -108,15 +111,11 @@ defineExpose({ getItemsForPrint, reloadItems });
   <v-data-table-server
     ref="datatableServer"
     v-model="model"
-    color="primary"
-    fixed-header
-    fixed-footer
-    show-select
+    :loading="loading || table_props.loading"
+    v-bind="{ ...tableOptions, ...tableState.options.state }"
+    :headers="headersState"
     :items="tableData"
     :items-length="itemsLength"
-    :loading="loading || table_props.loading"
-    :headers="headersState"
-    v-bind="{ ...table_props.options, ...tableState.options.state }"
     :search="searchState"
     @update:options="loadItems"
   >

@@ -5,7 +5,7 @@ import { useExportCsv } from "@/composables/useExportCsv";
 import { useExportPDF } from "@/composables/useExportPDF";
 
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const { t } = useI18n();
 const { exportExcel } = useExportExcel();
@@ -18,19 +18,19 @@ const items = computed(() => [
   {
     title: `${t("$datatables.export")} Excel`,
     onClick: exportExcel,
-    prependIcon: pluginOptions.header.icons.excel,
+    prependIcon: datatablesPluginOptions.header.icons.excel,
     ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} CSV`,
     onClick: exportCsv,
-    prependIcon: pluginOptions.header.icons.csv,
+    prependIcon: datatablesPluginOptions.header.icons.csv,
     ...table_props.options.header?.export?.buttons,
   },
   {
     title: `${t("$datatables.export")} PDF`,
     onClick: exportPDF,
-    prependIcon: pluginOptions.header.icons.pdf,
+    prependIcon: datatablesPluginOptions.header.icons.pdf,
     ...table_props.options.header?.export?.buttons,
   },
 ]);
@@ -42,7 +42,7 @@ const items = computed(() => [
   <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
     <template #activator="{ props }">
       <v-btn
-        :prepend-icon="pluginOptions.header.icons.download"
+        :prepend-icon="datatablesPluginOptions.header.icons.download"
         :text="t('$datatables.download')"
         variant="text"
         density="comfortable"

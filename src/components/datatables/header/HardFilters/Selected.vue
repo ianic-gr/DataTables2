@@ -1,8 +1,11 @@
 <script setup>
+import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useDatatablesHooksStore } from "@/stores/DatatablesHooksStore";
 
 const table_props = inject("table_props");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
+
 const model = defineModel();
 
 const { hardFiltersState } = useTableState();
@@ -12,6 +15,8 @@ const selected = ref([]);
 
 const emit = defineEmits(["save"]);
 const busEmits = inject("busEmits");
+
+const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
 
 watch(selected, (arr) => {
   const selectedObj = {};
@@ -65,14 +70,8 @@ const deactivate = (key) => {
 
 <template>
   <v-sheet>
-    <v-chip-group v-model="selected" selected-class="text-primary" multiple>
-      <v-chip
-        v-for="(tag, key) in table_props.hardFilters"
-        :key="key"
-        class="my-0"
-        v-bind="tag"
-        density="comfortable"
-      />
+    <v-chip-group v-model="selected" :selected-class="`text-${tableOptions.color}`" :color="tableOptions.color" multiple>
+      <v-chip v-for="(tag, key) in table_props.hardFilters" :key="key" class="my-0" v-bind="tag" density="comfortable" />
     </v-chip-group>
   </v-sheet>
 </template>

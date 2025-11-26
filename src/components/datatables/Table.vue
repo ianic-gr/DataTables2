@@ -1,16 +1,20 @@
 <script setup>
+import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { CellRender } from "@/utils/cellRender";
 
-const { tableState, searchState, headersState, saveTableOptions } = useTableState();
-const { filteredData } = useTableData();
-
 const table_props = inject("table_props");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const model = defineModel();
 
+const { tableState, searchState, headersState, saveTableOptions } = useTableState();
+const { filteredData } = useTableData();
+
 const datatable = ref(null);
+
+const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
 
 const getSlotItem = (header) => {
   return !header?.lock ? `item.${header.key}` : null;
@@ -27,14 +31,10 @@ defineExpose({ getItemsForPrint });
   <v-data-table
     ref="datatable"
     v-model="model"
-    color="primary"
-    fixed-header
-    fixed-footer
-    show-select
+    :loading="table_props.loading"
+    v-bind="{ ...tableOptions, ...tableState.options.state }"
     :items="filteredData"
     :headers="headersState"
-    :loading="table_props.loading"
-    v-bind="{ ...table_props.options, ...tableState.options.state }"
     :search="searchState"
     @update:options="saveTableOptions"
   >

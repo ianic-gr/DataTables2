@@ -2,7 +2,7 @@
 import { VTextField, VSelect, VNumberInput } from "vuetify/components";
 
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const advancedFiltersData = defineModel();
 const emit = defineEmits(["closeDialog", "save"]);
@@ -12,14 +12,10 @@ const defaultFilterComponents = {
   select: VSelect,
   number: VNumberInput,
   datepicker: defineAsyncComponent(() =>
-    import(
-      "@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue"
-    )
+    import("@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue")
   ),
   comparison: defineAsyncComponent(() =>
-    import(
-      "@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue"
-    )
+    import("@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue")
   ),
 };
 
@@ -64,11 +60,7 @@ onMounted(async () => {
         {{ $t("$datatables.advancedFilters") }}
       </div>
 
-      <v-btn
-        :icon="pluginOptions.header.icons.close"
-        variant="text"
-        @click="emit('closeDialog')"
-      />
+      <v-btn :icon="datatablesPluginOptions.header.icons.close" variant="text" @click="emit('closeDialog')" />
     </v-card-title>
 
     <v-divider />
@@ -82,13 +74,8 @@ onMounted(async () => {
       >
         <component
           :is="getComponent(header.advancedFilter?.component)"
-          v-model="
-            advancedFiltersData[header.advancedFilter?.key ?? header.key].value
-          "
-          v-model:comparison="
-            advancedFiltersData[header.advancedFilter?.key ?? header.key]
-              .comparison
-          "
+          v-model="advancedFiltersData[header.advancedFilter?.key ?? header.key].value"
+          v-model:comparison="advancedFiltersData[header.advancedFilter?.key ?? header.key].comparison"
           v-bind="header.advancedFilter?.options"
           :label="header.title"
           variant="underlined"
@@ -100,19 +87,9 @@ onMounted(async () => {
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
-      <v-btn
-        class="text-none"
-        :text="$t('$datatables.cancel')"
-        @click="emit('closeDialog')"
-      />
+      <v-btn class="text-none" :text="$t('$datatables.cancel')" @click="emit('closeDialog')" />
 
-      <v-btn
-        class="text-none"
-        color="primary"
-        :text="$t('$datatables.submit')"
-        variant="flat"
-        @click="emit('save')"
-      />
+      <v-btn class="text-none" color="primary" :text="$t('$datatables.submit')" variant="flat" @click="emit('save')" />
     </v-card-actions>
   </v-card>
 </template>

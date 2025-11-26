@@ -6,8 +6,14 @@ export { useCellRendererFrameworks } from "../composables/useCellRendererFramewo
 export default {
   install(app, options) {
     app.provide(
-      "pluginOptions",
+      "datatablesPluginOptions",
       defu(options, {
+        options: {
+          color: "primary",
+          fixedHeader: true,
+          fixedFooter: true,
+          showSelect: true,
+        },
         header: {
           icons: {
             advancedFilters: "mdi-filter-variant",

@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<Props>(), {
   buttons: () => [],
 });
 
-const pluginOptions = inject<Record<string, any>>("pluginOptions");
+const datatablesPluginOptions = inject<Record<string, any>>("datatablesPluginOptions");
 
 const items = computed(() => {
   return props.buttons ?? [{ title: "No Items" }];
@@ -16,7 +16,7 @@ const items = computed(() => {
 </script>
 
 <template>
-  <v-btn :icon="pluginOptions?.header.icons.options" variant="text" size="small">
+  <v-btn :icon="datatablesPluginOptions?.header.icons.options" variant="text" size="small">
     <v-icon />
     <v-menu class="action-buttons" location="bottom end" activator="parent" offset="4">
       <v-list

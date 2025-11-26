@@ -5,7 +5,7 @@ import { watchDebounced } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const datatablesStore = useDatatablesStore();
 const { searchState } = useTableState();
@@ -46,14 +46,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
-    location="bottom center"
-  >
+  <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
     <template #activator="{ props }">
       <v-btn
-        :prepend-icon="pluginOptions.header.icons.search"
+        :prepend-icon="datatablesPluginOptions.header.icons.search"
         :text="$t('$datatables.search')"
         variant="text"
         density="comfortable"
@@ -74,7 +70,7 @@ onMounted(() => {
           variant="outlined"
           clearable
           hide-details
-          :prepend-inner-icon="pluginOptions.header.icons.search"
+          :prepend-inner-icon="datatablesPluginOptions.header.icons.search"
         />
       </v-card-text>
     </v-card>

@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 import { usePrint } from "@/composables/usePrint";
 
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const { t } = useI18n();
 const { printTable } = usePrint();
@@ -14,7 +14,7 @@ const items = computed(() => [
   {
     title: t("$datatables.print"),
     onClick: printTable,
-    prependIcon: pluginOptions.header.icons.print,
+    prependIcon: datatablesPluginOptions.header.icons.print,
     ...table_props.options.header?.export?.buttons,
   },
   ...(table_props.options?.globalButtons ?? []),
@@ -25,7 +25,7 @@ const items = computed(() => [
   <v-menu v-model="menu" :close-on-content-click="false" location="bottom end">
     <template #activator="{ props }">
       <v-btn
-        :prepend-icon="pluginOptions.header.icons.options"
+        :prepend-icon="datatablesPluginOptions.header.icons.options"
         :text="$t('$datatables.more')"
         variant="text"
         density="comfortable"

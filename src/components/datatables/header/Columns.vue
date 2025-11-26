@@ -1,7 +1,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const { t } = useI18n();
 
@@ -17,7 +17,7 @@ defineProps({
 
 <template>
   <v-btn
-    :prepend-icon="pluginOptions.header.icons.columns"
+    :prepend-icon="datatablesPluginOptions.header.icons.columns"
     :text="t('$datatables.columns')"
     variant="text"
     density="comfortable"

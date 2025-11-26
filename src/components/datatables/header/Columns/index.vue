@@ -4,7 +4,7 @@ import { useTableState } from "@/composables/useTableState";
 import { useDatastate } from "@/composables/dataState";
 
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const { tableState } = useTableState();
 const { tableDataState } = useDatastate(table_props);
@@ -45,10 +45,8 @@ onMounted(async () => {
 
 const save = () => {
   if (
-    JSON.stringify(selectedList.value) !==
-      JSON.stringify(tableState.value.options.columns?.selected) ||
-    JSON.stringify(sortedList.value) !==
-      JSON.stringify(tableState.value.options.columns?.sorted)
+    JSON.stringify(selectedList.value) !== JSON.stringify(tableState.value.options.columns?.selected) ||
+    JSON.stringify(sortedList.value) !== JSON.stringify(tableState.value.options.columns?.sorted)
   ) {
     tableDataState.value.options.columns.selected = selectedList.value;
     tableDataState.value.options.columns.sorted = sortedList.value;
@@ -69,11 +67,7 @@ defineExpose({ openDialog });
             {{ $t("$datatables.selectColumns") }}
           </div>
 
-          <v-btn
-            :icon="pluginOptions.header.icons.close"
-            variant="text"
-            @click="isActive.value = false"
-          />
+          <v-btn :icon="datatablesPluginOptions.header.icons.close" variant="text" @click="isActive.value = false" />
         </v-card-title>
 
         <v-divider />
@@ -88,15 +82,11 @@ defineExpose({ openDialog });
               @click="() => {}"
             >
               <template #prepend>
-                <v-checkbox
-                  v-model="selectedList"
-                  :value="header?.key"
-                  hide-details
-                />
+                <v-checkbox v-model="selectedList" :value="header?.key" hide-details />
               </template>
 
               <template #append>
-                <v-icon :icon="pluginOptions.header.icons.drag" />
+                <v-icon :icon="datatablesPluginOptions.header.icons.drag" />
               </template>
             </v-list-item>
           </v-list>
@@ -105,19 +95,9 @@ defineExpose({ openDialog });
         <v-divider class="mt-2" />
 
         <v-card-actions class="my-2 d-flex justify-end">
-          <v-btn
-            class="text-none"
-            :text="$t('$datatables.cancel')"
-            @click="isActive.value = false"
-          />
+          <v-btn class="text-none" :text="$t('$datatables.cancel')" @click="isActive.value = false" />
 
-          <v-btn
-            class="text-none"
-            color="primary"
-            :text="$t('$datatables.submit')"
-            variant="flat"
-            @click="save"
-          />
+          <v-btn class="text-none" color="primary" :text="$t('$datatables.submit')" variant="flat" @click="save" />
         </v-card-actions>
       </v-card>
     </template>

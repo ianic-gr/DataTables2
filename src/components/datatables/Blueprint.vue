@@ -14,7 +14,7 @@ const { saveTableOptions } = useTableState();
 
 const model = defineModel();
 const table_props = inject("table_props");
-const pluginOptions = inject("pluginOptions");
+const datatablesPluginOptions = inject("datatablesPluginOptions");
 
 const tableRef = ref(null);
 const downloadModal = ref(false);
@@ -81,7 +81,10 @@ defineExpose({ tableRef });
 
     <v-dialog v-model="downloadModal" max-width="350" persistent>
       <v-list class="py-2" color="primary" elevation="12" rounded="lg">
-        <v-list-item :prepend-icon="pluginOptions.header.icons.download" :title="$t('$datatables.preparing_download_file')">
+        <v-list-item
+          :prepend-icon="datatablesPluginOptions.header.icons.download"
+          :title="$t('$datatables.preparing_download_file')"
+        >
           <template #prepend>
             <div class="pe-4">
               <v-icon color="primary" size="x-large" />
