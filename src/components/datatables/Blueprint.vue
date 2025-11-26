@@ -5,13 +5,9 @@ import { useDatastate } from "@/composables/dataState";
 import { useUserState } from "@/composables/useUserState.ts";
 import { useTableState } from "@/composables/useTableState";
 
-const Table = defineAsyncComponent(() =>
-  import("@/components/datatables/Table.vue")
-);
+const Table = defineAsyncComponent(() => import("@/components/datatables/Table.vue"));
 
-const TableServer = defineAsyncComponent(() =>
-  import("@/components/datatables/TableServer.vue")
-);
+const TableServer = defineAsyncComponent(() => import("@/components/datatables/TableServer.vue"));
 
 const { storeOptions } = useUserState();
 const { saveTableOptions } = useTableState();
@@ -25,26 +21,17 @@ const downloadModal = ref(false);
 const blueprintInit = ref(false);
 const tableInit = ref(false);
 
-const busEmits = defineEmits([
-  "refreshTable",
-  "refetchData",
-  "advancedFilters:update",
-  "hardFilters:update",
-]);
+const busEmits = defineEmits(["refreshTable", "refetchData", "advancedFilters:update", "hardFilters:update"]);
 
 const datatablesStore = useDatatablesStore();
-const { dataStateGet, tableDataState, checkTableState } =
-  useDatastate(table_props);
+const { dataStateGet, tableDataState, checkTableState } = useDatastate(table_props);
 
 const { addTable, restoreData } = datatablesStore;
 
 const headerVisibility = computed(() => {
   const headerOption = table_props.options?.header;
 
-  return (
-    headerOption === undefined ||
-    (typeof headerOption === "object" && headerOption !== null)
-  );
+  return headerOption === undefined || (typeof headerOption === "object" && headerOption !== null);
 });
 
 onMounted(async () => {
@@ -60,16 +47,12 @@ onMounted(async () => {
     const options = tableDataState.value.options;
     const columns = options.columns;
 
-    columns.selected = table_props.headers
-      .filter((header) => !header.hidden)
-      .map((header) => header.key);
+    columns.selected = table_props.headers.filter((header) => !header.hidden).map((header) => header.key);
 
     columns.sorted = table_props.headers.map((header) => header.key);
   }
 
-  saveTableOptions(
-    defu(storeOptions.state.value, tableDataState.value.options.state)
-  );
+  saveTableOptions(defu(storeOptions.state.value, tableDataState.value.options.state));
 
   blueprintInit.value = true;
 
@@ -92,21 +75,13 @@ defineExpose({ tableRef });
         <DatatablesHeader />
       </v-card-title>
       <v-card-text class="pa-0">
-        <component
-          :is="table_props.api ? TableServer : Table"
-          v-if="tableInit"
-          ref="tableRef"
-          v-model="model"
-        />
+        <component :is="table_props.api ? TableServer : Table" v-if="tableInit" ref="tableRef" v-model="model" />
       </v-card-text>
     </v-card>
 
     <v-dialog v-model="downloadModal" max-width="350" persistent>
       <v-list class="py-2" color="primary" elevation="12" rounded="lg">
-        <v-list-item
-          :prepend-icon="pluginOptions.header.icons.download"
-          :title="$t('$datatables.preparing_download_file')"
-        >
+        <v-list-item :prepend-icon="pluginOptions.header.icons.download" :title="$t('$datatables.preparing_download_file')">
           <template #prepend>
             <div class="pe-4">
               <v-icon color="primary" size="x-large" />
@@ -114,15 +89,36 @@ defineExpose({ tableRef });
           </template>
 
           <template #append>
-            <v-progress-circular
-              color="primary"
-              indeterminate="disable-shrink"
-              size="16"
-              width="2"
-            />
+            <v-progress-circular color="primary" indeterminate="disable-shrink" size="16" width="2" />
           </template>
         </v-list-item>
       </v-list>
     </v-dialog>
   </div>
 </template>
+
+<style lang="scss">
+.datatables-v2 {
+  th.v-data-table__td.v-data-table__th,
+  th.v-data-table__td.v-data-table__th.v-data-table__th--sticky {
+    .v-theme--light & {
+      background-color: #f5f5f5;
+    }
+    border-top: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+
+    &:not(:last-child) {
+      border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    }
+  }
+
+  td.v-data-table__td:not(:last-child) {
+    border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+}
+
+.options-list {
+  .v-list-item__spacer {
+    width: 10px !important;
+  }
+}
+</style>

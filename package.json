@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {
@@ -67,7 +67,7 @@
     "roboto-fontface": "*",
     "sortablejs": "^1.15.6",
     "vue": "^3.5.25",
-    "vue-i18n": "^11.2.1",
+    "vue-i18n": "^11.2.2",
     "vuetify": "^3.11.1",
     "xlsx": "npm:@e965/xlsx@0.20.3"
   },
@@ -80,7 +80,7 @@
     "@vue/tsconfig": "^0.8.1",
     "defu": "^6.1.4",
     "eslint": "^9.39.1",
-    "eslint-plugin-vue": "^10.6.0",
+    "eslint-plugin-vue": "^10.6.1",
     "pinia": "^3.0.4",
     "sass": "^1.94.2",
     "typescript": "^5.9.3",

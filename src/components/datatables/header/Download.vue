@@ -39,11 +39,7 @@ const items = computed(() => [
 =
 
 <template>
-  <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
-    location="bottom center"
-  >
+  <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
     <template #activator="{ props }">
       <v-btn
         :prepend-icon="pluginOptions.header.icons.download"
@@ -65,21 +61,7 @@ const items = computed(() => [
       variant="text"
       slim
     >
-      <v-list-item
-        v-for="(item, i) in items"
-        v-bind="item"
-        :key="i"
-        rounded="lg"
-        link
-      />
+      <v-list-item v-for="(item, i) in items" v-bind="item" :key="i" rounded="lg" link />
     </v-list>
   </v-menu>
 </template>
-
-<style lang="scss">
-.options-list {
-  .v-list-item__spacer {
-    width: 10px !important;
-  }
-}
-</style>

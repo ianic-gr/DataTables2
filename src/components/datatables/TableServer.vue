@@ -5,14 +5,7 @@ import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { CellRender } from "@/utils/cellRender";
 
-const {
-  tableState,
-  searchState,
-  headersState,
-  advancedFiltersState,
-  hardFiltersState,
-  saveTableOptions,
-} = useTableState();
+const { tableState, searchState, headersState, advancedFiltersState, hardFiltersState, saveTableOptions } = useTableState();
 const { tableData } = useTableData();
 
 const table_props = inject("table_props");
@@ -116,6 +109,8 @@ defineExpose({ getItemsForPrint, reloadItems });
     ref="datatableServer"
     v-model="model"
     color="primary"
+    fixed-header
+    fixed-footer
     show-select
     :items="tableData"
     :items-length="itemsLength"
@@ -129,11 +124,7 @@ defineExpose({ getItemsForPrint, reloadItems });
       <v-skeleton-loader type="table-row@20" />
     </template>
 
-    <template
-      v-for="(header, i) in headersState"
-      #[getSlotItem(header)]="{ item, internalItem, value, column }"
-      :key="i"
-    >
+    <template v-for="(header, i) in headersState" #[getSlotItem(header)]="{ item, internalItem, value, column }" :key="i">
       <div :class="column.cellClass">
         <CellRender
           v-if="column?.cell"

@@ -16,18 +16,9 @@ const items = computed(() => {
 </script>
 
 <template>
-  <v-btn
-    :icon="pluginOptions?.header.icons.options"
-    variant="text"
-    size="small"
-  >
+  <v-btn :icon="pluginOptions?.header.icons.options" variant="text" size="small">
     <v-icon />
-    <v-menu
-      class="action-buttons"
-      location="bottom end"
-      activator="parent"
-      offset="4"
-    >
+    <v-menu class="action-buttons" location="bottom end" activator="parent" offset="4">
       <v-list
         bg-color="surface-light"
         class="options-list d-flex flex-column ga-1 pa-1"
@@ -36,22 +27,8 @@ const items = computed(() => {
         variant="text"
         slim
       >
-        <v-list-item
-          v-for="(item, i) in items"
-          v-bind="item"
-          :key="i"
-          rounded="lg"
-          link
-        />
+        <v-list-item v-for="(item, i) in items" v-bind="item" :key="i" rounded="lg" link />
       </v-list>
     </v-menu>
   </v-btn>
 </template>
-
-<style lang="scss">
-.options-list {
-  .v-list-item__spacer {
-    width: 10px !important;
-  }
-}
-</style>

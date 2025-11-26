@@ -3,8 +3,7 @@ import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { CellRender } from "@/utils/cellRender";
 
-const { tableState, searchState, headersState, saveTableOptions } =
-  useTableState();
+const { tableState, searchState, headersState, saveTableOptions } = useTableState();
 const { filteredData } = useTableData();
 
 const table_props = inject("table_props");
@@ -29,6 +28,8 @@ defineExpose({ getItemsForPrint });
     ref="datatable"
     v-model="model"
     color="primary"
+    fixed-header
+    fixed-footer
     show-select
     :items="filteredData"
     :headers="headersState"
@@ -41,11 +42,7 @@ defineExpose({ getItemsForPrint });
       <v-skeleton-loader type="table-row@10" />
     </template>
 
-    <template
-      v-for="(header, i) in headersState"
-      #[getSlotItem(header)]="{ item, internalItem, value, column }"
-      :key="i"
-    >
+    <template v-for="(header, i) in headersState" #[getSlotItem(header)]="{ item, internalItem, value, column }" :key="i">
       <div :class="column.cellClass">
         <CellRender
           v-if="column?.cell"

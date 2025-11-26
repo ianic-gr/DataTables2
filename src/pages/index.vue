@@ -273,6 +273,321 @@ const data = ref([
       { alarm: "overheat", active: 0 },
     ],
   },
+  {
+    id: 1,
+    name: "Chevrolet Camaro",
+    date: "05/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Ford Mustang",
+    date: "06/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 271,
+    torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
+    ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chevrolet Camaro",
+    date: "07/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ford Mustang",
+    date: "08/11/2025 08:34:31",
+    engine: "*",
+    horsepower: 271,
+    torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 1,
+    name: "Chevrolet Camaro",
+    date: "05/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Ford Mustang",
+    date: "06/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 271,
+    torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
+    ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chevrolet Camaro",
+    date: "07/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ford Mustang",
+    date: "08/11/2025 08:34:31",
+    engine: "*",
+    horsepower: 271,
+    torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 1,
+    name: "Chevrolet Camaro",
+    date: "05/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Ford Mustang",
+    date: "06/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 271,
+    torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
+    ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chevrolet Camaro",
+    date: "07/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ford Mustang",
+    date: "08/11/2025 08:34:31",
+    engine: "*",
+    horsepower: 271,
+    torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 1,
+    name: "Chevrolet Camaro",
+    date: "05/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Ford Mustang",
+    date: "06/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 271,
+    torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
+    ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chevrolet Camaro",
+    date: "07/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ford Mustang",
+    date: "08/11/2025 08:34:31",
+    engine: "*",
+    horsepower: 271,
+    torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 1,
+    name: "Chevrolet Camaro",
+    date: "05/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    pop: {
+      stop: "Hellox",
+    },
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Ford Mustang",
+    date: "06/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 271,
+    torque: 312,
+    skop: [
+      {
+        pop: "22222222222222222",
+      },
+      {
+        pop: "xxxxxxxxxxxxx",
+      },
+    ],
+    alarms: [
+      { alarm: "burst", active: 1 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chevrolet Camaro",
+    date: "07/11/2025 08:34:31",
+    engine: "V8",
+    horsepower: 375,
+    torque: 415,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 1 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ford Mustang",
+    date: "08/11/2025 08:34:31",
+    engine: "*",
+    horsepower: 271,
+    torque: 312,
+    alarms: [
+      { alarm: "burst", active: 0 },
+      { alarm: "engine_fail", active: 0 },
+      { alarm: "overheat", active: 0 },
+    ],
+  },
 ]);
 
 const hardFilters = ref([
