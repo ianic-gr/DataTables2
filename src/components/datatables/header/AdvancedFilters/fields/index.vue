@@ -1,5 +1,5 @@
 <script setup>
-import { VTextField, VSelect, VNumberInput } from "vuetify/components";
+import { VTextField, VAutocomplete, VNumberInput } from "vuetify/components";
 
 const table_props = inject("table_props");
 const datatablesPluginOptions = inject("datatablesPluginOptions");
@@ -9,7 +9,7 @@ const emit = defineEmits(["closeDialog", "save"]);
 
 const defaultFilterComponents = {
   textfield: VTextField,
-  select: VSelect,
+  select: VAutocomplete,
   number: VNumberInput,
   datepicker: defineAsyncComponent(() =>
     import("@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue")
