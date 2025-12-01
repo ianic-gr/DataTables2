@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {
@@ -53,8 +53,9 @@
     "update": "npx npm-check-updates --interactive --format group"
   },
   "dependencies": {
-    "@mdi/font": "7.4.47",
+    "@mdi/font": "^7.4.47",
     "@vueuse/core": "^14.1.0",
+    "@vueuse/integrations": "^14.1.0",
     "core-js": "^3.47.0",
     "export-to-csv": "^1.4.0",
     "file-saver": "^2.0.5",

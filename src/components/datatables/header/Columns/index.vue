@@ -1,5 +1,5 @@
 <script setup>
-import Sortable from "sortablejs";
+import { useSortable } from "@vueuse/integrations/useSortable";
 import { useTableState } from "@/composables/useTableState";
 import { useDatastate } from "@/composables/dataState";
 
@@ -10,7 +10,7 @@ const { tableState } = useTableState();
 const { tableDataState } = useDatastate(table_props);
 
 const componentKey = ref(0);
-const list = ref(null);
+const listRef = useTemplateRef("listRef");
 const dialog = ref(false);
 const sortedHeaders = ref([]);
 
@@ -22,9 +22,19 @@ const openDialog = () => {
 };
 
 onMounted(async () => {
+  selectedList.value = tableState.value.options.columns?.selected;
+  sortedList.value = tableState.value.options.columns?.sorted;
+
+  sortedHeaders.value = sortedList.value.map((sortedHeader) => {
+    return table_props.headers.find((header) => header.key === sortedHeader);
+  });
+
   await nextTick();
-  Sortable.create(list.value.$el, {
-    onEnd: async (evt) => {
+
+  const { option } = useSortable(listRef, sortedHeaders, {
+    onUpdate: async (evt) => {
+      await nextTick();
+
       const newSortedList = Array.from(evt.from.children).map(function (item) {
         return item.getAttribute("header-keys");
       });
@@ -35,12 +45,7 @@ onMounted(async () => {
     },
   });
 
-  selectedList.value = tableState.value.options.columns?.selected;
-  sortedList.value = tableState.value.options.columns?.sorted;
-
-  sortedHeaders.value = sortedList.value.map((sortedHeader) => {
-    return table_props.headers.find((header) => header.key === sortedHeader);
-  });
+  option("animation", 200);
 });
 
 const save = () => {
@@ -73,7 +78,7 @@ defineExpose({ openDialog });
         <v-divider />
 
         <v-card-text class="overflow-auto pt-8">
-          <v-list ref="list">
+          <v-list ref="listRef">
             <v-list-item
               v-for="(header, i) in sortedHeaders"
               :key="`${componentKey}-${i}`"
