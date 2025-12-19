@@ -92,7 +92,6 @@ export default defineConfig({
           pinia: "Pinia",
         },
         manualChunks: {
-          sortablejs: ["sortablejs"],
           jspdf: ["jspdf", "jspdf-autotable"],
           xlsx: ["xlsx"],
           exporttocsv: ["export-to-csv"],

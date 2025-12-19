@@ -88,8 +88,9 @@ export function useTableData() {
   function processItemData(item, key, header) {
     const itemsData = deepClone(item);
 
-    if (Object.hasOwn(header, "filterReturnValue") && typeof header.filterReturnValue === "function") {
-      itemsData[key] = header.filterReturnValue({
+    const fn = header.advancedFilter?.filterReturnValue;
+    if (typeof fn === "function") {
+      itemsData[key] = fn({
         value: item[key],
         item,
       });

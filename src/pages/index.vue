@@ -70,8 +70,12 @@ const headers = [
   {
     title: "Horsepower",
     key: "horsepower",
+    value: (item) => item.horsepower / 1000,
     advancedFilter: {
       component: "comparison",
+      filterReturnValue: ({ value }) => {
+        return value / 1000;
+      },
     },
   },
   {
@@ -133,12 +137,6 @@ const headers = [
         return false;
       },
     },
-    // filterReturnValue: ({ value }) => {
-    //   return value
-    //     .filter((item) => item.active === 1)
-    //     .map((item) => item.alarm)
-    //     .join();
-    // },
     cell: ({ value }) => {
       const badges = [];
       for (const i in value) {
@@ -215,7 +213,7 @@ const data = ref([
     name: "Chevrolet Camaro",
     date: "05/11/2025 08:34:31",
     engine: "V8",
-    horsepower: 375,
+    horsepower: "670.451",
     torque: 415,
     pop: {
       stop: "Hellox",
@@ -231,7 +229,7 @@ const data = ref([
     name: "Ford Mustang",
     date: "06/11/2025 08:34:31",
     engine: "V8",
-    horsepower: 271,
+    horsepower: "5851.226",
     torque: 312,
     skop: [
       {
@@ -252,7 +250,7 @@ const data = ref([
     name: "Chevrolet Camaro",
     date: "07/11/2025 08:34:31",
     engine: "V8",
-    horsepower: 375,
+    horsepower: "164.536",
     torque: 415,
     alarms: [
       { alarm: "burst", active: 0 },
@@ -265,7 +263,7 @@ const data = ref([
     name: "Ford Mustang",
     date: "08/11/2025 08:34:31",
     engine: "*",
-    horsepower: 271,
+    horsepower: "999994.758",
     torque: 312,
     alarms: [
       { alarm: "burst", active: 0 },
