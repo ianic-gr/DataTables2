@@ -2,6 +2,7 @@
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import deepClone from "@/utils/deepClone";
+import { deepEqual } from "@/utils/deepEqual";
 
 const datatablesStore = useDatatablesStore();
 const { advancedFiltersState } = useTableState();
@@ -28,9 +29,7 @@ const save = () => {
     }, {});
 
   // Only update if the filters have actually changed
-  if (
-    JSON.stringify(newFilters) !== JSON.stringify(advancedFiltersState.value)
-  ) {
+  if (!deepEqual(newFilters, advancedFiltersState.value)) {
     setData({
       table_id: table_props.id,
       name: "advancedFilters",

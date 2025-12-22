@@ -4,6 +4,8 @@ import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { CellRender } from "@/utils/cellRender";
+import { deepEqual } from "@/utils/deepEqual";
+import deepClone from "@/utils/deepClone";
 
 const { tableState, searchState, headersState, advancedFiltersState, hardFiltersState, saveTableOptions } = useTableState();
 const { tableData } = useTableData();
@@ -18,6 +20,22 @@ const loading = ref(false);
 const itemsLength = ref(0);
 
 const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
+const advancedFilters = computed(() => {
+  return Object.fromEntries(
+    Object.entries(deepClone(advancedFiltersState.value)).map(([key, filter]) => {
+      const header = headersState.value.find((h) => h.key === key);
+
+      if (
+        Object.hasOwn(header?.advancedFilter ?? {}, "filterReturnValue") &&
+        typeof header.advancedFilter.filterReturnValue === "function"
+      ) {
+        filter.value = header.advancedFilter.filterReturnValue({ value: filter.value });
+      }
+
+      return [key, filter];
+    })
+  );
+});
 
 const returnObjectAttributes = computed(() => {
   return defu(table_props.api?.returnObjectAttributesMap ?? {}, {
@@ -36,7 +54,7 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
     page,
     itemsPerPage,
     sortBy,
-    advancedFilters: advancedFiltersState.value,
+    advancedFilters: advancedFilters.value,
     hardFilters: hardFiltersState.value,
     headers: headersState.value,
   });
@@ -93,10 +111,7 @@ onMounted(async () => {
       const [newAdvanced, newHard] = newValues;
       const [oldAdvanced, oldHard] = oldValues;
 
-      if (
-        JSON.stringify(newAdvanced) !== JSON.stringify(oldAdvanced) ||
-        JSON.stringify(newHard) !== JSON.stringify(oldHard)
-      ) {
+      if (!deepEqual(newAdvanced, oldAdvanced) || !deepEqual(newHard, oldHard)) {
         reloadItems();
       }
     },

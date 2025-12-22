@@ -2,6 +2,7 @@ import deepClone from "@/utils/deepClone";
 import compareValues from "@/utils/compareValues";
 import { useTableState } from "@/composables/useTableState";
 import moment from "moment";
+import { deepEqual } from "@/utils/deepEqual";
 
 export function useTableData() {
   const { advancedFiltersState, hardFiltersState } = useTableState();
@@ -112,7 +113,7 @@ export function useTableData() {
       const data = newValue ?? [];
       const oldData = oldValue ?? [];
 
-      if (JSON.stringify(data) !== JSON.stringify(oldData)) {
+      if (!deepEqual(data, oldData)) {
         tableData.value = newValue;
       }
     },

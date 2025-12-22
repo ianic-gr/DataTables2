@@ -2,6 +2,7 @@
 import { useSortable } from "@vueuse/integrations/useSortable";
 import { useTableState } from "@/composables/useTableState";
 import { useDatastate } from "@/composables/dataState";
+import { deepEqual } from "@/utils/deepEqual";
 
 const table_props = inject("table_props");
 const datatablesPluginOptions = inject("datatablesPluginOptions");
@@ -39,7 +40,7 @@ onMounted(async () => {
         return item.getAttribute("header-keys");
       });
 
-      if (JSON.stringify(newSortedList) !== JSON.stringify(sortedList.value)) {
+      if (!deepEqual(newSortedList, sortedList.value)) {
         sortedList.value = newSortedList;
       }
     },
@@ -50,8 +51,8 @@ onMounted(async () => {
 
 const save = () => {
   if (
-    JSON.stringify(selectedList.value) !== JSON.stringify(tableState.value.options.columns?.selected) ||
-    JSON.stringify(sortedList.value) !== JSON.stringify(tableState.value.options.columns?.sorted)
+    !deepEqual(selectedList.value, tableState.value.options.columns?.selected) ||
+    !deepEqual(sortedList.value, tableState.value.options.columns?.sorted)
   ) {
     tableDataState.value.options.columns.selected = selectedList.value;
     tableDataState.value.options.columns.sorted = sortedList.value;
