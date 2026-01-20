@@ -1,32 +1,20 @@
-<script setup>
-import { useDatastate } from "@/composables/dataState";
-import { useI18n } from "vue-i18n";
+<script setup lang="ts">
+import { useRefreshTable } from "@/composables/useRefreshTable";
 
-const busEmits = inject("busEmits");
-const table_props = inject("table_props");
-const datatablesPluginOptions = inject("datatablesPluginOptions");
-
-const { deleteDataStorage } = useDatastate(table_props);
-const { t } = useI18n();
-
-const loading = ref(false);
-
-const onClick = () => {
-  deleteDataStorage();
-  busEmits("refetchData");
-};
+const { refreshTableItems } = useRefreshTable();
 </script>
 
 <template>
   <v-btn
-    :disabled="loading"
-    :prepend-icon="datatablesPluginOptions.header.icons.refresh"
-    :text="t('$datatables.refresh')"
+    v-for="(item, i) in refreshTableItems"
+    id="header-refreshTable"
+    v-bind="item"
+    :key="i"
+    :text="item.title"
     variant="text"
     density="comfortable"
     color="dark"
     stacked
     class="text-capitalize"
-    @click="onClick"
   />
 </template>

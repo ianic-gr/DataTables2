@@ -1,9 +1,10 @@
 <script setup>
 import defu from "defu";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
-import { useDatastate } from "@/composables/dataState";
+import { useDatastate } from "@/composables/useDataState";
 import { useUserState } from "@/composables/useUserState.ts";
 import { useTableState } from "@/composables/useTableState";
+import { useResizeObserver } from "@vueuse/core";
 
 const Table = defineAsyncComponent(() => import("@/components/datatables/Table.vue"));
 
@@ -27,6 +28,15 @@ const datatablesStore = useDatatablesStore();
 const { dataStateGet, tableDataState, checkTableState } = useDatastate(table_props);
 
 const { addTable, restoreData } = datatablesStore;
+
+const responsiveHeader = ref(false);
+
+useResizeObserver(tableRef, (entries) => {
+  const entry = entries[0];
+  const { width } = entry.contentRect;
+
+  responsiveHeader.value = width < 950;
+});
 
 const headerVisibility = computed(() => {
   const headerOption = table_props.options?.header;
@@ -72,7 +82,7 @@ defineExpose({ tableRef });
   <div v-if="blueprintInit" class="datatables-v2">
     <v-card>
       <v-card-title v-if="headerVisibility">
-        <DatatablesHeader />
+        <DatatablesHeader :responsive-header />
       </v-card-title>
       <v-card-text class="pa-0">
         <component :is="table_props.api ? TableServer : Table" v-if="tableInit" ref="tableRef" v-model="model" />
