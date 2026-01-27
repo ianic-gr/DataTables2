@@ -43,16 +43,14 @@ defineExpose({ getItemsForPrint });
     </template>
 
     <template v-for="(header, i) in headersState" #[getSlotItem(header)]="{ item, internalItem, value, column }" :key="i">
-      <div :class="column.cellClass">
-        <CellRender
-          v-if="column?.cell"
-          :render="column.cell({ item, internalItem, value, column })"
-          :params="{ item, internalItem, value, column }"
-        />
-        <span v-else>
-          {{ String(value).length || String(value) === "0" ? value : "-" }}
-        </span>
-      </div>
+      <CellRender
+        v-if="column?.cell"
+        :render="column.cell({ item, internalItem, value, column })"
+        :params="{ item, internalItem, value, column }"
+      />
+      <span v-else>
+        {{ String(value).length || String(value) === "0" ? value : "-" }}
+      </span>
     </template>
 
     <template #expanded-row="{ columns, item }">

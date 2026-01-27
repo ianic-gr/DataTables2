@@ -1,20 +1,42 @@
-<script setup>
+<script setup lang="ts">
 import ExpandedVue from "@/components/examples/components/Expanded.vue";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 import moment from "moment";
 import { VChip } from "vuetify/components";
+import type { ColumnDef } from "@ianicdev/datatables2";
 
-const headers = [
+// First, define your data DTO type
+type CarData = {
+  id: number;
+  name: string;
+  date: string;
+  engine: string;
+  horsepower: string;
+  torque: number;
+  pop?: {
+    stop: string;
+  };
+  skop?: Array<{
+    pop: string;
+  }>;
+  alarms: Array<{
+    alarm: string;
+    active: number;
+  }>;
+};
+
+// Usage example with your headers
+const headers: ColumnDef<CarData>[] = [
   {
     title: "ID",
     key: "id",
+    width: 50,
     advancedFilter: false,
     hidden: true,
   },
   {
     title: "First Name",
     key: "name",
-    cellClass: "font-weight-medium",
     cell: ({ value }) => {
       const { DTLink } = useCellRendererFrameworks();
 
@@ -50,6 +72,7 @@ const headers = [
   {
     title: "Date",
     key: "date",
+    cellProps: { class: "font-weight-bold" },
     advancedFilter: {
       component: "datepicker",
       options: {
@@ -70,7 +93,7 @@ const headers = [
   {
     title: "Horsepower",
     key: "horsepower",
-    value: (item) => item.horsepower / 1000,
+    value: (item) => Number(item.horsepower) / 1000,
     advancedFilter: {
       component: "comparison",
       filterReturnValue: ({ value }) => {
@@ -116,7 +139,6 @@ const headers = [
             title: "Overheat",
             value: "overheat",
           },
-
           {
             title: "Burst",
             value: "burst",
@@ -126,7 +148,7 @@ const headers = [
       customFilterFn: ({ value, filterValue }) => {
         if (!filterValue || !filterValue.length) return true;
 
-        const activeAlarms = value.filter((item) => item.active === 1).map((item) => item.alarm);
+        const activeAlarms = value.filter((item: any) => item.active === 1).map((item: any) => item.alarm);
 
         for (const i in filterValue) {
           if (activeAlarms.includes(filterValue[i])) {
@@ -158,8 +180,8 @@ const headers = [
               },
               {
                 default: () => h("div", value[i].alarm),
-              }
-            )
+              },
+            ),
           );
         }
       }
