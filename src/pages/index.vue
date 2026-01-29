@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { ColumnDef } from "@ianicdev/datatables2";
 import ExpandedVue from "@/components/examples/components/Expanded.vue";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 import moment from "moment";
 import { VChip } from "vuetify/components";
-import type { ColumnDef } from "@ianicdev/datatables2";
 
 // First, define your data DTO type
 type CarData = {
