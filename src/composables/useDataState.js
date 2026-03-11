@@ -19,7 +19,7 @@ export function useDatastate(props) {
     },
     {
       deep: true,
-    }
+    },
   );
 
   const dataStateSave = async (data) => {
@@ -29,9 +29,7 @@ export function useDatastate(props) {
     await nextTick();
 
     const storage = dataStateFetch();
-    const currentTableStorageIndex = storage.findIndex(
-      (table) => table.id === props.id
-    );
+    const currentTableStorageIndex = storage.findIndex((table) => table.id === props.id);
 
     if (currentTableStorageIndex > -1) {
       storage[currentTableStorageIndex] = data;

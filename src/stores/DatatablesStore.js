@@ -6,9 +6,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
   const tables = ref([]);
 
   const addTable = ({ table_id }) => {
-    const existingTableIndex = tables.value.findIndex(
-      (table) => table.id === table_id
-    );
+    const existingTableIndex = tables.value.findIndex((table) => table.id === table_id);
 
     const preset = {
       search: {
@@ -39,9 +37,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
     const data = encoder.encode(input);
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
     return hashHex;
   };
 
@@ -84,7 +80,7 @@ export const useDatatablesStore = defineStore("datatables", () => {
     });
   };
 
-  const shell = {
+  return {
     // Store Data
     tables,
     // Store Methods
@@ -96,6 +92,4 @@ export const useDatatablesStore = defineStore("datatables", () => {
     hashString,
     setTableHash,
   };
-
-  return shell;
 });

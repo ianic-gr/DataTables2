@@ -53,11 +53,15 @@ onMounted(async () => {
 
   if (tableData) {
     restoreData({ table_id: table_props.id, data: tableData });
-  } else {
-    const options = tableDataState.value.options;
-    const columns = options.columns;
+  }
 
-    columns.selected = table_props.headers.filter((header) => !header.hidden).map((header) => header.key);
+  const options = tableDataState.value.options;
+  const columns = options.columns;
+
+  if (!columns.sorted?.length) {
+    if (!columns.selected?.length) {
+      columns.selected = table_props.headers.filter((header) => !header.hidden).map((header) => header.key);
+    }
 
     columns.sorted = table_props.headers.map((header) => header.key);
   }

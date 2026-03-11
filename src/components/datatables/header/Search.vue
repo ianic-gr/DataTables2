@@ -7,10 +7,8 @@ import { useTemplateRef } from "vue";
 const table_props = inject("table_props");
 const datatablesPluginOptions = inject("datatablesPluginOptions");
 
-const datatablesStore = useDatatablesStore();
+const { setData } = useDatatablesStore();
 const { searchState } = useTableState();
-
-const { setData } = datatablesStore;
 
 const search = ref(null);
 const menu = ref(false);
@@ -29,7 +27,7 @@ watchDebounced(
       value: { query: v },
     });
   },
-  { debounce: 1000, maxWait: 5000 }
+  { debounce: 1000, maxWait: 5000 },
 );
 
 watch(menu, (isOpen) => {

@@ -22,6 +22,7 @@ const { columnsItems, columnsRef } = useColumns();
 const { advancedFiltersItems, advancedFiltersDialog } = useAdvancedFilters();
 
 const menu = ref(false);
+const clearDataDialog = ref(false);
 
 const items = computed(() => [
   {
@@ -35,12 +36,18 @@ const items = computed(() => [
   ...(props.responsiveHeader ? columnsItems.value : []),
   ...(props.responsiveHeader ? advancedFiltersItems.value : []),
   ...(table_props.options?.globalButtons ?? []),
+  {
+    title: t("$datatables.clearData.button"),
+    onClick: () => (clearDataDialog.value = true),
+    prependIcon: datatablesPluginOptions.header.icons.eraser,
+    baseColor: "error",
+  },
 ]);
 </script>
 
 <template>
   <v-menu v-model="menu" :close-on-content-click="false" location="bottom end">
-    <template #activator="{ props }">
+    <template #activator="{ props: menuProps }">
       <v-btn
         id="header-options"
         :prepend-icon="datatablesPluginOptions.header.icons.options"
@@ -50,7 +57,7 @@ const items = computed(() => [
         color="dark"
         stacked
         class="text-capitalize"
-        v-bind="props"
+        v-bind="menuProps"
       />
     </template>
 
@@ -66,6 +73,7 @@ const items = computed(() => [
     </v-list>
   </v-menu>
 
+  <DatatablesHeaderClearDataDialog v-model:dialog="clearDataDialog" />
   <DatatablesHeaderColumnsDialog v-if="responsiveHeader" ref="columnsRef" />
   <DatatablesHeaderAdvancedFiltersDialog v-if="responsiveHeader" v-model="advancedFiltersDialog" />
 </template>

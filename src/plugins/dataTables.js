@@ -28,15 +28,16 @@ export default {
             csv: "mdi-file-delimited",
             pdf: "mdi-file-pdf-box",
             drag: "mdi-drag-vertical",
+            eraser: "mdi-eraser-variant",
           },
         },
-      })
+      }),
     );
 
     // Register the DataTable component globally
     app.component(
       "DataTable",
-      defineAsyncComponent(() => import("../components/datatables/index.vue"))
+      defineAsyncComponent(() => import("../components/datatables/index.vue")),
     );
   },
 };
