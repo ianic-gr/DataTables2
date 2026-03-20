@@ -39,7 +39,7 @@ defineExpose({ getItemsForPrint });
     @update:options="saveTableOptions"
   >
     <template #loading>
-      <v-skeleton-loader type="table-row@10" />
+      <v-skeleton-loader type="table-row@20" />
     </template>
 
     <template v-for="(header, i) in headersState" #[getSlotItem(header)]="{ item, internalItem, value, column }" :key="i">
@@ -48,9 +48,9 @@ defineExpose({ getItemsForPrint });
         :render="column.cell({ item, internalItem, value, column })"
         :params="{ item, internalItem, value, column }"
       />
-      <span v-else>
+      <template v-else>
         {{ String(value).length || String(value) === "0" ? value : "-" }}
-      </span>
+      </template>
     </template>
 
     <template #expanded-row="{ columns, item }">

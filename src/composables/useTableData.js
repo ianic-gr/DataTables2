@@ -7,40 +7,8 @@ import { deepEqual } from "@/utils/deepEqual";
 export function useTableData() {
   const { advancedFiltersState, hardFiltersState } = useTableState();
   const table_props = inject("table_props");
-  const tableData = ref();
-
-  const filteredData = computed(() => {
-    let filteredItems = tableData.value;
-
-    if (!filteredItems) return filteredItems;
-
-    const filters = mergeFilters(advancedFiltersState.value, hardFiltersState.value);
-
-    if (!filters || Object.keys(filters).length === 0) {
-      return filteredItems;
-    }
-
-    Object.keys(filters).forEach((key) => {
-      const { value: filterValue, comparison: filterComparison = "=" } = filters[key];
-
-      if (!filterValue) return;
-
-      const header = findHeaderForKey(table_props.headers, key);
-      if (!header) return;
-
-      filteredItems = filteredItems.filter((item) => {
-        const value = processItemData(item, key, header);
-
-        if (header.advancedFilter?.customFilterFn && typeof header.advancedFilter.customFilterFn === "function") {
-          return header.advancedFilter.customFilterFn({ value, filterValue, filterComparison, header, item });
-        }
-
-        return applyFilter(value, filterValue, filterComparison, header);
-      });
-    });
-
-    return filteredItems;
-  });
+  const tableData = shallowRef();
+  const filteredData = shallowRef();
 
   function filterDateRange(value, filterValue) {
     const items = Array.isArray(filterValue) ? filterValue : [filterValue];
@@ -108,6 +76,53 @@ export function useTableData() {
   }
 
   watch(
+    () => [tableData.value, advancedFiltersState.value, hardFiltersState.value],
+    () => {
+      const items = deepClone(tableData.value);
+      if (!items?.length) {
+        filteredData.value = items;
+        return;
+      }
+
+      const filters = mergeFilters(advancedFiltersState.value, hardFiltersState.value);
+      if (!filters) {
+        filteredData.value = items;
+        return;
+      }
+
+      const activeFilters = Object.entries(filters).reduce((acc, [key, filter]) => {
+        const { value: filterValue, comparison: filterComparison = "=" } = filter;
+        if (!filterValue) return acc;
+
+        const header = findHeaderForKey(table_props.headers, key);
+        if (!header) return acc;
+
+        const customFilterFn =
+          typeof header.advancedFilter?.customFilterFn === "function" ? header.advancedFilter.customFilterFn : null;
+
+        acc.push({ key, filterValue, filterComparison, header, customFilterFn });
+        return acc;
+      }, []);
+
+      if (!activeFilters.length) {
+        filteredData.value = items;
+        return;
+      }
+
+      filteredData.value = items.filter((item) =>
+        activeFilters.every(({ key, filterValue, filterComparison, header, customFilterFn }) => {
+          const value = processItemData(item, key, header);
+
+          return customFilterFn
+            ? customFilterFn({ value, filterValue, filterComparison, header, item })
+            : applyFilter(value, filterValue, filterComparison, header);
+        }),
+      );
+    },
+    { immediate: true, deep: true },
+  );
+
+  watch(
     () => table_props.data,
     (newValue, oldValue) => {
       const data = newValue ?? [];
@@ -117,7 +132,7 @@ export function useTableData() {
         tableData.value = newValue;
       }
     },
-    { deep: true, immediate: true }
+    { deep: true, immediate: true },
   );
 
   return { tableData, filteredData };

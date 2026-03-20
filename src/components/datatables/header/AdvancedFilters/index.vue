@@ -5,7 +5,7 @@ const { advancedFiltersItems, advancedFiltersDialog, activeAdvancedFilters } = u
 </script>
 
 <template>
-  <div>
+  <div class="d-flex align-center" style="gap: 0.5rem">
     <v-btn
       v-for="(item, i) in advancedFiltersItems"
       :key="i"

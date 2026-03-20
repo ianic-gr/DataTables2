@@ -144,9 +144,9 @@ defineExpose({ getItemsForPrint, reloadItems });
         :render="column.cell({ item, internalItem, value, column })"
         :params="{ item, internalItem, value, column }"
       />
-      <span v-else>
+      <template v-else>
         {{ String(value).length || String(value) === "0" ? value : "-" }}
-      </span>
+      </template>
     </template>
 
     <template #expanded-row="{ columns, item }">
