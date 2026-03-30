@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import _ from "lodash";
 import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
@@ -10,20 +10,20 @@ import deepClone from "@/utils/deepClone";
 const { tableState, searchState, headersState, advancedFiltersState, hardFiltersState, saveTableOptions } = useTableState();
 const { tableData } = useTableData();
 
-const table_props = inject("table_props");
-const datatablesPluginOptions = inject("datatablesPluginOptions");
+const table_props = inject<any>("table_props");
+const datatablesPluginOptions = inject<any>("datatablesPluginOptions");
 
 const model = defineModel();
 
-const datatableServer = ref(null);
+const datatableServer = useTemplateRef("datatableServer");
 const loading = ref(false);
 const itemsLength = ref(0);
 
 const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
 const advancedFilters = computed(() => {
   return Object.fromEntries(
-    Object.entries(deepClone(advancedFiltersState.value)).map(([key, filter]) => {
-      const header = headersState.value.find((h) => h.key === key);
+    Object.entries(deepClone(advancedFiltersState.value)).map(([key, filter]: any) => {
+      const header = headersState.value.find((h: any) => h.key === key);
 
       if (
         Object.hasOwn(header?.advancedFilter ?? {}, "filterReturnValue") &&
@@ -44,11 +44,11 @@ const returnObjectAttributes = computed(() => {
   });
 });
 
-const getSlotItem = (header) => {
+const getSlotItem = (header: any) => {
   return !header?.lock ? `item.${header.key}` : null;
 };
 
-const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
+const getItems = async ({ page, itemsPerPage, sortBy, search }: any) => {
   return await table_props.api.get({
     search,
     page,
@@ -61,6 +61,9 @@ const getItems = async ({ page, itemsPerPage, sortBy, search }) => {
 };
 
 const getItemsForPrint = async () => {
+  await nextTick();
+  if (!datatableServer.value) return [];
+
   const sortBy = datatableServer.value.sortBy;
   const search = datatableServer.value.search;
   const { data: dataObjKey } = returnObjectAttributes.value;
@@ -75,7 +78,7 @@ const getItemsForPrint = async () => {
   return _.get(data, dataObjKey);
 };
 
-const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
+const loadItems = async ({ page, itemsPerPage, sortBy, search }: any) => {
   loading.value = true;
 
   saveTableOptions({ page, itemsPerPage, sortBy, search });
@@ -92,7 +95,8 @@ const loadItems = async ({ page, itemsPerPage, sortBy, search }) => {
   loading.value = false;
 };
 
-const reloadItems = (userOptions = {}) => {
+const reloadItems = async (userOptions = {}) => {
+  await nextTick();
   if (!datatableServer.value) return;
 
   const page = datatableServer.value.page;
@@ -100,7 +104,7 @@ const reloadItems = (userOptions = {}) => {
   const sortBy = datatableServer.value.sortBy;
   const search = datatableServer.value.search;
 
-  loadItems(defu(userOptions, { page, itemsPerPage, sortBy, search }));
+  await loadItems(defu(userOptions, { page, itemsPerPage, sortBy, search }));
 };
 
 onMounted(async () => {

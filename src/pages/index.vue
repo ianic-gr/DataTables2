@@ -295,6 +295,12 @@ const data = ref([
   },
 ]);
 
+const api = {
+  get: async (options: any) => {
+    return { data: data.value, total: data.value.length };
+  },
+};
+
 const hardFilters = ref([
   {
     text: "Mustang",
@@ -349,5 +355,5 @@ const options = ref({
 });
 </script>
 <template>
-  <DataTable id="test" :headers="headers" :data="data" :options="options" :hard-filters="hardFilters" class="mb-4" />
+  <DataTable id="test" :headers="headers" :api :options="options" :hard-filters="hardFilters" class="mb-4" />
 </template>

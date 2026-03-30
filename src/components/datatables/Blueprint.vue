@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import defu from "defu";
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useDatastate } from "@/composables/useDataState";
@@ -14,10 +14,10 @@ const { storeOptions } = useUserState();
 const { saveTableOptions } = useTableState();
 
 const model = defineModel();
-const table_props = inject("table_props");
-const datatablesPluginOptions = inject("datatablesPluginOptions");
+const table_props = inject<any>("table_props");
+const datatablesPluginOptions = inject<any>("datatablesPluginOptions");
 
-const tableRef = ref(null);
+const tableRef = useTemplateRef("tableRef");
 const downloadModal = ref(false);
 const blueprintInit = ref(false);
 const tableInit = ref(false);
@@ -60,10 +60,10 @@ onMounted(async () => {
 
   if (!columns.sorted?.length) {
     if (!columns.selected?.length) {
-      columns.selected = table_props.headers.filter((header) => !header.hidden).map((header) => header.key);
+      columns.selected = table_props.headers.filter((header: any) => !header.hidden).map((header: any) => header.key);
     }
 
-    columns.sorted = table_props.headers.map((header) => header.key);
+    columns.sorted = table_props.headers.map((header: any) => header.key);
   }
 
   saveTableOptions(defu(storeOptions.state.value, tableDataState.value.options.state));

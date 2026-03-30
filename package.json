@@ -1,6 +1,6 @@
 {
   "name": "@ianicdev/datatables2",
-  "version": "0.12.2",
+  "version": "0.12.4",
   "type": "module",
   "types": "./lib/index.d.ts",
   "publishConfig": {
@@ -75,6 +75,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tsconfig/node22": "^22.0.5",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^25.5.0",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/eslint-config-typescript": "^14.7.0",

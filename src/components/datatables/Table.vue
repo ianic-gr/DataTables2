@@ -1,22 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import defu from "defu";
 import { useTableState } from "@/composables/useTableState";
 import { useTableData } from "@/composables/useTableData";
 import { CellRender } from "@/utils/cellRender";
 
-const table_props = inject("table_props");
-const datatablesPluginOptions = inject("datatablesPluginOptions");
+const table_props = inject<any>("table_props");
+const datatablesPluginOptions = inject<any>("datatablesPluginOptions");
 
 const model = defineModel();
 
 const { tableState, searchState, headersState, saveTableOptions } = useTableState();
 const { filteredData } = useTableData();
 
-const datatable = ref(null);
+const datatable = useTemplateRef("datatable");
 
 const tableOptions = computed(() => defu(table_props.options, datatablesPluginOptions.options));
 
-const getSlotItem = (header) => {
+const getSlotItem = (header: any) => {
   return !header?.lock ? `item.${header.key}` : null;
 };
 
