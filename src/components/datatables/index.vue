@@ -58,7 +58,7 @@ const props = defineProps({
 const { triggerHook } = useDatatablesHooksStore();
 const { storeOptions, setUserOptions } = useUserState();
 
-const table = useTemplateRef("table");
+const table = useTemplateRef<any>("table");
 const tableKey = ref(0);
 
 const refreshTable = async (userOptions = {}) => {
