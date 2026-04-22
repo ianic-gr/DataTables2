@@ -347,7 +347,23 @@ const options = ref({
   },
   color: "red",
 });
+
+const table = ref();
+
+onMounted(async () => {
+  setTimeout(() => {
+    table.value.updateAdvancedFilter("engine", "V8");
+  }, 2000);
+});
 </script>
 <template>
-  <DataTable id="test" :headers="headers" :data="data" :options="options" :hard-filters="hardFilters" class="mb-4" />
+  <DataTable
+    id="test"
+    ref="table"
+    :headers="headers"
+    :data="data"
+    :options="options"
+    :hard-filters="hardFilters"
+    class="mb-4"
+  />
 </template>

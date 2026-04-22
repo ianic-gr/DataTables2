@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDatatablesHooksStore } from "@/stores/DatatablesHooksStore";
 import { useUserState } from "@/composables/useUserState.ts";
+import { useEventBus } from "@vueuse/core";
 
 const props = defineProps({
   id: {
@@ -57,6 +58,7 @@ const props = defineProps({
 
 const { triggerHook } = useDatatablesHooksStore();
 const { storeOptions, setUserOptions } = useUserState();
+const advancedFilterBus = useEventBus<string>("advancedFilters");
 
 const table = useTemplateRef<any>("table");
 const tableKey = ref(0);
@@ -85,11 +87,16 @@ const refetchData = async (userOptions = {}) => {
   }
 };
 
+const updateAdvancedFilter = (key: string, value: any, comparison: string = "=") => {
+  advancedFilterBus.emit("save", { key, value, comparison });
+};
+
 const emit = defineEmits(["refreshTable", "refetchData"]);
-defineExpose({ refreshTable, refetchData, triggerHook });
 
 provide("table_props", props);
 provide("triggerHook", triggerHook);
+
+defineExpose({ refreshTable, refetchData, triggerHook, updateAdvancedFilter });
 </script>
 
 <template>
