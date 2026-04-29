@@ -32,6 +32,8 @@ const { addTable, restoreData } = datatablesStore;
 const responsiveHeader = ref(false);
 
 useResizeObserver(tableRef, (entries) => {
+  if (!tableInit.value) return;
+
   const entry = entries[0];
   const { width } = entry.contentRect;
 
@@ -74,6 +76,10 @@ onMounted(async () => {
   tableInit.value = true;
 });
 
+onBeforeUnmount(() => {
+  tableInit.value = false;
+});
+
 provide("busEmits", busEmits);
 provide("tableRef", tableRef);
 provide("tableState", tableDataState);
@@ -86,10 +92,16 @@ defineExpose({ tableRef });
   <div v-if="blueprintInit" class="datatables-v2">
     <v-card>
       <v-card-title v-if="headerVisibility">
-        <DatatablesHeader :responsive-header />
+        <DatatablesHeader :key="responsiveHeader ? 'responsive' : 'full'" :responsive-header />
       </v-card-title>
       <v-card-text class="pa-0">
-        <component :is="table_props.api ? TableServer : Table" v-if="tableInit" ref="tableRef" v-model="model" />
+        <component
+          :is="table_props.api ? TableServer : Table"
+          v-if="tableInit"
+          ref="tableRef"
+          :key="table_props.api ? 'server' : 'client'"
+          v-model="model"
+        />
       </v-card-text>
     </v-card>
 
