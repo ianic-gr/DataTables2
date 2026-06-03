@@ -7,7 +7,7 @@ import { useTableState } from "@/composables/useTableState";
 import { useResizeObserver } from "@vueuse/core";
 
 const Table = defineAsyncComponent(() => import("@/components/datatables/Table.vue"));
-
+const TableVirtual = defineAsyncComponent(() => import("@/components/datatables/TableVirtual.vue"));
 const TableServer = defineAsyncComponent(() => import("@/components/datatables/TableServer.vue"));
 
 const { storeOptions } = useUserState();
@@ -96,7 +96,7 @@ defineExpose({ tableRef });
       </v-card-title>
       <v-card-text class="pa-0">
         <component
-          :is="table_props.api ? TableServer : Table"
+          :is="table_props.api ? TableServer : table_props.virtual ? TableVirtual : Table"
           v-if="tableInit"
           ref="tableRef"
           :key="table_props.api ? 'server' : 'client'"

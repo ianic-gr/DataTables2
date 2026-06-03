@@ -54,6 +54,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  virtual: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { triggerHook } = useDatatablesHooksStore();
