@@ -1,4 +1,5 @@
 <script setup>
+import { useTableState } from "@/composables/useTableState";
 import { VTextField, VAutocomplete, VNumberInput } from "vuetify/components";
 
 const table_props = inject("table_props");
@@ -7,27 +8,29 @@ const datatablesPluginOptions = inject("datatablesPluginOptions");
 const advancedFiltersData = defineModel();
 const emit = defineEmits(["closeDialog", "save"]);
 
+const { tableState } = useTableState();
+
 const defaultFilterComponents = {
   textfield: VTextField,
   select: VAutocomplete,
   number: VNumberInput,
-  datepicker: defineAsyncComponent(() =>
-    import("@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue")
+  datepicker: defineAsyncComponent(
+    () => import("@/components/datatables/header/AdvancedFilters/fields/components/Datepicker.vue"),
   ),
-  comparison: defineAsyncComponent(() =>
-    import("@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue")
+  comparison: defineAsyncComponent(
+    () => import("@/components/datatables/header/AdvancedFilters/fields/components/Comparison.vue"),
   ),
 };
 
 const advancedFilterHeaders = computed(() => {
   return table_props.headers.filter((header) => {
-    return header.advancedFilter !== false && !header.hidden;
+    const isColumnActive = tableState.value.options.columns?.selected?.includes(header.key);
+    return header.advancedFilter !== false && isColumnActive;
   });
 });
 
 const getComponent = (comp) => {
   if (!comp) return defaultFilterComponents["textfield"];
-
   return typeof comp === "string" ? defaultFilterComponents[comp] : comp;
 };
 
@@ -45,12 +48,10 @@ watch(
       }
     });
   },
-  { immediate: true }
+  { immediate: true },
 );
 
-onMounted(async () => {
-  await table_props.options.advancedFilters?.onMounted();
-});
+onMounted(async () => await table_props.options.advancedFilters?.onMounted());
 </script>
 
 <template>
