@@ -21,7 +21,7 @@ export function useExportExcel() {
         ...dataRows.map((row) => {
           const cell = row[colIndex];
           return cell ? cell.toString().length : 0;
-        })
+        }),
       );
 
       const widthFromHeader = headerLength + 5;
@@ -51,12 +51,12 @@ export function useExportExcel() {
             return header.value(item);
           }
           return getValueByStringPath(item, header.key) ?? "";
-        })
+        }),
       );
 
       // Combine headers with data
       const worksheetData = [headerRow, ...dataRows];
-      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData, { cellDates: true });
 
       // Calculate and set column widths
       worksheet["!cols"] = estimateColumnWidths(tableHeaders.value, dataRows);
