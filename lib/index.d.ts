@@ -52,6 +52,7 @@ type AdvancedFilterConfig =
     });
 
 export interface ColumnDef<T> extends Omit<DataTableHeader, "value"> {
+  excelCellFormat?: string;
   hidden?: boolean;
   printable?: boolean;
   value?: (item: T) => any;

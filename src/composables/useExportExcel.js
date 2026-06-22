@@ -36,6 +36,36 @@ export function useExportExcel() {
     });
   }
 
+  // Coerce raw value into a real Date/Number so SheetJS sets the correct
+  // cell type before the excelCellFormat (.z) is applied
+  function coerceForFormat(value, format) {
+    if (value === null || value === undefined || value === "") return value;
+
+    // crude heuristic: format strings containing y/m/d/h are date-like
+    const isDateFormat = /[ymdh]/i.test(format) && !/[#0]/.test(format);
+
+    if (isDateFormat) {
+      const d = value instanceof Date ? value : new Date(value);
+      return isNaN(d.getTime()) ? value : d;
+    }
+
+    const n = typeof value === "number" ? value : parseFloat(value);
+    return isNaN(n) ? value : n;
+  }
+
+  function applyCellFormats(worksheet, headers, rowCount) {
+    headers.forEach((header, colIndex) => {
+      if (!header.excelCellFormat) return;
+
+      for (let r = 1; r <= rowCount; r++) {
+        const cellRef = XLSX.utils.encode_cell({ r, c: colIndex });
+        const cell = worksheet[cellRef];
+        if (!cell || cell.v === undefined || cell.v === null || cell.v === "") continue;
+        cell.z = header.excelCellFormat;
+      }
+    });
+  }
+
   const exportExcel = async () => {
     try {
       downloadModal.value = true;
@@ -47,10 +77,11 @@ export function useExportExcel() {
       // Build data rows
       const dataRows = items.map((item) =>
         tableHeaders.value.map((header) => {
-          if (header.value) {
-            return header.value(item);
+          if (header.excelCellFormat) {
+            return coerceForFormat(getValueByStringPath(item, header.key), header.excelCellFormat);
           }
-          return getValueByStringPath(item, header.key) ?? "";
+
+          return header.value ? header.value(item) : (getValueByStringPath(item, header.key) ?? "");
         }),
       );
 
@@ -61,7 +92,8 @@ export function useExportExcel() {
       // Calculate and set column widths
       worksheet["!cols"] = estimateColumnWidths(tableHeaders.value, dataRows);
 
-      // Create workbook and append sheet
+      applyCellFormats(worksheet, tableHeaders.value, dataRows.length);
+
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet 1");
 

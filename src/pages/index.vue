@@ -4,6 +4,7 @@ import ExpandedVue from "@/components/examples/components/Expanded.vue";
 import { useCellRendererFrameworks } from "@/composables/useCellRendererFrameworks";
 import moment from "moment";
 import { VChip } from "vuetify/components";
+import datetimeFormatter from "@/utils/datetimeFormatter";
 
 // First, define your data DTO type
 type CarData = {
@@ -73,6 +74,8 @@ const headers: ColumnDef<CarData>[] = [
     title: "Date",
     key: "date",
     cellProps: { class: "font-weight-bold" },
+    sortRaw: (a, b) => Date.parse(a.date) - Date.parse(b.date),
+    excelCellFormat: "dd/mm/yyyy hh:mm:ss",
     advancedFilter: {
       component: "datepicker",
       options: {
@@ -82,7 +85,7 @@ const headers: ColumnDef<CarData>[] = [
     },
     value: (item) => {
       if (!item.date) return "-";
-      return moment(item.date, "DD/MM/YYYY").format("MM-DD-YYYY");
+      return datetimeFormatter(item.date);
     },
   },
   {
@@ -233,7 +236,7 @@ const data = ref([
   {
     id: 1,
     name: "Chevrolet Camaro",
-    date: "05/11/2025 08:34:31",
+    date: "2026-04-09T10:10:22.000000Z",
     engine: "V8",
     horsepower: "670.451",
     torque: 415,
@@ -249,7 +252,7 @@ const data = ref([
   {
     id: 2,
     name: "Ford Mustang",
-    date: "06/11/2025 08:34:31",
+    date: "2026-04-10T10:10:22.000000Z",
     engine: "V8",
     horsepower: "5851.226",
     torque: 312,
@@ -270,7 +273,7 @@ const data = ref([
   {
     id: 3,
     name: "Chevrolet Camaro",
-    date: "07/11/2025 08:34:31",
+    date: "2026-03-11T10:10:22.000000Z",
     engine: "V8",
     horsepower: "164.536",
     torque: 415,
@@ -283,7 +286,7 @@ const data = ref([
   {
     id: 4,
     name: "Ford Mustang",
-    date: "08/11/2025 08:34:31",
+    date: "2026-04-17T10:10:22.000000Z",
     engine: "*",
     horsepower: "999994.758",
     torque: 312,
