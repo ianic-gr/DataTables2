@@ -5,6 +5,7 @@ const { advancedFiltersState } = useTableState();
 
 const table_props = inject("table_props");
 const model = defineModel();
+const emit = defineEmits(["save"]);
 
 const chipName = (tag, key) => {
   const header = table_props.headers.find((header) => {
@@ -55,8 +56,6 @@ const removeFilter = (key) => {
   model.value[key] = { comparison: "=", value: null };
   emit("save");
 };
-
-const emit = defineEmits("save");
 </script>
 
 <template>

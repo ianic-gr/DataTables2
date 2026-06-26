@@ -22,7 +22,7 @@ export function useTableData() {
 
   function filterByValue(value, filterValue) {
     if (Array.isArray(filterValue)) {
-      return filterValue.map((f) => f.toString().toLowerCase()).includes(value.toString().toLowerCase());
+      return filterValue.map((f) => f.toString().toLowerCase()).includes(value?.toString().toLowerCase());
     }
 
     return value?.toString().toLowerCase().includes(filterValue.toString().toLowerCase());
