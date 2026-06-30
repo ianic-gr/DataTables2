@@ -14,7 +14,7 @@ interface Props {
 defineProps<Props>();
 
 const columns = ref(null);
-const optionAPIComponents = table_props.options?.header?.components ?? {};
+const optionAPIComponents = computed(() => table_props.options?.header?.components ?? {});
 </script>
 
 <template>
