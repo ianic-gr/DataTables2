@@ -1,6 +1,5 @@
 <script setup>
 import moment from "moment";
-import { VDateInput } from "vuetify/labs/VDateInput";
 
 const model = defineModel();
 const props = defineProps({
@@ -31,13 +30,9 @@ const dateInputVal = computed({
     const isMultiple = Array.isArray(value);
 
     if (isMultiple) {
-      model.value = value
-        .filter((val) => moment(val).isValid())
-        .map((val) => moment(val).format(format));
+      model.value = value.filter((val) => moment(val).isValid()).map((val) => moment(val).format(format));
     } else {
-      model.value = moment(value).isValid()
-        ? moment(value).format(format)
-        : undefined;
+      model.value = moment(value).isValid() ? moment(value).format(format) : undefined;
     }
   },
 });

@@ -84,20 +84,17 @@ export default defineConfig({
       fileName: (format) => `datatables.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["vue", "vuetify", "pinia", "vue-i18n", "moment", "@vueuse/core"],
+      external: (id) =>
+        id === "vue" ||
+        id === "vuetify" ||
+        id.startsWith("vuetify/") ||
+        id === "pinia" ||
+        id === "vue-i18n" ||
+        id === "moment" ||
+        id === "@vueuse/core" ||
+        id.startsWith("@vueuse/core/"),
       output: {
-        globals: {
-          vue: "Vue",
-          vuetify: "Vuetify",
-          pinia: "Pinia",
-        },
-        manualChunks: {
-          jspdf: ["jspdf", "jspdf-autotable"],
-          xlsx: ["xlsx"],
-          exporttocsv: ["export-to-csv"],
-          printjs: ["print-js"],
-          filesaver: ["file-saver"],
-        },
+        globals: { vue: "Vue", vuetify: "Vuetify", pinia: "Pinia" },
       },
     },
   },

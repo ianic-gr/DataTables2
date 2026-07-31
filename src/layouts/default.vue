@@ -23,48 +23,27 @@ onMounted(() => {
 <template>
   <v-app id="inspire">
     <v-app-bar flat>
-      <v-container class="mx-auto d-flex align-center justify-center">
-        <h2 class="me-5">
-          📃 Datatables 2
-        </h2>
+      <v-container fluid class="mx-auto d-flex align-center justify-center">
+        <h2 class="me-5">📃 Datatables 2</h2>
 
-        <v-btn
-          v-for="link in links"
-          :key="link.title"
-          :to="link.to"
-          :text="link.title"
-          variant="text"
-        />
+        <v-btn v-for="link in links" :key="link.title" :to="link.to" :text="link.title" variant="text" />
 
         <v-spacer />
 
         <v-responsive max-width="160">
-          <v-text-field
-            density="compact"
-            label="Search"
-            rounded="lg"
-            variant="solo-filled"
-            flat
-            hide-details
-            single-line
-          />
+          <v-text-field density="compact" label="Search" rounded="lg" variant="solo-filled" flat hide-details single-line />
         </v-responsive>
       </v-container>
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-3">
-      <v-container>
+      <v-container fluid>
         <v-row>
           <v-col cols="2">
             <v-sheet rounded="lg">
               <v-list rounded="lg">
                 <template v-for="(item, i) in menu" :key="i">
-                  <v-list-item
-                    v-if="item.to"
-                    :title="item.title"
-                    :to="item.to"
-                    link
-                  />
+                  <v-list-item v-if="item.to" :title="item.title" :to="item.to" link />
 
                   <p v-else class="px-4 font-weight-bold mt-2">
                     {{ item.title }}
@@ -73,13 +52,7 @@ onMounted(() => {
 
                 <v-divider v-if="$route.path !== '/'" class="my-2" />
 
-                <v-list-item
-                  v-if="$route.path !== '/'"
-                  to="/"
-                  color="grey-lighten-4"
-                  title="← Back"
-                  link
-                />
+                <v-list-item v-if="$route.path !== '/'" to="/" color="grey-lighten-4" title="← Back" link />
               </v-list>
             </v-sheet>
           </v-col>
