@@ -78,7 +78,7 @@ export default defineConfig({
   build: {
     cssCodeSplit: false,
     lib: {
-      entry: path.resolve(__dirname, "src/plugins/dataTables.js"),
+      entry: path.resolve(import.meta.dirname, "src/plugins/dataTables.js"),
       formats: ["es", "cjs"],
       name: "DataTables2",
       fileName: (format) => `datatables.${format === "es" ? "js" : "cjs"}`,
