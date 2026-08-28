@@ -90,7 +90,7 @@ defineExpose({ tableRef });
 
 <template>
   <div v-if="blueprintInit" class="datatables-v2">
-    <v-card>
+    <v-card v-bind="$attrs">
       <v-card-title v-if="headerVisibility">
         <DatatablesHeader :key="responsiveHeader ? 'responsive' : 'full'" :responsive-header />
       </v-card-title>
