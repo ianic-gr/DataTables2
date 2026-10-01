@@ -1,12 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { useDatatablesStore } from "@/stores/DatatablesStore";
 import { useTableState } from "@/composables/useTableState";
 import deepClone from "@/utils/deepClone";
 import { deepEqual } from "@/utils/deepEqual";
 import { useEventBus } from "@vueuse/core";
 
-const table_props = inject("table_props");
-const busEmits = inject("busEmits");
+const table_props = inject<any>("table_props");
+const busEmits = inject<any>("busEmits");
+
+interface Props {
+  showSelected: boolean;
+}
+defineProps<Props>();
 
 const datatablesStore = useDatatablesStore();
 const { advancedFiltersState } = useTableState();
@@ -14,9 +19,9 @@ const bus = useEventBus("advancedFilters");
 
 const { setData } = datatablesStore;
 
-const dialog = defineModel({ required: true });
+const dialog = defineModel<boolean>({ required: true });
 
-const advancedFiltersData = ref({});
+const advancedFiltersData = ref<Record<string, any>>({});
 
 const save = () => {
   const newFilters = Object.entries(advancedFiltersData.value)
@@ -29,7 +34,7 @@ const save = () => {
 
       return value !== null && value !== undefined && value !== "";
     })
-    .reduce((result, [key, filter]) => {
+    .reduce((result: any, [key, filter]) => {
       result[key] = filter;
       return result;
     }, {});
@@ -48,14 +53,14 @@ const save = () => {
   dialog.value = false;
 };
 
-const listener = (event, payload) => {
+const listener = (event: string, payload: any) => {
   if (event === "save") {
     advancedFiltersData.value[payload.key] = { comparison: payload.comparison, value: payload.value };
     save();
   }
 };
 
-const unsubscribe = bus.on(listener);
+const unsubscribe = bus.on(listener as any);
 
 onMounted(() => {
   advancedFiltersData.value = deepClone(advancedFiltersState.value);
@@ -75,7 +80,7 @@ onUnmounted(unsubscribe);
       </template>
     </v-dialog>
     <DatatablesHeaderAdvancedFiltersSelected
-      v-if="Object.keys(advancedFiltersState).length"
+      v-if="Object.keys(advancedFiltersState).length && showSelected"
       v-model="advancedFiltersData"
       @save="save"
     />

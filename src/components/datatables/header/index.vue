@@ -19,7 +19,7 @@ const optionAPIComponents = computed(() => table_props.options?.header?.componen
 
 <template>
   <div class="d-flex align-center" style="gap: 0.75rem">
-    <DatatablesHeaderAdvancedFilters v-if="!responsiveHeader" />
+    <DatatablesHeaderAdvancedFilters :responsive-header />
 
     <component
       :is="optionAPIComponents.hardFilters ?? HardFilters"

@@ -4,6 +4,11 @@ import { createReusableTemplate } from "@vueuse/core";
 
 const { advancedFiltersItems, advancedFiltersDialog, activeAdvancedFilters } = useAdvancedFilters();
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
+
+interface Props {
+  responsiveHeader: boolean;
+}
+defineProps<Props>();
 </script>
 
 <template>
@@ -29,6 +34,6 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
       <ReuseTemplate />
     </div>
 
-    <DatatablesHeaderAdvancedFiltersDialog v-model="advancedFiltersDialog" />
+    <DatatablesHeaderAdvancedFiltersDialog v-model="advancedFiltersDialog" :show-selected="!responsiveHeader" />
   </div>
 </template>

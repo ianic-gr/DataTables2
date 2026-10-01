@@ -4,7 +4,6 @@ import { usePrint } from "@/composables/usePrint";
 import { useDownload } from "@/composables/useDownload";
 import { useRefreshTable } from "@/composables/useRefreshTable";
 import { useColumns } from "@/composables/useColumns";
-import { useAdvancedFilters } from "@/composables/useAdvancedFilters";
 
 const table_props = inject<any>("table_props");
 const datatablesPluginOptions = inject<any>("datatablesPluginOptions");
@@ -19,12 +18,12 @@ const { printTable } = usePrint();
 const { downloadItems } = useDownload();
 const { refreshTableItems } = useRefreshTable();
 const { columnsItems, columnsRef } = useColumns();
-const { advancedFiltersItems, advancedFiltersDialog } = useAdvancedFilters();
 
 const menu = ref(false);
 const clearDataDialog = ref(false);
 
 const items = computed(() => [
+  ...(props.responsiveHeader ? columnsItems.value : []),
   {
     title: t("$datatables.print"),
     onClick: printTable,
@@ -33,8 +32,6 @@ const items = computed(() => [
   },
   ...(props.responsiveHeader ? downloadItems.value : []),
   ...(props.responsiveHeader ? refreshTableItems.value : []),
-  ...(props.responsiveHeader ? columnsItems.value : []),
-  ...(props.responsiveHeader ? advancedFiltersItems.value : []),
   ...(table_props.options?.globalButtons ?? []),
   {
     title: t("$datatables.clearData.button"),
@@ -75,5 +72,4 @@ const items = computed(() => [
 
   <DatatablesHeaderClearDataDialog v-model:dialog="clearDataDialog" />
   <DatatablesHeaderColumnsDialog v-if="responsiveHeader" ref="columnsRef" />
-  <DatatablesHeaderAdvancedFiltersDialog v-if="responsiveHeader" v-model="advancedFiltersDialog" />
 </template>
