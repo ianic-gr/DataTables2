@@ -1,55 +1,48 @@
 // lib/index.d.ts
 import type { DataTableHeader } from "vuetify/lib/types.mjs";
-import type { Component } from "vue";
+import type { Component, Plugin } from "vue";
 import { VSelect, VTextField, VNumberInput, VDateInput } from "vuetify/components";
 
-type BuiltInAdvancedFiltersComponent = "textfield" | "select" | "number" | "datepicker" | "comparison";
+declare const DataTables: Plugin;
 
-type BaseAdvancedFilter = {
+export type BuiltInAdvancedFiltersComponent = "textfield" | "select" | "number" | "datepicker" | "comparison";
+
+export type BaseAdvancedFilter = {
   key?: string;
   valueFormatter?: (context: { value: any }) => any;
   filterReturnValue?: (context: { value: any }) => any;
   customFilterFn?: (context: { value: any; filterValue: any }) => boolean;
 };
 
-type AdvancedFilterConfig =
-  | false
-  | (BaseAdvancedFilter & {
-      component: "textfield";
-      options?: InstanceType<typeof VTextField>["$props"] & {
-        [key: `on${string}`]: any;
-      };
-    })
-  | (BaseAdvancedFilter & {
-      component: "select";
-      options?: InstanceType<typeof VSelect>["$props"] & {
-        [key: `on${string}`]: any;
-      };
-    })
-  | (BaseAdvancedFilter & {
-      component: "number";
-      options?: InstanceType<typeof VNumberInput>["$props"] & {
-        [key: `on${string}`]: any;
-      };
-    })
-  | (BaseAdvancedFilter & {
-      component: "datepicker";
-      options?: InstanceType<typeof VDateInput>["$props"] & {
-        returnFormat?: string;
-        [key: `on${string}`]: any;
-      };
-    })
-  | (BaseAdvancedFilter & {
-      component: "comparison";
-      options?: InstanceType<typeof VNumberInput>["$props"] &
-        InstanceType<typeof VSelect>["$props"] & {
-          [key: `on${string}`]: any;
-        };
-    })
-  | (BaseAdvancedFilter & {
-      component?: Component;
-      options?: Record<string, any>;
-    });
+type EventHandlers = {
+  [key: `on${string}`]: any;
+};
+
+// Maps each built-in component name to its props.
+// Adding a new built-in filter = add it to the union above and to this map.
+type BuiltInFilterOptions = {
+  textfield: InstanceType<typeof VTextField>["$props"];
+  select: InstanceType<typeof VSelect>["$props"];
+  number: InstanceType<typeof VNumberInput>["$props"];
+  datepicker: InstanceType<typeof VDateInput>["$props"] & {
+    returnFormat?: string;
+  };
+  comparison: InstanceType<typeof VNumberInput>["$props"] & InstanceType<typeof VSelect>["$props"];
+};
+
+type BuiltInAdvancedFilter = {
+  [K in BuiltInAdvancedFiltersComponent]: BaseAdvancedFilter & {
+    component: K;
+    options?: BuiltInFilterOptions[K] & EventHandlers;
+  };
+}[BuiltInAdvancedFiltersComponent];
+
+type CustomAdvancedFilter = BaseAdvancedFilter & {
+  component?: Component;
+  options?: Record<string, any>;
+};
+
+export type AdvancedFilterConfig = false | BuiltInAdvancedFilter | CustomAdvancedFilter;
 
 export interface ColumnDef<T> extends Omit<DataTableHeader, "value"> {
   excelCellFormat?: string;
@@ -60,4 +53,5 @@ export interface ColumnDef<T> extends Omit<DataTableHeader, "value"> {
   advancedFilter?: AdvancedFilterConfig;
 }
 
+export default DataTables;
 export function useCellRendererFrameworks(): any;
